@@ -7,10 +7,13 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
   <div id="desktop">
+
     <div id="desktop-icons">
 
-      <div class="desk-icon">
+      <!-- double click opens file explorer -->
+      <div class="desk-icon" ondblclick="openFileExplorer()">
         <img src="assets/icon-files.svg" alt="Files" class="icon-img" />
         <span>Files</span>
       </div>
@@ -27,14 +30,46 @@
 
     </div>
 
+    <!-- file explorer window -->
+    <div class="window" id="window-files">
+
+      <div class="win-titlebar" onmousedown="startDrag(event, 'window-files')">
+        <img src="assets/titleicon-files.svg" alt="" class="title-icon" />
+        <span class="win-title">File Explorer</span>
+        <div class="win-controls">
+          <button class="win-btn btn-min" onclick="minimizeWindow('window-files')">_</button>
+          <button class="win-btn btn-close" onclick="closeWindow('window-files')">x</button>
+        </div>
+      </div>
+
+      <div class="win-body">
+
+        <!-- back, up, path bar -->
+        <div class="fe-toolbar">
+          <button class="fe-btn" id="btn-back" onclick="goBack()">Back</button>
+          <button class="fe-btn" onclick="goUp()">Up</button>
+          <input class="fe-path" id="fe-path" readonly />
+        </div>
+
+        <!-- file and folder grid -->
+        <div class="fe-content" id="fe-content"></div>
+
+        <!-- bottom status bar shows how many items -->
+        <div class="fe-statusbar" id="fe-statusbar">0 items</div>
+
+      </div>
+    </div>
+
   </div>
+
   <div id="taskbar">
 
     <button id="start-btn">
       <img src="assets/start-btn-icon.svg" alt="" class="start-btn-icon" />
     </button>
 
-    <button class="tb-app">
+    <!-- clicking taskbar files button also opens file explorer -->
+    <button class="tb-app" id="tb-files" onclick="openFileExplorer()">
       <img src="assets/icon-files.svg" alt="" class="tb-icon" />
     </button>
 

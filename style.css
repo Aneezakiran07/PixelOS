@@ -39,7 +39,7 @@ body {
 #desktop {
   position: relative;
   width: 100%;
-  height: calc(100vh - 72px);
+  height: calc(100vh - 60px);
   overflow: hidden;
   background-color: #1a0f26;
   background-image: url('assets/wallpaper.jpg');
@@ -114,12 +114,206 @@ body {
     -1px 1px 0 var(--bg-darker);
 }
 
+/* window base shared by all windows */
+.window {
+  position: absolute;
+  display: none;
+  flex-direction: column;
+  min-width: 420px;
+  min-height: 320px;
+  border: 2px solid var(--lilac-dark);
+  background: var(--bg-window);
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
+
+.window.is-open {
+  display: flex;
+}
+
+.window.is-focused {
+  border-color: var(--pink-mid);
+  z-index: 200;
+}
+
+/* titlebar that you drag to move window */
+.win-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  background: linear-gradient(90deg, var(--lilac-dark), var(--purple-mid), var(--pink-hot));
+  border-bottom: 2px solid var(--pink-mid);
+  cursor: move;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.title-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: block;
+}
+
+.win-title {
+  flex: 1;
+  font-size: 6px;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.win-controls {
+  display: flex;
+  gap: 4px;
+}
+
+.win-btn {
+  width: 16px;
+  height: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: white;
+  font-family: var(--font-pixel);
+  font-size: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.1s;
+}
+
+.btn-min { background: var(--lilac-dark); }
+.btn-min:hover { background: var(--purple-mid); }
+.btn-close { background: var(--pink-hot); }
+.btn-close:hover { background: #ff0055; }
+
+.win-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* file explorer specific */
+#window-files {
+  width: 680px;
+  height: 480px;
+  top: 60px;
+  left: 140px;
+}
+
+.fe-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 10px;
+  background: rgba(200, 160, 220, 0.08);
+  border-bottom: 1px solid var(--lilac-dark);
+  flex-shrink: 0;
+}
+
+.fe-btn {
+  padding: 6px 14px;
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  color: var(--lilac-light);
+  background: rgba(155, 89, 182, 0.3);
+  border: 1px solid var(--lilac-mid);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.fe-btn:hover { background: rgba(200, 160, 220, 0.4); color: white; }
+.fe-btn:disabled { opacity: 0.35; cursor: default; }
+
+.fe-path {
+  flex: 1;
+  padding: 6px 10px;
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  color: var(--pink-mid);
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--lilac-dark);
+  outline: none;
+}
+
+/* grid of files and folders */
+.fe-content {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 8px;
+  padding: 12px;
+  overflow-y: auto;
+}
+
+.fe-content::-webkit-scrollbar { width: 6px; }
+.fe-content::-webkit-scrollbar-track { background: var(--bg-darker); }
+.fe-content::-webkit-scrollbar-thumb { background: var(--lilac-dark); }
+
+/* each file or folder item */
+.file-item {
+  width: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 6px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.1s, border-color 0.1s;
+}
+
+.file-item:hover {
+  background: rgba(200, 160, 220, 0.15);
+  border-color: var(--lilac-mid);
+}
+
+.file-item.selected {
+  background: rgba(255, 77, 166, 0.2);
+  border-color: var(--pink-hot);
+}
+
+.file-item-emoji {
+  font-size: 32px;
+  line-height: 1;
+}
+
+.file-item-name {
+  font-size: 6px;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.5;
+  word-break: break-all;
+}
+
+/* bottom status bar */
+.fe-statusbar {
+  padding: 4px 10px;
+  font-size: 5px;
+  color: var(--lilac-mid);
+  background: rgba(200, 160, 220, 0.06);
+  border-top: 1px solid var(--lilac-dark);
+  flex-shrink: 0;
+}
+
+/* taskbar active state when window is open */
+.tb-app.is-active {
+  opacity: 1;
+  filter: drop-shadow(0 0 6px var(--pink-mid));
+}
+
+/* taskbar */
 #taskbar {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 72px;
+  height: 60px;
   background: linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-darker) 100%);
   border-top: 2px solid var(--lilac-mid);
   display: flex;
