@@ -12,13 +12,12 @@
 
     <div id="desktop-icons">
 
-      <!-- double click opens file explorer -->
       <div class="desk-icon" ondblclick="openFileExplorer()">
         <img src="assets/icon-files.svg" alt="Files" class="icon-img" />
         <span>Files</span>
       </div>
 
-      <div class="desk-icon">
+      <div class="desk-icon" ondblclick="openEditor(null)">
         <img src="assets/icon-editor.svg" alt="Editor" class="icon-img" />
         <span>Editor</span>
       </div>
@@ -30,9 +29,7 @@
 
     </div>
 
-    <!-- file explorer window -->
     <div class="window" id="window-files">
-
       <div class="win-titlebar" onmousedown="startDrag(event, 'window-files')">
         <img src="assets/titleicon-files.svg" alt="" class="title-icon" />
         <span class="win-title">File Explorer</span>
@@ -41,24 +38,47 @@
           <button class="win-btn btn-close" onclick="closeWindow('window-files')">x</button>
         </div>
       </div>
-
       <div class="win-body">
-
-        <!-- back, up, path bar -->
         <div class="fe-toolbar">
           <button class="fe-btn" id="btn-back" onclick="goBack()">Back</button>
           <button class="fe-btn" onclick="goUp()">Up</button>
           <input class="fe-path" id="fe-path" readonly />
         </div>
-
-        <!-- file and folder grid -->
         <div class="fe-content" id="fe-content"></div>
-
-        <!-- bottom status bar shows how many items -->
         <div class="fe-statusbar" id="fe-statusbar">0 items</div>
+      </div>
+    </div>
+
+    <div class="window" id="window-editor">
+      <div class="win-titlebar" onmousedown="startDrag(event, 'window-editor')">
+        <img src="assets/titleicon-editor.svg" alt="" class="title-icon" />
+        <span class="win-title" id="editor-title">Text Editor</span>
+        <div class="win-controls">
+          <button class="win-btn btn-min" onclick="minimizeWindow('window-editor')">_</button>
+          <button class="win-btn btn-close" onclick="closeWindow('window-editor')">x</button>
+        </div>
+      </div>
+      <div class="win-body">
+
+        <div class="te-toolbar">
+          <button class="te-btn" onclick="teNew()">New</button>
+          <button class="te-btn" onclick="teSave()">Save</button>
+          <button class="te-btn" onclick="teClear()">Clear</button>
+        </div>
+
+        <textarea class="te-area" id="te-area" spellcheck="false"
+          placeholder="start typing..."></textarea>
+
+        <div class="te-statusbar">
+          <span id="te-words">0 words</span>
+          <span id="te-chars">0 chars</span>
+          <span id="te-filename">untitled.txt</span>
+        </div>
 
       </div>
     </div>
+
+    <div id="toast" class="toast"></div>
 
   </div>
 
@@ -68,12 +88,11 @@
       <img src="assets/start-btn-icon.svg" alt="" class="start-btn-icon" />
     </button>
 
-    <!-- clicking taskbar files button also opens file explorer -->
     <button class="tb-app" id="tb-files" onclick="openFileExplorer()">
       <img src="assets/icon-files.svg" alt="" class="tb-icon" />
     </button>
 
-    <button class="tb-app">
+    <button class="tb-app" id="tb-editor" onclick="openEditor(null)">
       <img src="assets/icon-editor.svg" alt="" class="tb-icon" />
     </button>
 
