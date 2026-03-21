@@ -1,0 +1,195 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+:root {
+  --pink-light: #ffb3d9;
+  --pink-mid: #ff80bf;
+  --pink-hot: #ff4da6;
+  --lilac-light: #e8d5f5;
+  --lilac-mid: #c9a0dc;
+  --lilac-dark: #9b59b6;
+  --purple-mid: #a855f7;
+  --bg-darker: #0f0a1a;
+  --bg-window: #1e1230;
+  --bg-surface: #2a1840;
+  --text-light: #fdf0f8;
+  --text-muted: #c9a0dc;
+  --font-pixel: 'Press Start 2P', monospace;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  image-rendering: pixelated;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg-darker);
+}
+
+body {
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  color: var(--text-light);
+}
+
+#desktop {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 72px);
+  overflow: hidden;
+  background-color: #1a0f26;
+  background-image: url('assets/wallpaper.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+#desktop::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 15px, rgba(255,179,217,0.025) 15px, rgba(255,179,217,0.025) 16px),
+    repeating-linear-gradient(90deg, transparent, transparent 15px, rgba(200,160,220,0.025) 15px, rgba(200,160,220,0.025) 16px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+#desktop-icons {
+  position: absolute;
+  top: 20px;
+  left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  z-index: 10;
+}
+
+.desk-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100px;
+  cursor: pointer;
+  padding: 8px 4px;
+  border: 1px solid transparent;
+  transition: border-color 0.1s, background 0.1s, transform 0.1s;
+}
+
+.desk-icon:hover {
+  background: rgba(200, 160, 220, 0.18);
+  border-color: var(--lilac-mid);
+  transform: scale(1.06);
+}
+
+.desk-icon:active {
+  transform: scale(0.95);
+}
+
+.icon-img {
+  width: 96px;
+  height: 96px;
+  image-rendering: pixelated;
+  object-fit: contain;
+  background: transparent;
+  border: none;
+  display: block;
+  mix-blend-mode: screen;
+}
+
+.desk-icon span {
+  font-size: 7px;
+  color: var(--text-light);
+  text-align: center;
+  line-height: 1.5;
+  text-shadow:
+    1px 1px 0 var(--bg-darker),
+    -1px -1px 0 var(--bg-darker),
+    1px -1px 0 var(--bg-darker),
+    -1px 1px 0 var(--bg-darker);
+}
+
+#taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 72px;
+  background: linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-darker) 100%);
+  border-top: 2px solid var(--lilac-mid);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 8px;
+  z-index: 900;
+}
+
+#start-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.1s, opacity 0.1s;
+}
+
+#start-btn:hover { transform: scale(1.1); opacity: 0.85; }
+#start-btn:active { transform: scale(0.95); }
+
+.start-btn-icon {
+  width: 42px;
+  height: 42px;
+  image-rendering: pixelated;
+  object-fit: contain;
+  background: transparent;
+  border: none;
+  flex-shrink: 0;
+  display: block;
+}
+
+.tb-app {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.1s, opacity 0.1s;
+}
+
+.tb-app:hover { transform: scale(1.1); opacity: 0.85; }
+
+.tb-icon {
+  width: 56px;
+  height: 56px;
+  image-rendering: pixelated;
+  object-fit: contain;
+  background: transparent;
+  border: none;
+  flex-shrink: 0;
+  display: block;
+  mix-blend-mode: screen;
+}
+
+#clock {
+  margin-left: auto;
+  font-size: 7px;
+  color: var(--pink-light);
+  text-shadow: 0 0 6px var(--pink-hot);
+  letter-spacing: 1px;
+  min-width: 45px;
+  text-align: right;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-darker); }
+::-webkit-scrollbar-thumb { background: var(--lilac-dark); }
+::-webkit-scrollbar-thumb:hover { background: var(--pink-mid); }
