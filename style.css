@@ -475,12 +475,13 @@ body {
 }
 
 #start-menu {
-  position: absolute;
+  position: fixed;
   bottom: 60px;
   left: 0;
   width: 480px;
   background: var(--bg-window);
   border: 2px solid var(--lilac-mid);
+  border-bottom: none;
   box-shadow: 6px 0 0 rgba(0, 0, 0, 0.4);
   display: none;
   flex-direction: column;
@@ -494,13 +495,13 @@ body {
   align-items: center;
   gap: 14px;
   padding: 16px 18px;
-  background: linear-gradient(90deg, var(--lilac-dark), var(--purple-mid), var(--pink-hot));
-  border-bottom: 2px solid var(--pink-mid);
+  background: linear-gradient(135deg, #0f0a1a 0%, #2d1b3d 40%, #1a0f26 100%);
+  border-bottom: 2px solid var(--pink-hot);
 }
 
 .start-menu-logo {
-  width: 44px;
-  height: 44px;
+  width: 64px;
+  height: 64px;
   image-rendering: pixelated;
   object-fit: contain;
   flex-shrink: 0;
@@ -535,20 +536,12 @@ body {
   flex: 1;
 }
 
-.start-col-label {
-  font-size: 6px;
-  color: var(--lilac-mid);
-  padding: 0 16px 10px 16px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
 .start-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 16px;
-  font-size: 7px;
+  gap: 14px;
+  padding: 12px 16px;
+  font-size: 8px;
   color: var(--lilac-light);
   cursor: pointer;
   transition: background 0.1s, color 0.1s;
@@ -560,8 +553,8 @@ body {
 }
 
 .start-item-icon {
-  width: 22px;
-  height: 22px;
+  width: 64px;
+  height: 64px;
   image-rendering: pixelated;
   object-fit: contain;
   flex-shrink: 0;
@@ -569,14 +562,18 @@ body {
 }
 
 .start-item-emoji {
-  font-size: 18px;
+  font-size: 48px;
   flex-shrink: 0;
+  width: 64px;
+  text-align: center;
 }
 
-.start-menu-divider {
-  width: 1px;
-  background: rgba(200, 160, 220, 0.2);
-  margin: 14px 0;
+.start-col-label {
+  font-size: 6px;
+  color: var(--lilac-mid);
+  padding: 0 16px 10px 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .start-menu-footer {
@@ -588,8 +585,8 @@ body {
 
 .start-footer-btn {
   flex: 1;
-  padding: 12px 16px;
-  font-size: 7px;
+  padding: 18px 16px;
+  font-size: 9px;
   color: var(--lilac-light);
   cursor: pointer;
   text-align: center;

@@ -102,11 +102,51 @@
 
     <div id="toast" class="toast"></div>
 
+    <div id="start-menu">
+      <div class="start-menu-header">
+        <img src="assets/start-logo.svg" alt="" class="start-menu-logo" />
+        <div class="start-menu-header-text">
+          <span class="start-menu-user">PixelOS</span>
+          <span class="start-menu-os">PixelOS 1.0</span>
+        </div>
+      </div>
+
+      <div class="start-menu-body">
+
+        <div class="start-menu-col">
+          <p class="start-col-label">Apps</p>
+          <div class="start-item" onclick="openFileExplorer(); closeStartMenu()">
+            <img src="assets/icon-files.svg" alt="" class="start-item-icon" />
+            <span>File Explorer</span>
+          </div>
+          <div class="start-item" onclick="openEditor(null); closeStartMenu()">
+            <img src="assets/icon-editor.svg" alt="" class="start-item-icon" />
+            <span>Text Editor</span>
+          </div>
+          <div class="start-item" onclick="openBrowser(); closeStartMenu()">
+            <img src="assets/icon-browser.svg" alt="" class="start-item-icon" />
+            <span>PixelBrowser</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="start-menu-footer">
+        <div class="start-footer-btn" onclick="showToast('Shutting down... '); closeStartMenu()">
+          ⏻ Shut Down
+        </div>
+        <div class="start-footer-btn" onclick="showToast('Restarting... '); closeStartMenu()">
+          ↺ Restart
+        </div>
+      </div>
+
+    </div>
+
   </div>
 
   <div id="taskbar">
 
-    <button id="start-btn">
+    <button id="start-btn" onclick="toggleStartMenu()">
       <img src="assets/start-btn-icon.svg" alt="" class="start-btn-icon" />
     </button>
 
@@ -129,4 +169,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-

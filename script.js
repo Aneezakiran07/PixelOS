@@ -93,8 +93,8 @@ const PAGES = {
     </div>
     <div class="br-card">
       <h2>Find me at</h2>
-      <p>GitHub: https://github.com/Aneezakiran07</p>
-      <p>Email: aneezakiran07@gmail.com</p>
+      <p>GitHub: github.com/pixelgirl</p>
+      <p>Email: pixel@pixelos.dev</p>
     </div>`,
 };
 
@@ -356,4 +356,3 @@ document.getElementById('desktop').addEventListener('click', e => {
     closeStartMenu();
   }
 });
-
