@@ -132,10 +132,10 @@
       </div>
 
       <div class="start-menu-footer">
-        <div class="start-footer-btn" onclick="showToast('Shutting down... '); closeStartMenu()">
+        <div class="start-footer-btn" onclick="showToast('Shutting down... ✿'); closeStartMenu()">
           ⏻ Shut Down
         </div>
-        <div class="start-footer-btn" onclick="showToast('Restarting... '); closeStartMenu()">
+        <div class="start-footer-btn" onclick="showToast('Restarting... ✿'); closeStartMenu()">
           ↺ Restart
         </div>
       </div>
@@ -150,16 +150,40 @@
       <img src="assets/start-btn-icon.svg" alt="" class="start-btn-icon" />
     </button>
 
-    <button class="tb-app" id="tb-files" onclick="openFileExplorer()">
+    <button class="tb-app" id="tb-files" onclick="toggleWin('window-files', 'tb-files')">
       <img src="assets/icon-files.svg" alt="" class="tb-icon" />
+      <div class="tb-app-dot"></div>
+      <div class="tb-preview">
+        <div class="tb-preview-title">
+          <span>File Explorer</span>
+          <div class="tb-preview-close" onclick="event.stopPropagation(); closeWindow('window-files')">x</div>
+        </div>
+        <div class="tb-preview-body" id="prev-files">Not open</div>
+      </div>
     </button>
 
-    <button class="tb-app" id="tb-editor" onclick="openEditor(null)">
+    <button class="tb-app" id="tb-editor" onclick="toggleWin('window-editor', 'tb-editor')">
       <img src="assets/icon-editor.svg" alt="" class="tb-icon" />
+      <div class="tb-app-dot"></div>
+      <div class="tb-preview">
+        <div class="tb-preview-title">
+          <span id="prev-editor-title">Text Editor</span>
+          <div class="tb-preview-close" onclick="event.stopPropagation(); closeWindow('window-editor')">x</div>
+        </div>
+        <div class="tb-preview-body" id="prev-editor">Not open</div>
+      </div>
     </button>
 
-    <button class="tb-app" id="tb-browser" onclick="openBrowser()">
+    <button class="tb-app" id="tb-browser" onclick="toggleWin('window-browser', 'tb-browser')">
       <img src="assets/icon-browser.svg" alt="" class="tb-icon" />
+      <div class="tb-app-dot"></div>
+      <div class="tb-preview">
+        <div class="tb-preview-title">
+          <span>PixelBrowser</span>
+          <div class="tb-preview-close" onclick="event.stopPropagation(); closeWindow('window-browser')">x</div>
+        </div>
+        <div class="tb-preview-body" id="prev-browser">Not open</div>
+      </div>
     </button>
 
     <div id="clock">00:00</div>
@@ -169,3 +193,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+

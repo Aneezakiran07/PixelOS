@@ -117,33 +117,130 @@ let dragOffsetY = 0;
 
 let toastTimer = null;
 
-function toggleStartMenu() {
-  const menu = document.getElementById('start-menu');
-  const btn = document.getElementById('start-btn');
-  const isOpen = menu.classList.toggle('is-open');
-  btn.classList.toggle('is-active', isOpen);
+// z-index counter so each focused window goes on top
+let zCounter = 100;
+
+// tracks which windows are minimized
+const minimized = {};
+
+// default positions for first open
+const DEFAULT_POS = {
+  'window-files':   { left: '100px', top: '60px' },
+  'window-editor':  { left: '320px', top: '80px' },
+  'window-browser': { left: '210px', top: '70px' },
+};
+
+function bringToFront(id) {
+  zCounter++;
+  document.getElementById(id).style.zIndex = zCounter;
 }
 
-function closeStartMenu() {
-  document.getElementById('start-menu').classList.remove('is-open');
-  document.getElementById('start-btn').classList.remove('is-active');
+function focusWindow(id) {
+  document.querySelectorAll('.window').forEach(w => w.classList.remove('is-focused'));
+  document.getElementById(id).classList.add('is-focused');
+  bringToFront(id);
+}
+
+// open or restore a window
+function openWin(id, tbId) {
+  const win = document.getElementById(id);
+  const tb  = document.getElementById(tbId);
+
+  // set position only on very first open
+  if (!win.style.left) {
+    win.style.left = DEFAULT_POS[id].left;
+    win.style.top  = DEFAULT_POS[id].top;
+  }
+
+  win.classList.add('is-open');
+  win.classList.remove('is-minimized-win');
+  minimized[id] = false;
+
+  tb.classList.add('is-active');
+  tb.classList.remove('is-minimized');
+
+  focusWindow(id);
+}
+
+function closeWindow(id) {
+  const tbMap = {
+    'window-files':   'tb-files',
+    'window-editor':  'tb-editor',
+    'window-browser': 'tb-browser',
+  };
+  document.getElementById(id).classList.remove('is-open', 'is-focused');
+  minimized[id] = false;
+  const tb = document.getElementById(tbMap[id]);
+  if (tb) { tb.classList.remove('is-active', 'is-minimized'); }
+  updatePreviews();
+}
+
+function minimizeWindow(id) {
+  const tbMap = {
+    'window-files':   'tb-files',
+    'window-editor':  'tb-editor',
+    'window-browser': 'tb-browser',
+  };
+  document.getElementById(id).classList.remove('is-open', 'is-focused');
+  minimized[id] = true;
+  const tb = document.getElementById(tbMap[id]);
+  if (tb) { tb.classList.add('is-minimized'); }
+  updatePreviews();
+}
+
+// clicking taskbar button toggles minimize / restore
+function toggleWin(id, tbId) {
+  const win = document.getElementById(id);
+  const isOpen = win.classList.contains('is-open');
+  const isFocused = win.classList.contains('is-focused');
+
+  if (!isOpen) {
+    // minimized or closed — restore it
+    openWin(id, tbId);
+    if (id === 'window-files')   renderFolder(currentFolder);
+    if (id === 'window-browser') brRender(brHistory[brIndex]);
+  } else if (isFocused) {
+    // open and focused — minimize it
+    minimizeWindow(id);
+  } else {
+    // open but not focused — just bring to front
+    focusWindow(id);
+  }
+}
+
+// update hover preview text for each window
+function updatePreviews() {
+  const filesOpen = document.getElementById('window-files').classList.contains('is-open');
+  const editorOpen = document.getElementById('window-editor').classList.contains('is-open');
+  const browserOpen = document.getElementById('window-browser').classList.contains('is-open');
+
+  document.getElementById('prev-files').textContent =
+    filesOpen ? currentFolder.name + ' — ' + (currentFolder.children || []).length + ' items'
+    : minimized['window-files'] ? 'Minimized'
+    : 'Not open';
+
+  document.getElementById('prev-editor').textContent =
+    editorOpen ? currentFilename
+    : minimized['window-editor'] ? currentFilename
+    : 'Not open';
+
+  document.getElementById('prev-editor-title').textContent =
+    minimized['window-editor'] ? 'Text Editor — ' + currentFilename : 'Text Editor';
+
+  document.getElementById('prev-browser').textContent =
+    browserOpen ? brHistory[brIndex]
+    : minimized['window-browser'] ? brHistory[brIndex]
+    : 'Not open';
 }
 
 function openFileExplorer() {
-  const win = document.getElementById('window-files');
-  win.classList.add('is-open');
-  focusWindow('window-files');
-  if (!win.style.left) { win.style.left = '100px'; win.style.top = '60px'; }
-  document.getElementById('tb-files').classList.add('is-active');
+  openWin('window-files', 'tb-files');
   renderFolder(currentFolder);
+  updatePreviews();
 }
 
 function openEditor(file) {
-  const win = document.getElementById('window-editor');
-  win.classList.add('is-open');
-  focusWindow('window-editor');
-  if (!win.style.left) { win.style.left = '320px'; win.style.top = '80px'; }
-  document.getElementById('tb-editor').classList.add('is-active');
+  openWin('window-editor', 'tb-editor');
 
   if (file && file.content !== null) {
     document.getElementById('te-area').value = file.content;
@@ -156,31 +253,13 @@ function openEditor(file) {
   document.getElementById('editor-title').textContent = 'Text Editor — ' + currentFilename;
   document.getElementById('te-filename').textContent = currentFilename;
   updateTeStats();
+  updatePreviews();
 }
 
 function openBrowser() {
-  const win = document.getElementById('window-browser');
-  win.classList.add('is-open');
-  focusWindow('window-browser');
-  if (!win.style.left) { win.style.left = '210px'; win.style.top = '70px'; }
-  document.getElementById('tb-browser').classList.add('is-active');
+  openWin('window-browser', 'tb-browser');
   brRender(brHistory[brIndex]);
-}
-
-function closeWindow(id) {
-  document.getElementById(id).classList.remove('is-open', 'is-focused');
-  if (id === 'window-files')   document.getElementById('tb-files').classList.remove('is-active');
-  if (id === 'window-editor')  document.getElementById('tb-editor').classList.remove('is-active');
-  if (id === 'window-browser') document.getElementById('tb-browser').classList.remove('is-active');
-}
-
-function minimizeWindow(id) {
-  document.getElementById(id).classList.remove('is-open');
-}
-
-function focusWindow(id) {
-  document.querySelectorAll('.window').forEach(w => w.classList.remove('is-focused'));
-  document.getElementById(id).classList.add('is-focused');
+  updatePreviews();
 }
 
 function renderFolder(folder) {
@@ -312,6 +391,18 @@ function brForward() {
     brIndex++;
     brRender(brHistory[brIndex]);
   }
+}
+
+function toggleStartMenu() {
+  const menu = document.getElementById('start-menu');
+  const btn = document.getElementById('start-btn');
+  const isOpen = menu.classList.toggle('is-open');
+  btn.classList.toggle('is-active', isOpen);
+}
+
+function closeStartMenu() {
+  document.getElementById('start-menu').classList.remove('is-open');
+  document.getElementById('start-btn').classList.remove('is-active');
 }
 
 function showToast(msg) {
