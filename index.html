@@ -22,7 +22,7 @@
         <span>Editor</span>
       </div>
 
-      <div class="desk-icon">
+      <div class="desk-icon" ondblclick="openBrowser()">
         <img src="assets/icon-browser.svg" alt="Browser" class="icon-img" />
         <span>Browser</span>
       </div>
@@ -59,21 +59,43 @@
         </div>
       </div>
       <div class="win-body">
-
         <div class="te-toolbar">
           <button class="te-btn" onclick="teNew()">New</button>
           <button class="te-btn" onclick="teSave()">Save</button>
           <button class="te-btn" onclick="teClear()">Clear</button>
         </div>
-
         <textarea class="te-area" id="te-area" spellcheck="false"
           placeholder="start typing..."></textarea>
-
         <div class="te-statusbar">
           <span id="te-words">0 words</span>
           <span id="te-chars">0 chars</span>
           <span id="te-filename">untitled.txt</span>
         </div>
+      </div>
+    </div>
+
+    <div class="window" id="window-browser">
+      <div class="win-titlebar" onmousedown="startDrag(event, 'window-browser')">
+        <img src="assets/titleicon-browser.svg" alt="" class="title-icon" />
+        <span class="win-title" id="browser-title">PixelBrowser</span>
+        <div class="win-controls">
+          <button class="win-btn btn-min" onclick="minimizeWindow('window-browser')">_</button>
+          <button class="win-btn btn-close" onclick="closeWindow('window-browser')">x</button>
+        </div>
+      </div>
+      <div class="win-body">
+
+        <div class="br-toolbar">
+          <button class="br-btn" id="br-back-btn" onclick="brBack()">Back</button>
+          <button class="br-btn" id="br-fwd-btn" onclick="brForward()">Fwd</button>
+          <input class="br-url" id="br-url"
+            onkeydown="if(event.key==='Enter') brNavigate()" />
+          <button class="br-btn" onclick="brNavigate()">Go</button>
+        </div>
+
+        <div class="br-content" id="br-content"></div>
+
+        <div class="br-statusbar" id="br-statusbar">pixel://home</div>
 
       </div>
     </div>
@@ -96,7 +118,7 @@
       <img src="assets/icon-editor.svg" alt="" class="tb-icon" />
     </button>
 
-    <button class="tb-app">
+    <button class="tb-app" id="tb-browser" onclick="openBrowser()">
       <img src="assets/icon-browser.svg" alt="" class="tb-icon" />
     </button>
 
@@ -107,3 +129,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+

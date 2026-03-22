@@ -43,12 +43,71 @@ const FILE_SYSTEM = {
   ]
 };
 
+// browser pages
+const PAGES = {
+  'pixel://home': () => `
+    <div class="br-page-header">
+      <h1>PixelBrowser</h1>
+    </div>
+    <div class="br-card">
+      <h2>Links</h2>
+      <p><span class="br-link" onclick="brGo('pixel://about')">pixel://about</span></p>
+      <p><span class="br-link" onclick="brGo('pixel://projects')">pixel://projects</span></p>
+      <p><span class="br-link" onclick="brGo('pixel://contact')">pixel://contact</span></p>
+    </div>`,
+
+  'pixel://about': () => `
+    <div class="br-page-header">
+      <h1>About</h1>
+    </div>
+    <div class="br-card">
+      <h2>Tech Stack</h2>
+      <p>HTML, CSS, JavaScript</p>
+      <p>No frameworks. No libraries.</p>
+      <p>Just plain code.</p>
+    </div>
+    <div class="br-card">
+      <h2>What is this</h2>
+      <p>PixelOS is a browser-based desktop environment.</p>
+      <p>Built as a personal project to learn frontend dev.</p>
+      <p>Pink pixel aesthetic because why not.</p>
+    </div>`,
+
+  'pixel://projects': () => `
+    <div class="br-page-header">
+      <h1>Projects</h1>
+    </div>
+    <div class="br-card">
+      <h2>PixelOS</h2>
+      <p>This thing you are looking at right now.</p>
+      <p>A fake desktop OS running in the browser.</p>
+    </div>
+    <div class="br-card">
+      <h2>More coming soon</h2>
+      <p>Still building.</p>
+    </div>`,
+
+  'pixel://contact': () => `
+    <div class="br-page-header">
+      <h1>Contact</h1>
+    </div>
+    <div class="br-card">
+      <h2>Find me at</h2>
+      <p>GitHub: https://github.com/Aneezakiran07</p>
+      <p>Email: aneezakiran07@gmail.com</p>
+    </div>`,
+};
+
+// browser history for back and forward
+let brHistory = ['pixel://home'];
+let brIndex = 0;
+
 // nav state
 let navHistory = [FILE_SYSTEM];
 let currentFolder = FILE_SYSTEM;
 let selectedItem = null;
 
-// current open filename in editor
+// current open filename
 let currentFilename = 'untitled.txt';
 
 // drag state
@@ -56,38 +115,40 @@ let dragging = null;
 let dragOffsetX = 0;
 let dragOffsetY = 0;
 
-// toast timer
 let toastTimer = null;
 
+function toggleStartMenu() {
+  const menu = document.getElementById('start-menu');
+  const btn = document.getElementById('start-btn');
+  const isOpen = menu.classList.toggle('is-open');
+  btn.classList.toggle('is-active', isOpen);
+}
+
+function closeStartMenu() {
+  document.getElementById('start-menu').classList.remove('is-open');
+  document.getElementById('start-btn').classList.remove('is-active');
+}
 
 function openFileExplorer() {
   const win = document.getElementById('window-files');
-  win.classList.add('is-open', 'is-focused');
+  win.classList.add('is-open');
   focusWindow('window-files');
-  if (!win.style.left) {
-    win.style.left = '100px';
-    win.style.top = '60px';
-  }
+  if (!win.style.left) { win.style.left = '100px'; win.style.top = '60px'; }
   document.getElementById('tb-files').classList.add('is-active');
   renderFolder(currentFolder);
 }
 
-// open editor with optional file content
 function openEditor(file) {
   const win = document.getElementById('window-editor');
   win.classList.add('is-open');
   focusWindow('window-editor');
-  if (!win.style.left) {
-    win.style.left = '320px';
-    win.style.top = '80px';
-  }
+  if (!win.style.left) { win.style.left = '320px'; win.style.top = '80px'; }
   document.getElementById('tb-editor').classList.add('is-active');
 
   if (file && file.content !== null) {
     document.getElementById('te-area').value = file.content;
     currentFilename = file.name;
   } else if (file === null) {
-    // opened blank from taskbar or desktop icon
     document.getElementById('te-area').value = '';
     currentFilename = 'untitled.txt';
   }
@@ -97,10 +158,20 @@ function openEditor(file) {
   updateTeStats();
 }
 
+function openBrowser() {
+  const win = document.getElementById('window-browser');
+  win.classList.add('is-open');
+  focusWindow('window-browser');
+  if (!win.style.left) { win.style.left = '210px'; win.style.top = '70px'; }
+  document.getElementById('tb-browser').classList.add('is-active');
+  brRender(brHistory[brIndex]);
+}
+
 function closeWindow(id) {
   document.getElementById(id).classList.remove('is-open', 'is-focused');
-  if (id === 'window-files') document.getElementById('tb-files').classList.remove('is-active');
-  if (id === 'window-editor') document.getElementById('tb-editor').classList.remove('is-active');
+  if (id === 'window-files')   document.getElementById('tb-files').classList.remove('is-active');
+  if (id === 'window-editor')  document.getElementById('tb-editor').classList.remove('is-active');
+  if (id === 'window-browser') document.getElementById('tb-browser').classList.remove('is-active');
 }
 
 function minimizeWindow(id) {
@@ -130,21 +201,15 @@ function renderFolder(folder) {
       <span class="file-item-emoji">${item.emoji}</span>
       <span class="file-item-name">${item.name}</span>
     `;
-
     el.addEventListener('click', () => {
       document.querySelectorAll('.file-item').forEach(i => i.classList.remove('selected'));
       el.classList.add('selected');
       selectedItem = item;
     });
-
     el.addEventListener('dblclick', () => {
-      if (item.type === 'folder') {
-        openFolder(item);
-      } else {
-        openFile(item);
-      }
+      if (item.type === 'folder') openFolder(item);
+      else openFile(item);
     });
-
     content.appendChild(el);
   });
 
@@ -164,11 +229,8 @@ function goBack() {
   }
 }
 
-function goUp() {
-  goBack();
-}
+function goUp() { goBack(); }
 
-// open file in editor if it has text, otherwise show toast
 function openFile(file) {
   if (file.content !== null && file.content !== undefined) {
     openEditor(file);
@@ -178,7 +240,6 @@ function openFile(file) {
   }
 }
 
-// editor toolbar actions
 function teNew() {
   document.getElementById('te-area').value = '';
   currentFilename = 'untitled.txt';
@@ -187,16 +248,13 @@ function teNew() {
   updateTeStats();
 }
 
-function teSave() {
-  showToast('Saved ' + currentFilename + ' ✿');
-}
+function teSave() { showToast('Saved ' + currentFilename + ' ✿'); }
 
 function teClear() {
   document.getElementById('te-area').value = '';
   updateTeStats();
 }
 
-// live word and char count
 function updateTeStats() {
   const val = document.getElementById('te-area').value;
   const words = val.trim() ? val.trim().split(/\s+/).length : 0;
@@ -206,7 +264,56 @@ function updateTeStats() {
 
 document.getElementById('te-area').addEventListener('input', updateTeStats);
 
-// toast pop up
+// render a browser page by url
+function brRender(url) {
+  const content = document.getElementById('br-content');
+  const urlInput = document.getElementById('br-url');
+  urlInput.value = url;
+  document.getElementById('br-statusbar').textContent = url;
+  document.getElementById('browser-title').textContent = 'PixelBrowser — ' + url;
+
+  const pageFn = PAGES[url];
+  if (pageFn) {
+    content.innerHTML = pageFn();
+  } else {
+    content.innerHTML = `<div class="br-404">
+      <p>✿ 404 ✿</p>
+      <p>Page not found in the pixel realm.</p>
+      <p><span class="br-link" onclick="brGo('pixel://home')">Go home</span></p>
+    </div>`;
+  }
+
+  document.getElementById('br-back-btn').disabled = brIndex <= 0;
+  document.getElementById('br-fwd-btn').disabled = brIndex >= brHistory.length - 1;
+}
+
+// navigate to a url and push to history
+function brGo(url) {
+  brHistory = brHistory.slice(0, brIndex + 1);
+  brHistory.push(url);
+  brIndex = brHistory.length - 1;
+  brRender(url);
+}
+
+function brNavigate() {
+  const url = document.getElementById('br-url').value.trim();
+  brGo(url);
+}
+
+function brBack() {
+  if (brIndex > 0) {
+    brIndex--;
+    brRender(brHistory[brIndex]);
+  }
+}
+
+function brForward() {
+  if (brIndex < brHistory.length - 1) {
+    brIndex++;
+    brRender(brHistory[brIndex]);
+  }
+}
+
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -215,7 +322,6 @@ function showToast(msg) {
   toastTimer = setTimeout(() => { t.style.display = 'none'; }, 2200);
 }
 
-// drag windows by titlebar
 function startDrag(e, id) {
   const win = document.getElementById(id);
   focusWindow(id);
@@ -241,9 +347,13 @@ document.querySelectorAll('.window').forEach(win => {
   win.addEventListener('mousedown', () => focusWindow(win.id));
 });
 
-// prerender files so window shows content immediately
 window.addEventListener('load', () => {
   renderFolder(FILE_SYSTEM);
 });
 
+document.getElementById('desktop').addEventListener('click', e => {
+  if (!e.target.closest('#start-menu') && !e.target.closest('#start-btn')) {
+    closeStartMenu();
+  }
+});
 
