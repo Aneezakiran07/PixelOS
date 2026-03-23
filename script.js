@@ -405,6 +405,50 @@ function closeStartMenu() {
   document.getElementById('start-btn').classList.remove('is-active');
 }
 
+function shutdown() {
+  closeStartMenu();
+  const s = document.getElementById('shutdown-screen');
+  document.getElementById('shutdown-msg').textContent = 'Shutting down...';
+  s.classList.add('is-active');
+}
+
+function restart() {
+  closeStartMenu();
+  const s = document.getElementById('shutdown-screen');
+  document.getElementById('shutdown-msg').textContent = 'Restarting...';
+  s.classList.add('is-active');
+  setTimeout(() => {
+    s.classList.remove('is-active');
+    showLogin();
+  }, 2500);
+}
+
+function showLogin() {
+  document.getElementById('login-screen').classList.remove('is-hidden');
+  document.getElementById('login-user').value = '';
+  document.getElementById('login-pass').value = '';
+  document.getElementById('login-error').textContent = '';
+}
+
+function tryLogin() {
+  const user = document.getElementById('login-user').value.trim();
+  const pass = document.getElementById('login-pass').value.trim();
+
+  const validUser = user === '' || user === 'admin';
+  const validPass = pass === '' || pass === '1234';
+
+  if (validUser && validPass) {
+    document.getElementById('login-screen').classList.add('is-hidden');
+    document.getElementById('login-error').textContent = '';
+  } else {
+    document.getElementById('login-error').textContent = 'Wrong credentials';
+    const box = document.getElementById('login-box');
+    box.classList.remove('shake');
+    void box.offsetWidth;
+    box.classList.add('shake');
+  }
+}
+
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -440,6 +484,7 @@ document.querySelectorAll('.window').forEach(win => {
 
 window.addEventListener('load', () => {
   renderFolder(FILE_SYSTEM);
+  showLogin();
 });
 
 document.getElementById('desktop').addEventListener('click', e => {
@@ -447,3 +492,6 @@ document.getElementById('desktop').addEventListener('click', e => {
     closeStartMenu();
   }
 });
+
+
+gghjn jhbn tyuhbn 

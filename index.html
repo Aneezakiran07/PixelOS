@@ -8,6 +8,36 @@
 </head>
 <body>
 
+  <div id="shutdown-screen">
+    <p id="shutdown-msg">Shutting down...</p>
+  </div>
+
+  <div id="login-screen">
+    <div id="login-box">
+      <img src="assets/start-logo.svg" alt="" id="login-logo" />
+      <p id="login-os-name">PixelOS 1.0</p>
+      <div id="login-fields">
+        <input
+          type="text"
+          id="login-user"
+          placeholder="admin"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <input
+          type="password"
+          id="login-pass"
+          placeholder="1234"
+          autocomplete="off"
+          onkeydown="if(event.key==='Enter') tryLogin()"
+        />
+        <button id="login-btn" onclick="tryLogin()">Login</button>
+        <p id="login-hint">username: admin &nbsp; password: 1234</p>
+        <p id="login-error"></p>
+      </div>
+    </div>
+  </div>
+
   <div id="desktop">
 
     <div id="desktop-icons">
@@ -132,11 +162,11 @@
       </div>
 
       <div class="start-menu-footer">
-        <div class="start-footer-btn" onclick="showToast('Shutting down... ✿'); closeStartMenu()">
-          ⏻ Shut Down
+        <div class="start-footer-btn" onclick="shutdown()">
+          Shut Down
         </div>
-        <div class="start-footer-btn" onclick="showToast('Restarting... ✿'); closeStartMenu()">
-          ↺ Restart
+        <div class="start-footer-btn" onclick="restart()">
+          Restart
         </div>
       </div>
 
@@ -193,4 +223,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-
