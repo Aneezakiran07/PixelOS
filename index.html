@@ -8,6 +8,15 @@
 </head>
 <body>
 
+  <div id="boot-screen">
+    <img src="assets/start-logo.svg" alt="" id="boot-logo" />
+    <p id="boot-os-name">PixelOS</p>
+    <div id="boot-bar-wrap">
+      <div id="boot-bar"></div>
+    </div>
+    <p id="boot-status">Initializing...</p>
+  </div>
+
   <div id="shutdown-screen">
     <p id="shutdown-msg">Shutting down...</p>
   </div>
@@ -15,26 +24,29 @@
   <div id="login-screen">
     <div id="login-box">
       <img src="assets/start-logo.svg" alt="" id="login-logo" />
-      <p id="login-os-name">PixelOS 1.0</p>
-      <div id="login-fields">
-        <input
-          type="text"
-          id="login-user"
-          placeholder="admin"
-          autocomplete="off"
-          spellcheck="false"
-        />
-        <input
-          type="password"
-          id="login-pass"
-          placeholder="1234"
-          autocomplete="off"
-          onkeydown="if(event.key==='Enter') tryLogin()"
-        />
-        <button id="login-btn" onclick="tryLogin()">Login</button>
-        <p id="login-hint">username: admin &nbsp; password: 1234</p>
+      <p id="login-os-name">sarah — PixelOS 1.0</p>
+
+      <div id="keypad">
+        <div id="keypad-display">
+          <span id="keypad-dots"></span>
+        </div>
+        <div id="keypad-grid">
+          <button class="key worn" onclick="keyPress('1')">1</button>
+          <button class="key worn" onclick="keyPress('2')">2</button>
+          <button class="key" onclick="keyPress('3')">3</button>
+          <button class="key" onclick="keyPress('4')">4</button>
+          <button class="key" onclick="keyPress('5')">5</button>
+          <button class="key" onclick="keyPress('6')">6</button>
+          <button class="key" onclick="keyPress('7')">7</button>
+          <button class="key" onclick="keyPress('8')">8</button>
+          <button class="key" onclick="keyPress('9')">9</button>
+          <button class="key key-clear" onclick="keyBack()">del</button>
+          <button class="key worn" onclick="keyPress('0')">0</button>
+          <button class="key key-enter" onclick="tryLogin()">ok</button>
+        </div>
         <p id="login-error"></p>
       </div>
+
     </div>
   </div>
 
@@ -42,26 +54,38 @@
 
     <div id="desktop-icons">
 
-      <div class="desk-icon" ondblclick="openFileExplorer()">
-        <img src="assets/icon-files.svg" alt="Files" class="icon-img" />
-        <span>Files</span>
-      </div>
+  <div class="desktop-col">
+    <div class="desk-icon" ondblclick="openFileExplorer()">
+      <img src="assets/icon-files.svg" alt="Files" class="icon-img" />
+      <span>Files</span>
+    </div>
+    <div class="desk-icon" ondblclick="openEditor(null)">
+      <img src="assets/icon-editor.svg" alt="Editor" class="icon-img" />
+      <span>Editor</span>
+    </div>
+    <div class="desk-icon" ondblclick="openBrowser()">
+      <img src="assets/icon-browser.svg" alt="Browser" class="icon-img" />
+      <span>Browser</span>
+    </div>
+    <div class="desk-icon" ondblclick="openGmail()">
+      <img src="assets/icon-browser.svg" alt="Mail" class="icon-img" />
+      <span>Mail</span>
+    </div>
+  </div>
 
-      <div class="desk-icon" ondblclick="openEditor(null)">
-        <img src="assets/icon-editor.svg" alt="Editor" class="icon-img" />
-        <span>Editor</span>
-      </div>
+  <div class="desktop-col">
+    <div class="desk-icon" ondblclick="openNotebook()">
+      <img src="assets/icon-editor.svg" alt="Notebook" class="icon-img" />
+      <span>Case Notes</span>
+    </div>
+  </div>
 
-      <div class="desk-icon" ondblclick="openBrowser()">
-        <img src="assets/icon-browser.svg" alt="Browser" class="icon-img" />
-        <span>Browser</span>
-      </div>
+</div>
 
     </div>
 
     <div class="window" id="window-files">
       <div class="win-titlebar" onmousedown="startDrag(event, 'window-files')">
-        <img src="assets/titleicon-files.svg" alt="" class="title-icon" />
         <span class="win-title">File Explorer</span>
         <div class="win-controls">
           <button class="win-btn btn-min" onclick="minimizeWindow('window-files')">_</button>
@@ -81,7 +105,6 @@
 
     <div class="window" id="window-editor">
       <div class="win-titlebar" onmousedown="startDrag(event, 'window-editor')">
-        <img src="assets/titleicon-editor.svg" alt="" class="title-icon" />
         <span class="win-title" id="editor-title">Text Editor</span>
         <div class="win-controls">
           <button class="win-btn btn-min" onclick="minimizeWindow('window-editor')">_</button>
@@ -106,7 +129,6 @@
 
     <div class="window" id="window-browser">
       <div class="win-titlebar" onmousedown="startDrag(event, 'window-browser')">
-        <img src="assets/titleicon-browser.svg" alt="" class="title-icon" />
         <span class="win-title" id="browser-title">PixelBrowser</span>
         <div class="win-controls">
           <button class="win-btn btn-min" onclick="minimizeWindow('window-browser')">_</button>
@@ -130,13 +152,51 @@
       </div>
     </div>
 
+    <div class="window" id="window-gmail">
+      <div class="win-titlebar" onmousedown="startDrag(event, 'window-gmail')">
+        <span class="win-title">Mail — sarah.k.os@gmail.com</span>
+        <div class="win-controls">
+          <button class="win-btn btn-min" onclick="minimizeWindow('window-gmail')">_</button>
+          <button class="win-btn btn-close" onclick="closeWindow('window-gmail')">x</button>
+        </div>
+      </div>
+      <div class="win-body" id="gmail-body">
+        <div id="gmail-layout">
+          <div id="gmail-sidebar">
+            <div class="gmail-folder active" onclick="gmailFolder('inbox')">Inbox <span class="gmail-count">5</span></div>
+            <div class="gmail-folder" onclick="gmailFolder('sent')">Sent</div>
+           <div class="gmail-folder" onclick="gmailFolder('drafts')">Drafts</div>
+           
+          </div>
+          <div id="gmail-list" ></div>
+          <div id="gmail-view"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="window" id="window-notebook">
+      <div class="win-titlebar" onmousedown="startDrag(event, 'window-notebook')">
+        <span class="win-title">Case Notes</span>
+        <div class="win-controls">
+          <button class="win-btn btn-min" onclick="minimizeWindow('window-notebook')">_</button>
+          <button class="win-btn btn-close" onclick="closeWindow('window-notebook')">x</button>
+        </div>
+      </div>
+      <div class="win-body">
+        <div class="nb-header">
+          <span class="nb-label">DETECTIVE NOTES — CASE #2024-02-25</span>
+        </div>
+        <div class="nb-content" id="nb-content"></div>
+      </div>
+    </div>
+
     <div id="toast" class="toast"></div>
 
     <div id="start-menu">
       <div class="start-menu-header">
         <img src="assets/start-logo.svg" alt="" class="start-menu-logo" />
         <div class="start-menu-header-text">
-          <span class="start-menu-user">PixelOS</span>
+          <span class="start-menu-user">sarah</span>
           <span class="start-menu-os">PixelOS 1.0</span>
         </div>
       </div>
@@ -156,6 +216,14 @@
           <div class="start-item" onclick="openBrowser(); closeStartMenu()">
             <img src="assets/icon-browser.svg" alt="" class="start-item-icon" />
             <span>PixelBrowser</span>
+          </div>
+          <div class="start-item" onclick="openGmail(); closeStartMenu()">
+            <img src="assets/icon-browser.svg" alt="" class="start-item-icon" />
+            <span>Mail</span>
+          </div>
+          <div class="start-item" onclick="openNotebook(); closeStartMenu()">
+            <img src="assets/icon-editor.svg" alt="" class="start-item-icon" />
+            <span>Case Notes</span>
           </div>
         </div>
 
@@ -213,6 +281,30 @@
           <div class="tb-preview-close" onclick="event.stopPropagation(); closeWindow('window-browser')">x</div>
         </div>
         <div class="tb-preview-body" id="prev-browser">Not open</div>
+      </div>
+    </button>
+
+    <button class="tb-app" id="tb-gmail" onclick="toggleWin('window-gmail', 'tb-gmail')">
+      <img src="assets/icon-browser.svg" alt="" class="tb-icon" />
+      <div class="tb-app-dot"></div>
+      <div class="tb-preview">
+        <div class="tb-preview-title">
+          <span>Mail</span>
+          <div class="tb-preview-close" onclick="event.stopPropagation(); closeWindow('window-gmail')">x</div>
+        </div>
+        <div class="tb-preview-body" id="prev-gmail">Not open</div>
+      </div>
+    </button>
+
+    <button class="tb-app" id="tb-notebook" onclick="toggleWin('window-notebook', 'tb-notebook')">
+      <img src="assets/icon-editor.svg" alt="" class="tb-icon" />
+      <div class="tb-app-dot"></div>
+      <div class="tb-preview">
+        <div class="tb-preview-title">
+          <span>Case Notes</span>
+          <div class="tb-preview-close" onclick="event.stopPropagation(); closeWindow('window-notebook')">x</div>
+        </div>
+        <div class="tb-preview-body" id="prev-notebook">Not open</div>
       </div>
     </button>
 

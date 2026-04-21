@@ -36,6 +36,65 @@ body {
   color: var(--text-light);
 }
 
+/* boot screen */
+#boot-screen {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  z-index: 99998;
+}
+
+#boot-screen.is-hidden {
+  display: none;
+}
+
+#boot-logo {
+  width: 90px;
+  height: 90px;
+  image-rendering: pixelated;
+  object-fit: contain;
+  animation: spin 1.4s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+#boot-os-name {
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  color: var(--lilac-light);
+  letter-spacing: 4px;
+}
+
+#boot-bar-wrap {
+  width: 220px;
+  height: 8px;
+  background: rgba(200, 160, 220, 0.12);
+  border: 1px solid var(--lilac-dark);
+}
+
+#boot-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--lilac-dark), var(--pink-hot));
+  transition: width 0.3s ease;
+}
+
+#boot-status {
+  font-family: var(--font-pixel);
+  font-size: 6px;
+  color: var(--lilac-mid);
+  letter-spacing: 1px;
+  min-height: 12px;
+}
+
 /* shutdown screen */
 #shutdown-screen {
   position: fixed;
@@ -56,6 +115,8 @@ body {
   font-size: 9px;
   color: var(--lilac-mid);
   animation: fade-in-text 1.2s ease forwards;
+  opacity: 0;
+  pointer-events: none;
 }
 
 @keyframes fade-in-text {
@@ -115,25 +176,102 @@ body {
   width: 100%;
 }
 
-#login-fields input {
+#keypad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+#keypad-display {
   width: 100%;
   padding: 10px 14px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--lilac-dark);
+  text-align: center;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#keypad-dots {
   font-family: var(--font-pixel);
-  font-size: 8px;
-  color: var(--text-light);
+  font-size: 12px;
+  color: var(--pink-light);
+  letter-spacing: 6px;
+}
+
+#keypad-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+
+.key {
+  padding: 14px 8px;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  color: var(--lilac-light);
   background: rgba(200, 160, 220, 0.08);
   border: 1px solid var(--lilac-dark);
-  outline: none;
+  cursor: pointer;
+  transition: background 0.1s, transform 0.08s;
   text-align: center;
 }
 
-#login-fields input::placeholder {
-  color: rgba(200, 160, 220, 0.3);
+.key:hover { background: rgba(200, 160, 220, 0.2); }
+.key:active { transform: scale(0.94); }
+
+/* worn keys are the ones pressed most often */
+.key.worn {
+  color: var(--text-light);
+  background: rgba(200, 160, 220, 0.04);
+  border-color: rgba(200, 160, 220, 0.25);
+  position: relative;
+  overflow: hidden;
 }
 
-#login-fields input:focus {
-  border-color: var(--pink-mid);
+/* crack lines rendered on worn keys */
+.key.worn::before {
+  content: '';
+  position: absolute;
+  top: 18%;
+  left: 10%;
+  width: 75%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.13);
+  transform: rotate(-20deg);
+  pointer-events: none;
 }
+
+.key.worn::after {
+  content: '';
+  position: absolute;
+  top: 60%;
+  left: 35%;
+  width: 40%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  transform: rotate(14deg);
+  pointer-events: none;
+}
+
+.key-clear {
+  font-size: 7px;
+  color: var(--lilac-mid);
+}
+
+.key-enter {
+  font-size: 7px;
+  background: rgba(155, 89, 182, 0.25);
+  border-color: var(--lilac-mid);
+  color: var(--pink-light);
+}
+
+.key-enter:hover { background: rgba(155, 89, 182, 0.4); }
 
 #login-btn {
   width: 100%;
@@ -150,13 +288,6 @@ body {
 
 #login-btn:hover { opacity: 0.85; }
 #login-btn:active { transform: scale(0.98); }
-
-#login-hint {
-  font-family: var(--font-pixel);
-  font-size: 6px;
-  color: rgba(200, 160, 220, 0.35);
-  text-align: center;
-}
 
 #login-error {
   font-family: var(--font-pixel);
@@ -201,15 +332,22 @@ body {
   pointer-events: none;
   z-index: 1;
 }
-
 #desktop-icons {
   position: absolute;
   top: 20px;
   left: 18px;
   display: flex;
-  flex-direction: column;
-  gap: 28px;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 8px;
   z-index: 10;
+}
+
+.desktop-col {
+  display: flex;
+  flex-direction: column;
+
+  gap: 28px;
 }
 
 .desk-icon {
@@ -597,6 +735,194 @@ body {
   flex-shrink: 0;
 }
 
+#window-gmail {
+  width: 780px;
+  height: 480px;
+  top: 70px;
+  left: 130px;
+}
+
+#gmail-layout {
+  display: flex;
+  height: 100%;
+}
+
+#gmail-sidebar {
+  width: 110px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--lilac-dark);
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+  background: rgba(0,0,0,0.2);
+}
+
+.gmail-folder {
+  padding: 9px 14px;
+  font-size: 7px;
+  color: var(--lilac-light);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.1s;
+}
+
+.gmail-folder:hover { background: rgba(200,160,220,0.15); }
+.gmail-folder.active { color: var(--pink-light); background: rgba(255,77,166,0.12); }
+
+.gmail-count { font-size: 6px; color: var(--pink-hot); }
+
+#gmail-list {
+  width: 220px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--lilac-dark);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+#gmail-list::-webkit-scrollbar { width: 4px; }
+#gmail-list::-webkit-scrollbar-track { background: var(--bg-darker); }
+#gmail-list::-webkit-scrollbar-thumb { background: var(--lilac-dark); }
+
+.gmail-item {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(200,160,220,0.08);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.gmail-item:hover { background: rgba(200,160,220,0.1); }
+.gmail-item.active { background: rgba(255,77,166,0.12); }
+.gmail-item.unread .gmail-item-from { color: var(--text-light); }
+
+.gmail-item-from {
+  font-size: 7px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gmail-item-subject {
+  font-size: 6px;
+  color: var(--lilac-mid);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gmail-item-date {
+  font-size: 5px;
+  color: rgba(200,160,220,0.4);
+  margin-top: 4px;
+}
+
+#gmail-view {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#gmail-view::-webkit-scrollbar { width: 4px; }
+#gmail-view::-webkit-scrollbar-track { background: var(--bg-darker); }
+#gmail-view::-webkit-scrollbar-thumb { background: var(--lilac-dark); }
+
+.gmail-view-subject {
+  font-size: 9px;
+  color: var(--pink-light);
+  margin-bottom: 8px;
+}
+
+.gmail-view-meta {
+  font-size: 6px;
+  color: var(--lilac-mid);
+  line-height: 2;
+  border-bottom: 1px solid var(--lilac-dark);
+  padding-bottom: 10px;
+  margin-bottom: 6px;
+}
+
+.gmail-view-body {
+  font-size: 8px;
+  color: var(--lilac-light);
+  line-height: 2.2;
+  white-space: pre-wrap;
+}
+
+.gmail-empty {
+  color: var(--lilac-mid);
+  font-size: 7px;
+  padding: 20px;
+  text-align: center;
+}
+
+#window-notebook {
+  width: 680px;
+  height: 480px;
+  top: 80px;
+  left: 600px;
+}
+
+.nb-header {
+  padding: 10px 14px;
+  background: rgba(200,160,220,0.06);
+  border-bottom: 1px solid var(--lilac-dark);
+  flex-shrink: 0;
+}
+
+.nb-label {
+  font-size: 6px;
+  color: var(--lilac-mid);
+  letter-spacing: 1px;
+}
+
+.nb-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  font-family: var(--font-pixel);
+}
+
+.nb-content::-webkit-scrollbar { width: 4px; }
+.nb-content::-webkit-scrollbar-track { background: var(--bg-darker); }
+.nb-content::-webkit-scrollbar-thumb { background: var(--lilac-dark); }
+
+.nb-entry {
+  border-left: 2px solid var(--lilac-dark);
+  padding-left: 12px;
+}
+
+.nb-entry.clue {
+  border-left-color: var(--pink-hot);
+}
+
+.nb-entry-time {
+  font-size: 5px;
+  color: rgba(200,160,220,0.4);
+  margin-bottom: 5px;
+}
+
+.nb-entry-text {
+  font-size: 7px;
+  color: var(--lilac-light);
+  line-height: 2;
+  white-space: pre-wrap;
+}
+
+.nb-entry.clue .nb-entry-text {
+  color: var(--pink-light);
+}
+
+/* toast base styles shared by plain and clickable variants */
 .toast {
   position: absolute;
   bottom: 16px;
@@ -610,6 +936,13 @@ body {
   display: none;
   z-index: 999;
   animation: toast-in 0.15s ease;
+  user-select: none;
+}
+
+/* clickable toast gets a stronger border to signal interactivity */
+.toast:hover {
+  border-color: var(--pink-hot);
+  background: rgba(255, 77, 166, 0.15);
 }
 
 @keyframes toast-in {
@@ -940,3 +1273,82 @@ body {
 ::-webkit-scrollbar-thumb:hover { background: var(--pink-mid); }
 
 
+/* pending clue entries in the notebook */
+.nb-entry-pending {
+  border-left: 2px solid var(--pink-hot);
+  background: rgba(255, 77, 166, 0.04);
+  padding: 12px;
+  padding-left: 12px;
+}
+
+.nb-pending-question {
+  font-size: 7px;
+  color: var(--pink-light);
+  line-height: 2;
+  margin-bottom: 10px;
+}
+
+.nb-filename {
+  color: var(--pink-hot);
+  font-style: italic;
+}
+
+.nb-hint-text {
+  display: none;
+  font-size: 6px;
+  color: var(--lilac-mid);
+  line-height: 2;
+  margin-bottom: 10px;
+  padding: 8px 10px;
+  background: rgba(200, 160, 220, 0.08);
+  border-left: 2px solid var(--lilac-dark);
+  white-space: pre-wrap;
+}
+
+.nb-input-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.nb-input {
+  flex: 1;
+  padding: 8px 10px;
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  color: var(--pink-light);
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--lilac-dark);
+  outline: none;
+  caret-color: var(--pink-hot);
+}
+
+.nb-input:focus {
+  border-color: var(--pink-mid);
+}
+
+.nb-submit-btn {
+  padding: 8px 12px;
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: var(--pink-light);
+  background: rgba(155, 89, 182, 0.3);
+  border: 1px solid var(--lilac-mid);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.nb-submit-btn:hover {
+  background: rgba(255, 77, 166, 0.3);
+}
+
+.nb-input-hint {
+  font-size: 5px;
+  color: rgba(200, 160, 220, 0.4);
+  line-height: 1.8;
+}
+
+.nb-cmd {
+  color: var(--pink-mid);
+}
