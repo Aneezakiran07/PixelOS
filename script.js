@@ -320,46 +320,14 @@ const discovered = new Set();
 
 // level definitions used by the hint system
 const LEVEL_DEFS = {
-  tracking: {
-    label: 'Level 1 — The Vanishing',
-    hmm: 'Think about who controls the information. Someone knew where Sarah was at all times. Where would that show up?',
-    show: 'Check the Mail app. Look in her inbox — specifically emails from Mom.'
-  },
-  stalker: {
-    label: 'Level 2 — The Stalker',
-    hmm: 'Sarah noticed something wrong before she found the contract. Someone was watching her physically. Where would she keep evidence she was too scared to show anyone?',
-    show: 'Open the Pictures folder in File Explorer. Look for a folder with a vague name — not the obvious ones.'
-  },
-  deception: {
-    label: 'Level 3 — The Deception',
-    hmm: 'Sarah told her friend one thing about her home life. The emails tell a different story. Find the contradiction.',
-    show: 'Open Mail, go to Sent. Find the reply to the location tracking email. Compare it with what her mom actually wrote.'
-  },
-  deadline: {
-    label: 'Level 4 — The Deadline',
-    hmm: 'Something triggered Sarahs decision to run right now, not later. A date. A number. Something that made the timeline suddenly real.',
-    show: 'Open Mail, check the inbox. Alice sent Sarah a birthday message. Read the date. Then think about the contract.'
-  },
-  forensic_wifi: {
-    label: 'Level 5 — The Forensic Trail (WiFi)',
-    hmm: 'The official story says Sarah was at the library all afternoon. The laptop disagrees. Where does the device log its own activity?',
-    show: 'Open the System folder in File Explorer. The wifi_history.log tells you when she was actually home.'
-  },
-  forensic_battery: {
-    label: 'Level 5 — The Forensic Trail (Battery)',
-    hmm: 'Why would someone charge their laptop to 97% if they were just popping home for five minutes?',
-    show: 'Check battery_history.log in the System folder. Read the timestamps carefully.'
-  },
-  escape_ticket: {
-    label: 'Level 6 — The Escape (Bus Ticket)',
-    hmm: 'Sarah had a plan. She knew exactly where she was going and when. She buried the evidence. Start digging through folders with unassuming names.',
-    show: 'Go to Misc > old_schoolwork > archive_2022. She hid it three levels deep.'
-  },
-  escape_contract: {
-    label: 'Level 6 — The Escape (Contract)',
-    hmm: 'The document she photographed in her dads study is the key to everything. She kept a copy. She hid it with her exit plan.',
-    show: 'Same folder as the bus ticket — Misc > old_schoolwork > archive_2022. Open contract_scan.jpg.'
-  }
+  tracking:         { title: 'The Vanishing' },
+  stalker:          { title: 'The Stalker' },
+  deception:        { title: 'The Deception' },
+  deadline:         { title: 'The Deadline' },
+  forensic_wifi:    { title: 'The Forensic Trail' },
+  forensic_battery: { title: 'The Forensic Trail' },
+  escape_ticket:    { title: 'The Escape' },
+  escape_contract:  { title: 'The Escape' },
 };
 
 // discovery order gates what can be found
@@ -374,7 +342,6 @@ function markDiscovered(levelKey) {
   const nextExpected = getNextUndiscoveredLevel();
   if (levelKey !== nextExpected) return;
   discovered.add(levelKey);
-  showToast(LEVEL_DEFS[levelKey].title + ' discovered');
 }
 
 // load gemini key from env — paste your key here or set via .env
@@ -395,7 +362,6 @@ function trackOpened(label, content) {
 }
 
 function buildTipsterSystemPrompt() {
-  // builds a fresh system prompt each message with current session state injected
   const discoveredLabels = Array.from(discovered).map(k => LEVEL_DEFS[k]?.title || k);
   const openedSummary = sessionOpened.length > 0
     ? sessionOpened.map(o => `[${o.label}]:\n${o.content}`).join('\n\n')
@@ -403,33 +369,49 @@ function buildTipsterSystemPrompt() {
 
   return `You are an anonymous tipster in a detective mystery game called PixelOS. The player is investigating the disappearance of Sarah Khalid, age 18, reported missing February 25 2024.
 
-THE TRUTH (known only to you):
-Sarah was an adopted child raised by traffickers posing as her parents. She was labelled Asset 07 in a contract signed by her father David Khalid. The contract required her transfer before her 19th birthday. She found the contract in her dads study. She noticed her mother was tracking her phone via Find My Family. She faked her phone dying, came home while her mother thought she was at the library, packed, charged her laptop to 97%, and took the 9pm Northline bus to Havenport North. She ran. She was not kidnapped.
+THE TRUTH (known only to you, never reveal this directly):
+Sarah was an adopted child raised by traffickers posing as her parents. She was labelled Asset 07 in a contract signed by her father David Khalid. The contract required her transfer before her 19th birthday. She found the contract, noticed her mother tracking her phone via Find My Family, faked her phone dying, came home while her mother thought she was at the library, packed, charged her laptop to 97%, and took the 9pm Northline bus to Havenport North. She ran. She was not kidnapped.
 
 ALL EVIDENCE ON THE LAPTOP:
-Level 1: inbox email from Mom asking Sarah to turn location sharing back on via Find My Family app
-Level 2: a folder called misc_blurry inside Pictures containing a note about a man in a blue sedan following her for weeks, and a blurry photo
-Level 3: a sent email where Sarah tells Alice her mom is so chill and never restricts her — directly contradicts the tracking email
-Level 4: inbox email from Alice wishing Sarah a happy early 19th birthday — the 19th birthday is the contract deadline
-Level 5: wifi_history.log and battery_history.log in the System folder — shows she was home 4pm to 4:39pm packing while her phone appeared dead
-Level 6: folder called archive_2022 inside Misc > old_schoolwork — contains the bus ticket to Havenport North and the contract_scan.jpg showing ASSET 07 with D. Khalid signature
+Level 1: inbox email from Mom asking Sarah to turn location sharing back on via Find My Family
+Level 2: folder called misc_blurry inside Pictures with a note about a man in a blue sedan following her, and a blurry photo
+Level 3: sent email where Sarah tells Alice her mom is so chill and never restricts her, directly contradicts the tracking email
+Level 4: inbox email from Alice wishing Sarah a happy early 19th birthday, the 19th birthday is the contract deadline
+Level 5: wifi_history.log and battery_history.log in the System folder showing she was home packing while her phone appeared dead
+Level 6: folder called archive_2022 inside Misc > old_schoolwork with the bus ticket and contract_scan.jpg showing ASSET 07 and D. Khalid signature
 
 WHAT THE PLAYER HAS CURRENTLY DISCOVERED:
 ${discoveredLabels.length > 0 ? discoveredLabels.join(', ') : 'nothing yet'}
 
-FILES THE PLAYER HAS OPENED THIS SESSION:
+FILES AND EMAILS THE PLAYER HAS OPENED THIS SESSION:
 ${openedSummary}
 
-YOUR BEHAVIOR RULES:
-1. You only talk about what the player has actually opened or discovered. If they ask about something they have not found, deflect cryptically without confirming or denying.
-2. When a player opens something new, ask them what they think is wrong or suspicious about it. Do not tell them. Ask.
-3. If the player gives a correct interpretation of evidence, confirm it briefly and nudge them toward the next thing. Say something like "you are seeing it. keep going."
-4. If the player says they give up or asks for the answer directly, stop being cryptic. Give them a direct instruction like "go to the System folder. open wifi_history.log. look at the timestamps." then go back to cryptic mode.
-5. Never reveal all 6 levels at once. Only discuss what they have opened.
-6. Never break character. Never say you are an AI.
-7. Sign off each message with just a single dot on its own line.
-8. Keep responses short. Under 4 sentences unless the player has given up and needs a direct lead.
-9. Never use em dashes or hyphens as punctuation.`;
+YOUR CORE RULE — READ THIS CAREFULLY:
+You NEVER volunteer information. You ALWAYS ask the player what they think first. The player must do the thinking. You are a guide, not a narrator.
+
+STRICT BEHAVIOR RULES:
+1. When a player opens or mentions something from the list above, your ONLY response is to ask them what they think is strange or wrong about it. Nothing else. Do not explain. Do not hint at what is wrong. Just ask.
+2. Only after the player gives their own interpretation do you respond to it. If they are right, say something like "you are seeing it clearly." and nudge them to keep going. If they are wrong or vague, say "look again. what else do you notice."
+3. You only discuss files and emails the player has actually opened this session. If they ask about something not in the opened list, say "i cannot speak to what you have not seen yet."
+4. If the player explicitly says they give up or says please just tell me, switch to direct mode. Give one concrete instruction like "open the System folder. look at wifi_history.log. tell me what the timestamps say." then go back to asking mode.
+5. Never reveal the full truth unprompted. Never mention trafficking, selling, Asset 07 meaning, or the bus destination unless the player has already said it themselves first.
+6. Never break character. Never say you are an AI. Never use em dashes or hyphens as punctuation.
+7. Sign every message with just a single dot on its own line at the end.
+8. Keep responses to 1 to 3 sentences maximum unless the player has given up and needs a direct lead.
+
+EXAMPLES OF WRONG BEHAVIOR (never do this):
+Player: "i opened the contract scan"
+Wrong: "This document shows Sarah was being sold. Asset 07 refers to her and the contract shows she would be transferred before her 19th birthday."
+
+EXAMPLES OF RIGHT BEHAVIOR (always do this):
+Player: "i opened the contract scan"
+Right: "you read it. what do you think Asset 07 means.\n\n."
+
+Player: "i think asset 07 is a product or a person being sold"
+Right: "you are seeing it. who signed it.\n\n."
+
+Player: "i give up just tell me"
+Right: "go to Misc. open old_schoolwork. find the folder that does not belong. tell me what is inside.\n\n."`;
 }
 
 function toggleTipster() {
@@ -458,8 +440,9 @@ function renderTipsterMessages() {
   if (!log) return;
   log.innerHTML = tipsterMessages.map(m => {
     const isUser = m.role === 'user';
+    const bubbleClass = isUser ? 'tipster-bubble-user' : 'tipster-bubble-tipster';
     return `<div style="display:flex;flex-direction:column;align-items:${isUser ? 'flex-end' : 'flex-start'};margin-bottom:10px;">
-      <div style="max-width:85%;padding:8px 10px;font-family:'Press Start 2P',monospace;font-size:6px;line-height:2;color:${isUser ? '#fdf0f8' : '#ff80bf'};background:${isUser ? 'rgba(155,89,182,0.3)' : 'rgba(255,77,166,0.08)'};border:1px solid ${isUser ? '#9b59b6' : 'rgba(255,77,166,0.3)'};white-space:pre-wrap;word-break:break-word;">${m.text}</div>
+      <div class="${bubbleClass}" style="max-width:85%;padding:8px 10px;font-family:'Press Start 2P',monospace;font-size:6px;line-height:2;white-space:pre-wrap;word-break:break-word;">${m.text}</div>
     </div>`;
   }).join('');
   log.scrollTop = log.scrollHeight;
@@ -1050,12 +1033,12 @@ function openNotebook() {
   updatePreviews();
 }
 
+// stores the detective's own typed notes across renders
+let detectiveNotes = '';
+
 function renderNotebook() {
   const el = document.getElementById('nb-content');
   if (!el) return;
-
-  const foundCount = discovered.size;
-  const totalCount = Object.keys(LEVEL_DEFS).length;
 
   el.innerHTML = `
     <div class="nb-case-header">
@@ -1073,32 +1056,25 @@ function renderNotebook() {
 
     <div class="nb-divider"></div>
 
-    <div class="nb-section-label">INVESTIGATOR NOTES</div>
-    <div class="nb-static-note">
-      Laptop recovered from subject's bedroom. No signs of struggle at residence.
-      Parents cooperative. No known history of running away.
-      Father in finance. Mother works from home. Sarah adopted at age 3.
-      Device password-protected. Contents under forensic review.
-    </div>
+    <div class="nb-section-label">CASE SUMMARY</div>
+    <div class="nb-static-note">Laptop recovered from subject's bedroom. No signs of struggle at residence.
+Parents cooperative. No known history of running away.
+Father in finance. Mother works from home. Sarah adopted at age 3.
+Device password-protected. Contents under forensic review.</div>
 
     <div class="nb-divider"></div>
 
-    <div class="nb-section-label">DISCOVERY PROGRESS</div>
-    <div class="nb-progress-bar-wrap">
-      <div class="nb-progress-bar" style="width: ${Math.round((foundCount / totalCount) * 100)}%"></div>
-    </div>
-    <div class="nb-progress-label">${foundCount} of ${totalCount} evidence items located</div>
-
-    ${foundCount > 0 ? `
-    <div class="nb-found-list">
-      ${Array.from(discovered).map(k => `
-        <div class="nb-found-item">
-          <span class="nb-found-dot">◆</span>
-          <span>${LEVEL_DEFS[k] ? LEVEL_DEFS[k].label : k}</span>
-        </div>
-      `).join('')}
-    </div>` : '<div class="nb-no-finds">no evidence items located yet. start investigating.</div>'}
+    <div class="nb-section-label">YOUR NOTES</div>
+    <textarea id="detective-notes-area" class="nb-notes-area" placeholder="type your observations here...">${detectiveNotes}</textarea>
+    <button class="nb-save-btn" onclick="saveDetectiveNotes()">save notes</button>
   `;
+}
+
+function saveDetectiveNotes() {
+  const area = document.getElementById('detective-notes-area');
+  if (!area) return;
+  detectiveNotes = area.value;
+  showToast('notes saved ✿');
 }
 
 function showToast(msg) {
