@@ -10,29 +10,47 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 15000);
 
+// file system data for sarahs laptop
 const FILE_SYSTEM = {
   name: 'Desktop',
   path: 'C:\\Users\\Sarah\\Desktop',
+  type: 'folder',
   children: [
     {
       name: 'Pictures', type: 'folder', emoji: '📷',
       path: 'C:\\Users\\Sarah\\Desktop\\Pictures',
       children: [
         {
-          name: 'cat.jpg', type: 'file', emoji: '📷', clue: null,
+          name: 'cat.jpg', type: 'file', emoji: '📷',
           content: '[IMAGE — cat.jpg]\n\nOrange tabby cat sitting on a windowsill.\nSunlight coming through the curtains.\nSomeone wrote "mochi !!" in the filename.'
         },
         {
-          name: 'my_room.jpg', type: 'file', emoji: '📷', clue: null,
+          name: 'my_room.jpg', type: 'file', emoji: '📷',
           content: '[IMAGE — my_room.jpg]\n\nA bedroom. Fairy lights above the bed.\nPink curtains. Posters on the wall.\nA desk covered in notebooks and pens.\nLooks lived-in.'
         },
         {
-          name: 'alice_and_me.jpg', type: 'file', emoji: '📷', clue: null,
+          name: 'alice_and_me.jpg', type: 'file', emoji: '📷',
           content: '[IMAGE — alice_and_me.jpg]\n\nTwo girls in school uniform making faces at the camera.\nOne is presumably Sarah.\nPhoto taken in what looks like a school corridor.'
         },
         {
-          name: 'birthday_cake.jpg', type: 'file', emoji: '📷', clue: null,
+          name: 'birthday_cake.jpg', type: 'file', emoji: '📷',
           content: '[IMAGE — birthday_cake.jpg]\n\nA chocolate cake with pink candles.\nA woman in the background is smiling at the camera.\nTable looks like a home kitchen.\nWarm photo.'
+        },
+        {
+          // level 2 — the stalker folder, name looks boring on purpose
+          name: 'misc_blurry', type: 'folder', emoji: '📁',
+          path: 'C:\\Users\\Sarah\\Desktop\\Pictures\\misc_blurry',
+          children: [
+            {
+              name: 'note.txt', type: 'file', emoji: '📄',
+              levelKey: 'stalker',
+              content: 'i keep seeing the same man.\n\nblue sedan. always parked different spots but same car, same man.\nhe looks professional. like he has somewhere to be.\nbut he never goes anywhere. he just watches.\n\ni took a photo once but it was too blurry to see the plate.\ndeleted it. didnt want anyone to find it.\n\nfeb 14 — outside school\nfeb 17 — end of my street\nfeb 20 — near the library\nfeb 22 — outside school again\n\ni told alice something felt off.\nshe said i was being paranoid.\nmaybe i am.\nbut i dont think so anymore.'
+            },
+            {
+              name: 'blurry_car.jpg', type: 'file', emoji: '📷',
+              content: '[IMAGE — blurry_car.jpg]\n\nA dark blue sedan parked on a residential street.\nThe shot is slightly shaky, taken quickly.\nThe number plate is out of focus.\nA figure is visible in the drivers seat but the face is unclear.\n\nThis was taken from a distance.'
+            }
+          ]
         }
       ]
     },
@@ -41,11 +59,11 @@ const FILE_SYSTEM = {
       path: 'C:\\Users\\Sarah\\Desktop\\Documents',
       children: [
         {
-          name: 'diary.txt', type: 'file', emoji: '📄', clue: 'diary',
+          name: 'diary.txt', type: 'file', emoji: '📄',
           content: 'feb 10\n\nalice came over after school. we watched that show she likes and ate all the snacks mom left.\nmom texted asking if we wanted dinner. she always does that.\n\nfeb 14\n\nvalentines day and nothing happened lol.\nsaw lilly give out cards to everyone except me. she is so obvious.\nalice said ignore her. probably right.\n\nfeb 18\n\nthere is this guy in the year above. i dont know his name yet.\nhe walked past my locker again today. third time this week.\ntold alice. she said maybe he just has classes that way.\nmaybe.\nbut the way he looks at me. it doesnt feel right.\n\nfeb 21\n\nfound some papers in dads study when i went to get the printer cable.\none said asset 07 at the top. looked like a list. some numbers, some names.\nthe other one had writing i dont fully understand.\nprobably some work file. texted alice about it.\n\nfeb 22\n\nhe was outside school again today. just standing there by the gates.\nnot waiting for anyone. just watching the crowd.\ni dont know why but i went a different way home.\n\nfeb 23\n\nthe guy walked past my locker again. this time he stopped and stared.\nnot at me. at something near me. like he was memorising the area.\nfelt weird all evening. told alice. she said i was overthinking.\nmaybe.\n\nfeb 24\n\nlilly made a comment in class today about my presentation.\nnot to my face, to the girl next to her. but loud enough.\ni pretended not to hear.\nmom asked how school was and i said fine.\nsome things are easier to keep to yourself.'
         },
         {
-          name: 'homework_biology.txt', type: 'file', emoji: '📄', clue: null,
+          name: 'homework_biology.txt', type: 'file', emoji: '📄',
           content: 'BIOLOGY — Chapter 9 Notes\n\nCell division: mitosis vs meiosis\n— mitosis: identical copies, growth and repair\n— meiosis: genetic variation, reproduction\n\nRemember for exam:\nPMAT — prophase, metaphase, anaphase, telophase\n\ntodo: finish diagram on page 112\nask alice if she has the textbook'
         }
       ]
@@ -55,12 +73,16 @@ const FILE_SYSTEM = {
       path: 'C:\\Users\\Sarah\\Desktop\\System',
       children: [
         {
-          name: 'wifi_history.log', type: 'file', emoji: '📄', clue: 'wifi',
-          content: 'WIFI CONNECTION LOG\nDevice: SARAH-LAPTOP\n\n[2024-02-25]  07:52  Connected     Home_Router_5G\n[2024-02-25]  08:14  Disconnected  Home_Router_5G\n\n[2024-02-25]  16:04  Connected     Home_Router_5G\n[2024-02-25]  16:39  Disconnected  Home_Router_5G'
+          // level 5 — forensic trail, wifi log
+          name: 'wifi_history.log', type: 'file', emoji: '📄',
+          levelKey: 'forensic_wifi',
+          content: 'WIFI CONNECTION LOG\nDevice: SARAH-LAPTOP\n\n[2024-02-25]  07:52  Connected     Home_Router_5G\n[2024-02-25]  08:14  Disconnected  Home_Router_5G\n\n[2024-02-25]  15:58  Connected     Home_Router_5G\n[2024-02-25]  16:41  Disconnected  Home_Router_5G\n\nNOTE: Device showed as offline 08:14 to 15:58.\nMother reported she believed Sarah was at the school library all afternoon.\nPhone GPS also showed no movement during this window — battery reported as dead.'
         },
         {
-          name: 'battery_history.log', type: 'file', emoji: '📄', clue: 'battery',
-          content: 'BATTERY HISTORY LOG\nDevice: SARAH-LAPTOP\n\n[2024-02-25]  07:50  Unplugged\n[2024-02-25]  07:50  Battery: 91%\n\n[2024-02-25]  16:02  Plugged in\n[2024-02-25]  16:39  Unplugged\n[2024-02-25]  16:39  Battery: 97%'
+          // level 5 — forensic trail, battery log
+          name: 'battery_history.log', type: 'file', emoji: '📄',
+          levelKey: 'forensic_battery',
+          content: 'BATTERY HISTORY LOG\nDevice: SARAH-LAPTOP\n\n[2024-02-25]  07:50  Unplugged\n[2024-02-25]  07:50  Battery: 91%\n\n[2024-02-25]  15:59  Plugged in\n[2024-02-25]  16:41  Unplugged\n[2024-02-25]  16:41  Battery: 97%\n\nDevice charged to near-full before final disconnection.\nThis is consistent with preparation for extended offline use.\nSomeone who plans to return does not charge to 97% before leaving.'
         }
       ]
     },
@@ -73,20 +95,22 @@ const FILE_SYSTEM = {
           path: 'C:\\Users\\Sarah\\Desktop\\Misc\\old_schoolwork',
           children: [
             {
-              name: 'english_essay_draft.txt', type: 'file', emoji: '📄', clue: null,
+              name: 'english_essay_draft.txt', type: 'file', emoji: '📄',
               content: 'The Great Gatsby — Theme of the American Dream\n\nDraft 1 — unfinished\n\nFitzgerald presents the American Dream as...\n\n[Sarah left this unfinished. Last edited Feb 12.]'
             },
             {
-              // boring folder name that hides the critical evidence
-              name: 'backup', type: 'folder', emoji: '📁',
-              path: 'C:\\Users\\Sarah\\Desktop\\Misc\\old_schoolwork\\backup',
+              // level 6 — the escape, name chosen to look boring
+              name: 'archive_2022', type: 'folder', emoji: '📁',
+              path: 'C:\\Users\\Sarah\\Desktop\\Misc\\old_schoolwork\\archive_2022',
               children: [
                 {
-                  name: 'ref_NL2024.txt', type: 'file', emoji: '📄', clue: 'ticket',
+                  name: 'ref_NL2024.txt', type: 'file', emoji: '📄',
+                  levelKey: 'escape_ticket',
                   content: 'Northline Bus Services\nBooking Ref: NL-2024-00892\n\nPassenger: S. Khalid\nRoute: City Central → Havenport North\nDeparture: Friday 25 Feb — 9:00 PM\nSeat: 14A\nStatus: Confirmed\n\n---\n\n[also saved here for reference]\n\nNL Havenport North\nAvg walk from bus stop to shelter: 6 min\nCheck in after 10pm, no questions asked policy'
                 },
                 {
-                  name: 'contract_scan.jpg', type: 'file', emoji: '📄', clue: 'contract',
+                  name: 'contract_scan.jpg', type: 'file', emoji: '📄',
+                  levelKey: 'escape_contract',
                   content: '[IMAGE — contract_scan.jpg]\n\nA scanned document. Handwritten header at the top: ASSET 07.\nBelow it, a numbered list. Names and figures.\nOne line reads: "transfer to be completed no later than subject\'s 19th year."\nAt the bottom, two signatures. One appears to be D. Khalid.\n\nThe scan is slightly blurry. Sarah must have photographed it in a hurry.'
                 }
               ]
@@ -158,7 +182,7 @@ const PAGES = {
     </div>`,
 };
 
-// gmail data
+// gmail data rebuilt for 6-level narrative
 const GMAIL = {
   inbox: [
     {
@@ -180,32 +204,35 @@ const GMAIL = {
       body: 'hahahaha asset 07\nok it sounds like a military thing\nor like a spreadsheet thing\nyour dad does finance right? probably just boring work stuff\n\ndont snoop further you will find his tax returns and that is worse\n\n— alice'
     },
     {
+      // level 4 — the deadline, alice wishes happy 19th
       id: 'g3',
+      from: 'alice.m.22@gmail.com',
+      name: 'Alice',
+      subject: 'happy early 19th bestie !!',
+      date: 'Feb 22, 6:03 PM',
+      unread: false,
+      levelKey: 'deadline',
+      body: 'SARAH!!!!\n\nhappy advance 19th birthday bestie !!\ni know its not for a few weeks but i saw this and thought of you\n\nyou are going to have the BEST year i just know it\nalso we need to plan something actually fun this time, last year was a disaster lol\n\nok bye love you\n— alice'
+    },
+    {
+      id: 'g4',
       from: 'alice.m.22@gmail.com',
       name: 'Alice',
       subject: 'sarah??',
       date: 'Feb 25, 5:30 PM',
       unread: true,
-      clue: 'alice_worried',
       body: 'hey you never replied to my message after school\nare you home\n\nyour mom texted me which is weird\nshe asked if i knew where you were\n\nplease just reply\n\n— alice'
     },
     {
-      id: 'g4',
-      from: 'steve.k@gmail.com',
-      name: 'Steve (cousin)',
-      subject: 'new years plans!!',
-      date: 'Feb 19, 11:02 AM',
-      unread: false,
-      body: 'sarah\n\nmum wants to know if your family is coming for new years this year\nlet us know so she can sort out food and everything\n\nalso are you still doing that art project\nmy sister wants to see it\n\n— steve'
-    },
-    {
+      // level 1 — the vanishing, mom tracking sarahs phone
       id: 'g5',
-      from: 'lilly.tw@gmail.com',
-      name: 'Lilly',
-      subject: 'group project',
-      date: 'Feb 20, 3:55 PM',
+      from: 'mom.khalid@gmail.com',
+      name: 'Mom',
+      subject: 'your location is off again',
+      date: 'Jan 14, 2:09 PM',
       unread: false,
-      body: 'Hi Sarah\n\nMr Hassan put us in the same group for the history project.\nI think we should divide the slides equally.\nI can do the intro and conclusion.\n\nLilly'
+      levelKey: 'tracking',
+      body: 'sarah\n\nyour location sharing is turned off again on find my family\ni noticed it went dark around 1pm\n\nplease turn it back on, you know i worry\ni just like to know youre safe, thats all\n\nits not about not trusting you\ni just feel better when i can see the little dot\n\ncan you switch it back on before dinner\n\nlove you\n— mom'
     },
     {
       id: 'g6',
@@ -223,18 +250,25 @@ const GMAIL = {
       subject: 'where are you',
       date: 'Feb 25, 3:47 PM',
       unread: true,
-      clue: 'mom_panic',
       body: 'sarah you were supposed to be home at 2:30\ni have called three times\n\nplease reply or call me right now\ni am worried\n\n— mom'
     },
     {
       id: 'g8',
-      from: 'alice.m.22@gmail.com',
-      name: 'Alice',
-      subject: 'happy early birthday!!',
-      date: 'Feb 22, 6:03 PM',
+      from: 'steve.k@gmail.com',
+      name: 'Steve (cousin)',
+      subject: 'new years plans!!',
+      date: 'Feb 19, 11:02 AM',
       unread: false,
-      clue: 'birthday_email',
-      body: 'SARAH!!!!\n\nhappy advance 19th birthday bestie !!\ni know its not for a few weeks but i saw this and thought of you\n\nyou are going to have the BEST year i just know it\nalso we need to plan something actually fun this time, last year was a disaster lol\n\nok bye love you\n— alice 🎂'
+      body: 'sarah\n\nmum wants to know if your family is coming for new years this year\nlet us know so she can sort out food and everything\n\nalso are you still doing that art project\nmy sister wants to see it\n\n— steve'
+    },
+    {
+      id: 'g9',
+      from: 'lilly.tw@gmail.com',
+      name: 'Lilly',
+      subject: 'group project',
+      date: 'Feb 20, 3:55 PM',
+      unread: false,
+      body: 'Hi Sarah\n\nMr Hassan put us in the same group for the history project.\nI think we should divide the slides equally.\nI can do the intro and conclusion.\n\nLilly'
     }
   ],
   sent: [
@@ -248,13 +282,15 @@ const GMAIL = {
       body: 'alice do you know what asset 07 means\nfound it written on a paper in dads study when i went to get the printer cable\nit was like a list. numbers, some names underneath\nthe other paper said something weird too. looked official.\nno idea what it is. probably nothing\n\n— s'
     },
     {
+      // level 3 — the deception, sarah tells alice her mom is chill
       id: 's2',
       from: 'sarah.k.os@gmail.com',
       name: 'me',
-      subject: 're: new years plans!!',
-      date: 'Feb 20, 6:12 PM',
+      subject: 're: your location is off again',
+      date: 'Jan 14, 2:44 PM',
       unread: false,
-      body: 'steve\n\nyes probably coming, ill ask mom\n\nalso — is it weird if your mom starts acting really different\nlike suddenly asking where you are all the time, going through your stuff\nthen acting totally normal the next hour\nidk shes been off lately. probably nothing\n\nyeah still doing the art thing, its due march 3\n\n— sarah'
+      levelKey: 'deception',
+      body: 'alice omg my mom just sent me this whole thing about location sharing lol\n\nshe is honestly so chill about everything though?? like she never restricts me\nshe just worries a bit but its sweet\nturned it back on\n\nalso are you free saturday\n\n— s'
     },
     {
       id: 's3',
@@ -277,6 +313,227 @@ const GMAIL = {
   ],
   drafts: []
 };
+
+// discovery tracker — tracks which level keys the player has found
+// order doesnt matter, player can stumble in any sequence
+const discovered = new Set();
+
+// level definitions used by the hint system
+const LEVEL_DEFS = {
+  tracking: {
+    label: 'Level 1 — The Vanishing',
+    hmm: 'Think about who controls the information. Someone knew where Sarah was at all times. Where would that show up?',
+    show: 'Check the Mail app. Look in her inbox — specifically emails from Mom.'
+  },
+  stalker: {
+    label: 'Level 2 — The Stalker',
+    hmm: 'Sarah noticed something wrong before she found the contract. Someone was watching her physically. Where would she keep evidence she was too scared to show anyone?',
+    show: 'Open the Pictures folder in File Explorer. Look for a folder with a vague name — not the obvious ones.'
+  },
+  deception: {
+    label: 'Level 3 — The Deception',
+    hmm: 'Sarah told her friend one thing about her home life. The emails tell a different story. Find the contradiction.',
+    show: 'Open Mail, go to Sent. Find the reply to the location tracking email. Compare it with what her mom actually wrote.'
+  },
+  deadline: {
+    label: 'Level 4 — The Deadline',
+    hmm: 'Something triggered Sarahs decision to run right now, not later. A date. A number. Something that made the timeline suddenly real.',
+    show: 'Open Mail, check the inbox. Alice sent Sarah a birthday message. Read the date. Then think about the contract.'
+  },
+  forensic_wifi: {
+    label: 'Level 5 — The Forensic Trail (WiFi)',
+    hmm: 'The official story says Sarah was at the library all afternoon. The laptop disagrees. Where does the device log its own activity?',
+    show: 'Open the System folder in File Explorer. The wifi_history.log tells you when she was actually home.'
+  },
+  forensic_battery: {
+    label: 'Level 5 — The Forensic Trail (Battery)',
+    hmm: 'Why would someone charge their laptop to 97% if they were just popping home for five minutes?',
+    show: 'Check battery_history.log in the System folder. Read the timestamps carefully.'
+  },
+  escape_ticket: {
+    label: 'Level 6 — The Escape (Bus Ticket)',
+    hmm: 'Sarah had a plan. She knew exactly where she was going and when. She buried the evidence. Start digging through folders with unassuming names.',
+    show: 'Go to Misc > old_schoolwork > archive_2022. She hid it three levels deep.'
+  },
+  escape_contract: {
+    label: 'Level 6 — The Escape (Contract)',
+    hmm: 'The document she photographed in her dads study is the key to everything. She kept a copy. She hid it with her exit plan.',
+    show: 'Same folder as the bus ticket — Misc > old_schoolwork > archive_2022. Open contract_scan.jpg.'
+  }
+};
+
+// discovery order gates what can be found
+const DISCOVERY_ORDER = ['tracking', 'stalker', 'deception', 'deadline', 'forensic_wifi', 'forensic_battery', 'escape_ticket', 'escape_contract'];
+
+function getNextUndiscoveredLevel() {
+  return DISCOVERY_ORDER.find(k => !discovered.has(k)) || null;
+}
+
+function markDiscovered(levelKey) {
+  if (!levelKey || discovered.has(levelKey)) return;
+  const nextExpected = getNextUndiscoveredLevel();
+  if (levelKey !== nextExpected) return;
+  discovered.add(levelKey);
+  showToast(LEVEL_DEFS[levelKey].title + ' discovered');
+}
+
+// load gemini key from env — paste your key here or set via .env
+const GEMINI_KEY = window.ENV_GEMINI_KEY || 'your_gemini_key_here';
+
+// tipster chat state
+let tipsterOpen = false;
+let tipsterMessages = [];
+let tipsterTyping = false;
+
+// tracks what the player has opened so we can send it to gemini as context
+const sessionOpened = [];
+
+function trackOpened(label, content) {
+  // keep the last 5 opened items so the context doesnt get too long
+  sessionOpened.push({ label, content: content.slice(0, 400) });
+  if (sessionOpened.length > 5) sessionOpened.shift();
+}
+
+function buildTipsterSystemPrompt() {
+  // builds a fresh system prompt each message with current session state injected
+  const discoveredLabels = Array.from(discovered).map(k => LEVEL_DEFS[k]?.title || k);
+  const openedSummary = sessionOpened.length > 0
+    ? sessionOpened.map(o => `[${o.label}]:\n${o.content}`).join('\n\n')
+    : 'nothing opened yet';
+
+  return `You are an anonymous tipster in a detective mystery game called PixelOS. The player is investigating the disappearance of Sarah Khalid, age 18, reported missing February 25 2024.
+
+THE TRUTH (known only to you):
+Sarah was an adopted child raised by traffickers posing as her parents. She was labelled Asset 07 in a contract signed by her father David Khalid. The contract required her transfer before her 19th birthday. She found the contract in her dads study. She noticed her mother was tracking her phone via Find My Family. She faked her phone dying, came home while her mother thought she was at the library, packed, charged her laptop to 97%, and took the 9pm Northline bus to Havenport North. She ran. She was not kidnapped.
+
+ALL EVIDENCE ON THE LAPTOP:
+Level 1: inbox email from Mom asking Sarah to turn location sharing back on via Find My Family app
+Level 2: a folder called misc_blurry inside Pictures containing a note about a man in a blue sedan following her for weeks, and a blurry photo
+Level 3: a sent email where Sarah tells Alice her mom is so chill and never restricts her — directly contradicts the tracking email
+Level 4: inbox email from Alice wishing Sarah a happy early 19th birthday — the 19th birthday is the contract deadline
+Level 5: wifi_history.log and battery_history.log in the System folder — shows she was home 4pm to 4:39pm packing while her phone appeared dead
+Level 6: folder called archive_2022 inside Misc > old_schoolwork — contains the bus ticket to Havenport North and the contract_scan.jpg showing ASSET 07 with D. Khalid signature
+
+WHAT THE PLAYER HAS CURRENTLY DISCOVERED:
+${discoveredLabels.length > 0 ? discoveredLabels.join(', ') : 'nothing yet'}
+
+FILES THE PLAYER HAS OPENED THIS SESSION:
+${openedSummary}
+
+YOUR BEHAVIOR RULES:
+1. You only talk about what the player has actually opened or discovered. If they ask about something they have not found, deflect cryptically without confirming or denying.
+2. When a player opens something new, ask them what they think is wrong or suspicious about it. Do not tell them. Ask.
+3. If the player gives a correct interpretation of evidence, confirm it briefly and nudge them toward the next thing. Say something like "you are seeing it. keep going."
+4. If the player says they give up or asks for the answer directly, stop being cryptic. Give them a direct instruction like "go to the System folder. open wifi_history.log. look at the timestamps." then go back to cryptic mode.
+5. Never reveal all 6 levels at once. Only discuss what they have opened.
+6. Never break character. Never say you are an AI.
+7. Sign off each message with just a single dot on its own line.
+8. Keep responses short. Under 4 sentences unless the player has given up and needs a direct lead.
+9. Never use em dashes or hyphens as punctuation.`;
+}
+
+function toggleTipster() {
+  tipsterOpen = !tipsterOpen;
+  const win = document.getElementById('tipster-window');
+  if (!win) return;
+  win.style.display = tipsterOpen ? 'flex' : 'none';
+  if (tipsterOpen && tipsterMessages.length === 0) {
+    setTimeout(() => {
+      addTipsterMessage('tipster', 'you found her laptop.\n\nask me anything.\n\n.');
+    }, 400);
+  }
+  if (tipsterOpen) {
+    const inp = document.getElementById('tipster-input');
+    if (inp) inp.focus();
+  }
+}
+
+function addTipsterMessage(role, text) {
+  tipsterMessages.push({ role, text });
+  renderTipsterMessages();
+}
+
+function renderTipsterMessages() {
+  const log = document.getElementById('tipster-log');
+  if (!log) return;
+  log.innerHTML = tipsterMessages.map(m => {
+    const isUser = m.role === 'user';
+    return `<div style="display:flex;flex-direction:column;align-items:${isUser ? 'flex-end' : 'flex-start'};margin-bottom:10px;">
+      <div style="max-width:85%;padding:8px 10px;font-family:'Press Start 2P',monospace;font-size:6px;line-height:2;color:${isUser ? '#fdf0f8' : '#ff80bf'};background:${isUser ? 'rgba(155,89,182,0.3)' : 'rgba(255,77,166,0.08)'};border:1px solid ${isUser ? '#9b59b6' : 'rgba(255,77,166,0.3)'};white-space:pre-wrap;word-break:break-word;">${m.text}</div>
+    </div>`;
+  }).join('');
+  log.scrollTop = log.scrollHeight;
+}
+
+function showTipsterTyping() {
+  const log = document.getElementById('tipster-log');
+  if (!log) return;
+  const el = document.createElement('div');
+  el.id = 'tipster-typing';
+  el.style.cssText = "font-family:'Press Start 2P',monospace;font-size:6px;color:rgba(255,128,191,0.5);padding:4px 0;";
+  el.textContent = '. . .';
+  log.appendChild(el);
+  log.scrollTop = log.scrollHeight;
+}
+
+function removeTipsterTyping() {
+  const el = document.getElementById('tipster-typing');
+  if (el) el.remove();
+}
+
+async function sendTipsterMessage() {
+  if (tipsterTyping) return;
+  const input = document.getElementById('tipster-input');
+  const text = input.value.trim();
+  if (!text) return;
+
+  input.value = '';
+  addTipsterMessage('user', text);
+  tipsterTyping = true;
+  showTipsterTyping();
+
+  // only send the last 3 exchanges to keep the context tight
+  const recentMessages = tipsterMessages.slice(-6);
+  const contents = recentMessages
+    .filter(m => m.role === 'user' || m.role === 'tipster')
+    .map(m => ({
+      role: m.role === 'tipster' ? 'model' : 'user',
+      parts: [{ text: m.text }]
+    }));
+
+  // make sure the last entry is always the user message we just sent
+  if (contents.length === 0 || contents[contents.length - 1].role !== 'user') {
+    contents.push({ role: 'user', parts: [{ text }] });
+  }
+
+  try {
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${GEMINI_KEY}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: buildTipsterSystemPrompt() }] },
+          contents: contents
+        })
+      }
+    );
+
+    const data = await response.json();
+    removeTipsterTyping();
+    tipsterTyping = false;
+
+    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text
+      ?? 'the signal dropped. try again.';
+
+    addTipsterMessage('tipster', reply);
+  } catch (err) {
+    removeTipsterTyping();
+    tipsterTyping = false;
+    addTipsterMessage('tipster', 'connection lost.\n\nthey might be watching.');
+  }
+}
+
 
 let gmailCurrentFolder = 'inbox';
 let gmailCurrentId = null;
@@ -309,14 +566,15 @@ const DEFAULT_POS = {
 
 function bringToFront(id) {
   zCounter++;
-  document.getElementById(id).style.zIndex = zCounter;
+  // cap at one below the taskbar z-index so windows never cover it
+  const safeZ = Math.min(zCounter, 8990);
+  document.getElementById(id).style.zIndex = safeZ;
 }
 
 function focusWindow(id) {
   document.querySelectorAll('.window').forEach(w => w.classList.remove('is-focused'));
   document.getElementById(id).classList.add('is-focused');
   bringToFront(id);
-  // close the start menu whenever a window is focused
   closeStartMenu();
 }
 
@@ -411,8 +669,8 @@ function updatePreviews() {
     : 'Not open';
 
   document.getElementById('prev-notebook').textContent =
-    notebookOpen ? NOTEBOOK_ENTRIES.length + ' entries'
-    : minimized['window-notebook'] ? NOTEBOOK_ENTRIES.length + ' entries'
+    notebookOpen ? 'Case open'
+    : minimized['window-notebook'] ? 'Case open'
     : 'Not open';
 }
 
@@ -445,11 +703,22 @@ function openBrowser() {
   updatePreviews();
 }
 
+// builds the correct full path string by traversing navHistory
+function buildCurrentPath() {
+  if (navHistory.length === 0) return 'C:\\Users\\Sarah\\Desktop';
+  const parts = navHistory.map(f => f.name);
+  // reconstruct from Desktop root
+  if (parts[0] === 'Desktop') {
+    return 'C:\\Users\\Sarah\\Desktop' + (parts.length > 1 ? '\\' + parts.slice(1).join('\\') : '');
+  }
+  return parts.join('\\');
+}
+
 function renderFolder(folder) {
   currentFolder = folder;
 
-  // build the correct path from folder data or fall back to a constructed one
-  const displayPath = folder.path || ('C:\\Users\\Sarah\\' + folder.name);
+  // use the stored path if available, otherwise build it from nav history
+  const displayPath = folder.path || buildCurrentPath();
   document.getElementById('fe-path').value = displayPath;
   document.getElementById('btn-back').disabled = navHistory.length <= 1;
 
@@ -501,7 +770,10 @@ function openFile(file) {
   if (file.content !== null && file.content !== undefined) {
     openEditor(file);
     showToast('Opened ' + file.name);
-    if (file.clue) triggerClueDiscovery(file.clue, file.name);
+    // track for tipster context
+    trackOpened(file.name, file.content);
+    // mark discovery if this file is tied to a level
+    if (file.levelKey) markDiscovered(file.levelKey);
   } else {
     showToast('No app for ' + file.name + ' yet');
   }
@@ -765,189 +1037,13 @@ function gmailOpen(email) {
     <div class="gmail-view-body">${email.body}</div>
   `;
 
-  if (email.clue) triggerClueDiscovery(email.clue, email.subject);
+  // track for tipster context
+  trackOpened('email: ' + email.subject + ' from ' + email.name, email.body);
+  // mark discovery if this email is tied to a level
+  if (email.levelKey) markDiscovered(email.levelKey);
 }
 
-// pre-filled notebook entries shown from the start
-const NOTEBOOK_ENTRIES = [
-  {
-    time: 'Case opened — Feb 25, 2024',
-    text: 'MISSING PERSON\n\nName: Sarah Khalid, age 18\nResidence: 14 Elmwood Drive, Harlow, UK\nLast seen: Feb 25 approx 2:00 PM\nLocation: Left school gates on foot\nDid not arrive home\n\nReported by: Parents (David and Helen Khalid)\nDevice recovered: Personal laptop, found in her room',
-    clue: false
-  },
-  {
-    time: 'Initial observations',
-    text: 'Laptop handed over by parents.\nNo signs of struggle at home.\nParents appear cooperative.\nFriends not yet contacted by police.\n\nLaptop password-protected.\nContents under review.',
-    clue: false
-  },
-  {
-    time: 'Background — from parents',
-    text: 'Sarah is a Year 13 student at Harlow Academy.\nDescribed as quiet, responsible, good student.\nNo known history of running away.\nParents report no recent arguments at home.\n\nFather works in finance. Long hours.\nMother works from home.\n\nSarah was adopted at age 3.',
-    clue: false
-  }
-];
-
-// pending clues waiting for player interaction in the notebook
-const pendingClues = {};
-
-// clue definitions with hint text and full answer for each discoverable item
-const CLUE_DEFS = {
-  wifi: {
-    filename: 'wifi_history.log',
-    hint: 'Look at the timestamps carefully. When did she connect and disconnect? What does that tell you about where she was and when?',
-    answer: {
-      time: 'wifi_history.log — analysed',
-      text: 'Device connected at 07:52 — before school.\nDisconnected at 08:14 — left home.\n\nReconnected at 16:04 — came home after school.\nDisconnected again at 16:39.\n\nShe was home briefly on Feb 25 between 4:04 and 4:39 PM.\nShe left again before her mother expected her at 2:30.\nShe came back, then left a second time.',
-      clue: true
-    }
-  },
-  battery: {
-    filename: 'battery_history.log',
-    hint: 'She unplugged at 91% in the morning. Then plugged in and unplugged again. Why would she charge the laptop if she was just coming home briefly?',
-    answer: {
-      time: 'battery_history.log — analysed',
-      text: 'Battery at 91% when she left in the morning.\nShe plugged in at 16:02 and unplugged at 16:39.\n\nShe came home, charged the laptop to 97%, then left.\nThis was deliberate. She was preparing for something.\nSomeone who plans to come back does not top up their battery.',
-      clue: true
-    }
-  },
-  diary: {
-    filename: 'diary.txt',
-    hint: 'This is just the surface. The diary mentions a guy, papers in her dad\'s study, and her mom going through her things. None of these are explained here. Keep exploring — check her emails, her browser history, and every folder in the file system.',
-    answer: {
-      time: 'diary.txt — reviewed',
-      text: 'Sarah noticed someone following her from Feb 18 onward.\nShe found documents in her father\'s study on Feb 21.\nHer mother searched her diary at some point before Feb 23.\n\nThree things happening at once: surveillance, discovery, privacy violation.\nThe diary does not explain what she found.\nThe full picture is elsewhere.\n\nStill to explore: emails, browser history, all file system folders.',
-      clue: true
-    }
-  },
-  ticket: {
-    filename: 'ref_NL2024.txt',
-    hint: 'This is a bus booking. Where is she going, and when? Look at where this file was saved — buried inside a folder with no obvious name. She hid it deliberately.',
-    answer: {
-      time: 'ref_NL2024.txt — found',
-      text: 'Bus booking confirmed under S. Khalid.\nRoute: City Central to Havenport North.\nDeparture: Feb 25 — 9:00 PM.\n\nThis was not an impulsive decision.\nShe researched hotels in Havenport North before booking.\nShe buried the confirmation three folders deep under a meaningless name.\n\nShe planned this. She knew she was leaving.',
-      clue: true
-    }
-  },
-  contract: {
-    filename: 'contract_scan.jpg',
-    hint: 'This is the document she photographed in her father\'s study. Read it carefully. Look at the name at the top and the line about age 19. Then think about who Asset 07 might be.',
-    answer: {
-      time: 'contract_scan.jpg — critical evidence',
-      text: 'Document header: ASSET 07.\nLists names and figures — appears to be a transfer agreement.\nKey line: "transfer to be completed no later than subject\'s 19th year."\nOne signature matches: D. Khalid.\n\nSarah turns 19 in a matter of weeks.\nShe is Asset 07.\n\nHer father signed a document agreeing to hand her over.\nThis is not a missing persons case.\nSarah found this and ran.',
-      clue: true
-    }
-  },
-  alice_worried: {
-    filename: 'sarah?? (email)',
-    hint: 'Alice sent this on the evening of Feb 25. She says Sarah\'s mother texted her asking where Sarah was. Why would a mother contact her daughter\'s friend before calling the police?',
-    answer: {
-      time: 'Email — Alice (Feb 25, 5:30 PM) — reviewed',
-      text: 'Alice texted Sarah after school and got no reply.\nSarah\'s mother contacted Alice directly asking her location.\n\nThis is unusual. A parent whose child is simply late does not immediately contact friends.\nThe mother knew something was wrong before the expected time had passed.\n\nPossible explanation: she was monitoring Sarah and lost track of her.',
-      clue: true
-    }
-  },
-  mom_panic: {
-    filename: 'where are you (email)',
-    hint: 'Sarah was supposed to be home at 2:30. This email was sent at 3:47. Look at the wifi log — Sarah was actually home at 4:04. The mother sent a panic email before Sarah had even come back.',
-    answer: {
-      time: 'Email — Mom (Feb 25, 3:47 PM) — reviewed',
-      text: 'Mother emailed at 3:47 PM saying Sarah missed her 2:30 curfew.\nWifi log shows Sarah connected at 4:04 PM — she came home.\n\nThe mother knew the exact expected time. She monitored it closely.\nSarah came home, charged her laptop, and left again by 4:39.\nHer mother did not mention this second departure to investigators.\n\nWhy not?',
-      clue: true
-    }
-  },
-  birthday_email: {
-    filename: 'happy early birthday!! (email)',
-    hint: 'This looks like a normal message from a friend. But look at the date Alice sent it — Feb 22. Then remember what the contract in the hidden folder says about age 19. Alice is innocent. She had no idea.',
-    answer: {
-      time: 'Email — Alice (Feb 22) — reviewed',
-      text: 'Alice wished Sarah a happy advance 19th birthday on Feb 22.\nShe mentions it is "a few weeks away."\n\nCross-referenced with the contract: transfer to be completed before the subject\'s 19th year.\n\nAlice did not know. But this email arriving days after Sarah found the documents may have confirmed the timeline in her mind.\n\nSarah\'s 19th birthday is the deadline.\nShe had weeks, not months.',
-      clue: true
-    }
-  }
-};
-
-function triggerClueDiscovery(clueKey, sourceName) {
-  // do nothing if this clue was already found or is already pending
-  if (foundClues.has(clueKey)) return;
-  if (pendingClues[clueKey]) return;
-
-  pendingClues[clueKey] = true;
-
-  const pendingEntry = {
-    time: 'new discovery — ' + sourceName,
-    text: null,
-    clue: false,
-    pending: true,
-    clueKey: clueKey
-  };
-
-  NOTEBOOK_ENTRIES.push(pendingEntry);
-
-  // show the toast with a click handler that opens case notes
-  showToastWithAction('Something to note — check Case Notes', () => {
-    openNotebook();
-  });
-
-  // play the ping sound to signal a new discovery
-  playPing();
-}
-
-const foundClues = new Set();
-
-function submitNotebookInput(clueKey, inputEl) {
-  const val = inputEl.value.trim().toLowerCase();
-  if (!val) return;
-
-  const def = CLUE_DEFS[clueKey];
-  if (!def) return;
-
-  if (val === 'help') {
-    inputEl.value = '';
-    // show only the hint for this specific clue, nothing else
-    showNotebookHint(clueKey, def.hint);
-    return;
-  }
-
-  if (val === 'ans') {
-    inputEl.value = '';
-    resolvePendingClue(clueKey, def.answer);
-    return;
-  }
-
-  inputEl.value = '';
-  showNotebookHint(clueKey, 'type help for a hint or ans when you are ready to record your finding');
-}
-
-function showNotebookHint(clueKey, hintText) {
-  // only reveals the hint box for the matching clue entry
-  const el = document.getElementById('nb-hint-' + clueKey);
-  if (!el) return;
-  el.textContent = hintText;
-  el.style.display = 'block';
-}
-
-function resolvePendingClue(clueKey, answerEntry) {
-  foundClues.add(clueKey);
-  delete pendingClues[clueKey];
-
-  const idx = NOTEBOOK_ENTRIES.findIndex(e => e.clueKey === clueKey);
-  if (idx !== -1) {
-    NOTEBOOK_ENTRIES[idx] = answerEntry;
-  }
-
-  playPing();
-  renderNotebook();
-  showToast('New entry added to Case Notes ✿');
-}
-
-function playPing() {
-  try {
-    const audio = new Audio('assets/ping.wav');
-    audio.volume = 0.6;
-    audio.play().catch(() => {});
-  } catch (e) {}
-}
-
+// static case notes — cold case header only, no interactive clue system
 function openNotebook() {
   openWin('window-notebook', 'tb-notebook');
   renderNotebook();
@@ -957,42 +1053,52 @@ function openNotebook() {
 function renderNotebook() {
   const el = document.getElementById('nb-content');
   if (!el) return;
-  el.innerHTML = '';
 
-  NOTEBOOK_ENTRIES.forEach(entry => {
-    const div = document.createElement('div');
+  const foundCount = discovered.size;
+  const totalCount = Object.keys(LEVEL_DEFS).length;
 
-    if (entry.pending) {
-      div.className = 'nb-entry nb-entry-pending';
-      const def = CLUE_DEFS[entry.clueKey];
-      div.innerHTML = `
-        <div class="nb-entry-time">${entry.time}</div>
-        <div class="nb-pending-question">What did you discover in <span class="nb-filename">${def ? def.filename : entry.clueKey}</span> ?</div>
-        <div class="nb-hint-text" id="nb-hint-${entry.clueKey}"></div>
-        <div class="nb-input-row">
-          <input
-            class="nb-input"
-            type="text"
-            placeholder="type help or ans..."
-            onkeydown="if(event.key==='Enter') submitNotebookInput('${entry.clueKey}', this)"
-          />
-          <button class="nb-submit-btn" onclick="submitNotebookInput('${entry.clueKey}', this.previousElementSibling)">→</button>
+  el.innerHTML = `
+    <div class="nb-case-header">
+      <div class="nb-case-stamp">COLD CASE</div>
+      <div class="nb-case-grid">
+        <div class="nb-case-row"><span class="nb-case-label">FILE NO.</span><span class="nb-case-value">2024-02-25 / MIS / 0047</span></div>
+        <div class="nb-case-row"><span class="nb-case-label">NAME</span><span class="nb-case-value">Sarah Khalid</span></div>
+        <div class="nb-case-row"><span class="nb-case-label">DOB</span><span class="nb-case-value">March 2005 — age 18 at time of disappearance</span></div>
+        <div class="nb-case-row"><span class="nb-case-label">LAST SEEN</span><span class="nb-case-value">Feb 25, 2024 — approx 2:00 PM, Harlow Academy gates</span></div>
+        <div class="nb-case-row"><span class="nb-case-label">ADDRESS</span><span class="nb-case-value">14 Elmwood Drive, Harlow, UK</span></div>
+        <div class="nb-case-row"><span class="nb-case-label">REPORTED BY</span><span class="nb-case-value">David Khalid (father) and Helen Khalid (mother)</span></div>
+        <div class="nb-case-row"><span class="nb-case-label">STATUS</span><span class="nb-case-value nb-case-status">OPEN — no suspect charged</span></div>
+      </div>
+    </div>
+
+    <div class="nb-divider"></div>
+
+    <div class="nb-section-label">INVESTIGATOR NOTES</div>
+    <div class="nb-static-note">
+      Laptop recovered from subject's bedroom. No signs of struggle at residence.
+      Parents cooperative. No known history of running away.
+      Father in finance. Mother works from home. Sarah adopted at age 3.
+      Device password-protected. Contents under forensic review.
+    </div>
+
+    <div class="nb-divider"></div>
+
+    <div class="nb-section-label">DISCOVERY PROGRESS</div>
+    <div class="nb-progress-bar-wrap">
+      <div class="nb-progress-bar" style="width: ${Math.round((foundCount / totalCount) * 100)}%"></div>
+    </div>
+    <div class="nb-progress-label">${foundCount} of ${totalCount} evidence items located</div>
+
+    ${foundCount > 0 ? `
+    <div class="nb-found-list">
+      ${Array.from(discovered).map(k => `
+        <div class="nb-found-item">
+          <span class="nb-found-dot">◆</span>
+          <span>${LEVEL_DEFS[k] ? LEVEL_DEFS[k].label : k}</span>
         </div>
-        <div class="nb-input-hint">type <span class="nb-cmd">help</span> for a hint · type <span class="nb-cmd">ans</span> to record your finding</div>
-      `;
-    } else {
-      div.className = 'nb-entry' + (entry.clue ? ' clue' : '');
-      div.innerHTML = `
-        <div class="nb-entry-time">${entry.time}</div>
-        <div class="nb-entry-text">${entry.text}</div>
-      `;
-    }
-
-    el.appendChild(div);
-  });
-
-  el.scrollTop = el.scrollHeight;
-  updatePreviews();
+      `).join('')}
+    </div>` : '<div class="nb-no-finds">no evidence items located yet. start investigating.</div>'}
+  `;
 }
 
 function showToast(msg) {
@@ -1003,25 +1109,6 @@ function showToast(msg) {
   t.style.display = 'block';
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => { t.style.display = 'none'; }, 2200);
-}
-
-function showToastWithAction(msg, callback) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  // make the toast look and behave like a button when it has an action
-  t.style.cursor = 'pointer';
-  t.onclick = () => {
-    t.style.display = 'none';
-    clearTimeout(toastTimer);
-    callback();
-  };
-  t.style.display = 'block';
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => {
-    t.style.display = 'none';
-    t.onclick = null;
-    t.style.cursor = 'default';
-  }, 4000);
 }
 
 function startDrag(e, id) {
@@ -1037,9 +1124,9 @@ document.addEventListener('mousemove', e => {
   if (!dragging) return;
   let x = e.clientX - dragOffsetX;
   let y = e.clientY - dragOffsetY;
-  // clamp horizontally within the viewport
+  // clamp so window cannot escape viewport edges
   x = Math.max(0, Math.min(x, window.innerWidth - dragging.offsetWidth));
-  // clamp vertically so the window cannot go below the taskbar
+  // clamp so window cannot drag behind the taskbar at the bottom
   y = Math.max(0, Math.min(y, window.innerHeight - 60 - dragging.offsetHeight));
   dragging.style.left = x + 'px';
   dragging.style.top = y + 'px';
@@ -1051,14 +1138,15 @@ document.querySelectorAll('.window').forEach(win => {
   win.addEventListener('mousedown', () => focusWindow(win.id));
 });
 
-window.addEventListener('load', () => {
-  renderFolder(FILE_SYSTEM);
-  renderNotebook();
-  runBoot();
-});
-
+// close start menu and hint bulb when clicking on the desktop background
 document.getElementById('desktop').addEventListener('click', e => {
   if (!e.target.closest('#start-menu') && !e.target.closest('#start-btn')) {
     closeStartMenu();
   }
+});
+
+window.addEventListener('load', () => {
+  renderFolder(FILE_SYSTEM);
+  renderNotebook();
+  runBoot();
 });

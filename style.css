@@ -1352,3 +1352,291 @@ body {
 .nb-cmd {
   color: var(--pink-mid);
 }
+/* help me button fixed to top-right corner of the screen */
+#hint-bulb {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  padding: 8px 14px;
+  background: rgba(255, 220, 50, 0.1);
+  border: 2px solid rgba(255, 220, 50, 0.5);
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  color: #ffdc32;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: backgrund 0.15s, border-color 0.15s, transform 0.1s;
+  z-index: 9200;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+}
+
+#hint-bulb:hover {
+  background: rgba(255, 220, 50, 0.22);
+  border-color: #ffdc32;
+  transform: scale(1.05);
+}
+
+#hint-bulb.is-active {
+  background: rgba(255, 220, 50, 0.28);
+  border-color: #ffdc32;
+  box-shadow: 0 0 12px rgba(255, 220, 50, 0.5);
+}
+
+/* hint panel drops down from top-right below the bulb */
+#hint-panel {
+  position: fixed;
+  top: 66px;
+  right: 14px;
+  width: 320px;
+  background: var(--bg-window);
+  border: 2px solid #ffdc32;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.6);
+  display: none;
+  flex-direction: column;
+  z-index: 9200;
+}
+
+#hint-panel.is-open {
+  display: flex;
+}
+
+.hint-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: linear-gradient(90deg, #b8860b, #ffdc32, #b8860b);
+  border-bottom: 1px solid #ffdc32;
+}
+
+.hint-panel-title {
+  font-family: var(--font-pixel);
+  font-size: 6px;
+  color: #0f0a1a;
+  letter-spacing: 1px;
+}
+
+.hint-panel-close {
+  width: 16px;
+  height: 16px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  color: #0f0a1a;
+  font-family: var(--font-pixel);
+  font-size: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hint-panel-close:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.hint-panel-body {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hint-progress {
+  font-family: var(--font-pixel);
+  font-size: 5px;
+  color: rgba(255, 220, 50, 0.6);
+  letter-spacing: 1px;
+}
+
+.hint-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.hint-btn {
+  padding: 10px 12px;
+  font-family: var(--font-pixel);
+  font-size: 6px;
+  cursor: pointer;
+  border: 1px solid rgba(255, 220, 50, 0.3);
+  background: rgba(255, 220, 50, 0.05);
+  color: rgba(255, 220, 50, 0.7);
+  text-align: left;
+  transition: background 0.1s, border-color 0.1s, color 0.1s;
+  line-height: 1.8;
+}
+
+.hint-btn:hover {
+  background: rgba(255, 220, 50, 0.12);
+  border-color: rgba(255, 220, 50, 0.6);
+  color: #ffdc32;
+}
+
+.hint-btn.is-active {
+  background: rgba(255, 220, 50, 0.18);
+  border-color: #ffdc32;
+  color: #ffdc32;
+}
+
+.hint-text {
+  font-family: var(--font-pixel);
+  font-size: 6px;
+  color: var(--lilac-light);
+  line-height: 2.2;
+  padding: 10px;
+  background: rgba(200, 160, 220, 0.07);
+  border-left: 2px solid var(--lilac-dark);
+  display: none;
+  white-space: pre-wrap;
+}
+
+.hint-text.is-visible {
+  display: block;
+}
+
+.hint-complete {
+  font-family: var(--font-pixel);
+  font-size: 6px;
+  color: var(--pink-mid);
+  line-height: 2;
+  text-align: center;
+  padding: 10px 0;
+}
+
+/* case notes static cold-case layout */
+.nb-case-header {
+  background: rgba(255, 77, 166, 0.04);
+  border: 1px solid rgba(255, 77, 166, 0.2);
+  padding: 14px;
+  margin-bottom: 4px;
+}
+
+.nb-case-stamp {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: var(--pink-hot);
+  letter-spacing: 4px;
+  margin-bottom: 12px;
+  opacity: 0.7;
+}
+
+.nb-case-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.nb-case-row {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.nb-case-label {
+  font-family: var(--font-pixel);
+  font-size: 5px;
+  color: var(--lilac-mid);
+  letter-spacing: 1px;
+  min-width: 90px;
+  flex-shrink: 0;
+}
+
+.nb-case-value {
+  font-family: var(--font-pixel);
+  font-size: 6px;
+  color: var(--lilac-light);
+  line-height: 1.8;
+}
+
+.nb-case-status {
+  color: var(--pink-hot);
+}
+
+.nb-divider {
+  height: 1px;
+  background: rgba(200, 160, 220, 0.15);
+  margin: 8px 0;
+}
+
+.nb-section-label {
+  font-family: var(--font-pixel);
+  font-size: 5px;
+  color: var(--lilac-mid);
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.nb-static-note {
+  font-family: var(--font-pixel);
+  font-size: 6px;
+  color: var(--lilac-light);
+  line-height: 2.2;
+  white-space: pre-wrap;
+}
+
+.nb-progress-bar-wrap {
+  width: 100%;
+  height: 6px;
+  background: rgba(200, 160, 220, 0.1);
+  border: 1px solid var(--lilac-dark);
+  margin-bottom: 6px;
+}
+
+.nb-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--lilac-dark), var(--pink-hot));
+  transition: width 0.4s ease;
+}
+
+.nb-progress-label {
+  font-family: var(--font-pixel);
+  font-size: 5px;
+  color: var(--lilac-mid);
+  margin-bottom: 10px;
+}
+
+.nb-found-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.nb-found-item {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--font-pixel);
+  font-size: 6px;
+  color: var(--pink-light);
+  line-height: 1.8;
+}
+
+.nb-found-dot {
+  color: var(--pink-hot);
+  font-size: 5px;
+  flex-shrink: 0;
+}
+
+.nb-no-finds {
+  font-family: var(--font-pixel);
+  font-size: 6px;
+  color: rgba(200, 160, 220, 0.35);
+  font-style: italic;
+  line-height: 2;
+  margin-top: 4px;
+}
+
+/* z-index hierarchy — windows cap below taskbar */
+#taskbar {
+  z-index: 9000;
+}
+
+#start-menu {
+  z-index: 9050;
+}
+
+#hint-panel {
+  z-index: 9100;
+}
