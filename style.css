@@ -37,7 +37,6 @@ body {
   color: var(--text-light);
 }
 
-
 #boot-screen {
   position: fixed;
   inset: 0;
@@ -94,6 +93,7 @@ body {
   min-height: 12px;
 }
 
+
 #shutdown-screen {
   position: fixed;
   inset: 0;
@@ -119,6 +119,8 @@ body {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
+
+
 #login-screen {
   position: fixed;
   inset: 0;
@@ -344,12 +346,13 @@ body {
   text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
 }
 
+
 .window {
   position: absolute;
   display: none;
   flex-direction: column;
-  min-width: 420px;
-  min-height: 320px;
+  min-width: 320px;
+  min-height: 240px;
   border: 2px solid #2d1b6e;
   background: var(--bg-window);
   box-shadow: 6px 6px 0 rgba(0,0,0,0.5);
@@ -359,17 +362,34 @@ body {
 .window.is-open    { display: flex; }
 .window.is-focused { border-color: #7c3aed; z-index: 200; }
 
+/* resize grip visual in bottom right corner */
+.window::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 10px;
+  height: 10px;
+  background:
+    linear-gradient(135deg, transparent 40%, #7c3aed 40%, #7c3aed 50%, transparent 50%),
+    linear-gradient(135deg, transparent 65%, #7c3aed 65%, #7c3aed 75%, transparent 75%);
+  pointer-events: none;
+  opacity: 0.5;
+  z-index: 999;
+}
+
 /* tab_bg on titlebar with dark purple tint overlay using background layering */
 .win-titlebar {
   display: flex;
   align-items: center;
   gap: 6px;
   padding: 6px 8px;
-  background: linear-gradient(90deg, #0d0a2e, #19062b, #0d0a2e);
-  border-bottom: 2px solid #b9b1c7;
+  background: linear-gradient(90deg, #0d0a2e, #4a1080, #0d0a2e);
+  border-bottom: 2px solid #7c3aed;
   cursor: move;
   user-select: none;
   flex-shrink: 0;
+  box-shadow: 0 2px 12px rgba(124,58,237,0.4);
 }
 
 .win-title {
@@ -413,6 +433,7 @@ body {
     linear-gradient(rgba(10,6,18,0.75), rgba(10,6,18,0.75)),
     url('assets/tab_bg.jpg') center / cover;
 }
+
 
 #window-files { width: 680px; height: 480px; top: 60px; left: 100px; }
 
@@ -562,7 +583,6 @@ body {
 
 .te-statusbar #te-filename { color: var(--pink-mid); }
 
-
 #window-browser { width: 680px; height: 480px; top: 70px; left: 210px; }
 
 .br-toolbar {
@@ -661,6 +681,7 @@ body {
   border-top: 1px solid var(--lilac-dark);
   flex-shrink: 0;
 }
+
 #window-gmail { width: 780px; height: 480px; top: 70px; left: 130px; }
 
 #gmail-layout { display: flex; height: 100%; }
@@ -773,7 +794,6 @@ body {
 
 .gmail-empty { color: var(--lilac-mid); font-size: 7px; padding: 20px; text-align: center; }
 
-
 #window-notebook { width: 680px; height: 480px; top: 80px; left: 600px; }
 
 .nb-header {
@@ -880,7 +900,6 @@ body {
 
 .nb-save-btn:hover { background: rgba(200,160,220,0.4); color: white; }
 
-
 .toast {
   position: absolute;
   bottom: 16px;
@@ -903,7 +922,6 @@ body {
   from { transform: translateY(10px); opacity: 0; }
   to   { transform: translateY(0);    opacity: 1; }
 }
-
 
 
 #start-menu {
@@ -1156,9 +1174,11 @@ body {
   background: rgba(10,6,18,0.82);
   border: 1px solid rgba(155,89,182,0.35);
 }
+
+
 .final-title {
   font-family: var(--font-pixel);
-  font-size: 11px;
+  font-size: 18px;
   color: var(--pink-hot);
   letter-spacing: 4px;
   text-shadow: 0 0 20px rgba(255,77,166,0.8);
@@ -1167,7 +1187,7 @@ body {
 
 .final-prompt {
   font-family: var(--font-pixel);
-  font-size: 8px;
+  font-size: 13px;
   color: var(--lilac-light);
   letter-spacing: 2px;
   text-align: center;
@@ -1176,10 +1196,10 @@ body {
 
 .final-textarea {
   width: 100%;
-  height: 140px;
+  height: 160px;
   padding: 14px;
   font-family: var(--font-pixel);
-  font-size: 7px;
+  font-size: 12px;
   line-height: 2;
   color: var(--pink-light);
   background: rgba(0,0,0,0.6);
@@ -1194,14 +1214,14 @@ body {
 
 .final-hint {
   font-family: var(--font-pixel);
-  font-size: 5px;
-  color: rgba(200,160,220,0.4);
+  font-size: 10px;
+  color: rgba(200,160,220,0.5);
 }
 
 .final-submit-btn {
-  padding: 12px 28px;
+  padding: 14px 32px;
   font-family: var(--font-pixel);
-  font-size: 8px;
+  font-size: 13px;
   color: white;
   background: linear-gradient(135deg, #0d0a2e, #58446c);
   border: 2px solid #7c3aed;
@@ -1221,10 +1241,10 @@ body {
 
 .final-response {
   font-family: var(--font-pixel);
-  font-size: 7px;
+  font-size: 12px;
   color: var(--pink-hot);
   text-align: center;
-  min-height: 18px;
+  min-height: 20px;
   letter-spacing: 1px;
 }
 
@@ -1232,9 +1252,9 @@ body {
   position: absolute;
   top: 18px;
   right: 18px;
-  padding: 6px 12px;
+  padding: 8px 14px;
   font-family: var(--font-pixel);
-  font-size: 6px;
+  font-size: 11px;
   color: rgba(200,160,220,0.5);
   background: transparent;
   border: 1px solid rgba(200,160,220,0.2);
@@ -1246,7 +1266,7 @@ body {
 
 .final-choice-btn {
   width: 100%;
-  padding: 16px 20px;
+  padding: 18px 22px;
   font-family: var(--font-pixel);
   background: rgba(200,160,220,0.06);
   border: 2px solid rgba(200,160,220,0.2);
@@ -1265,24 +1285,24 @@ body {
 .choice-hide:hover   { border-color: #888; background: rgba(100,100,100,0.12); }
 .choice-police:hover { border-color: #4da6ff; background: rgba(77,166,255,0.08); }
 
-.choice-icon { font-size: 22px; flex-shrink: 0; }
+.choice-icon { font-size: 28px; flex-shrink: 0; }
 
 .choice-text {
   font-family: var(--font-pixel);
-  font-size: 7px;
+  font-size: 12px;
   color: var(--lilac-light);
   line-height: 2.2;
 }
 
-.choice-sub { font-size: 5px; color: rgba(200,160,220,0.55); }
+.choice-sub { font-size: 10px; color: rgba(200,160,220,0.6); }
 
 .ending-stamp {
   font-family: var(--font-pixel);
-  font-size: 14px;
+  font-size: 20px;
   color: var(--pink-hot);
   letter-spacing: 6px;
   border: 3px solid var(--pink-hot);
-  padding: 10px 22px;
+  padding: 12px 28px;
   opacity: 0;
   animation: fade-in-text 0.6s ease 0.2s forwards;
   text-shadow: 0 0 20px rgba(255,77,166,0.6);
@@ -1290,7 +1310,7 @@ body {
 
 .ending-line {
   font-family: var(--font-pixel);
-  font-size: 10px;
+  font-size: 16px;
   color: var(--lilac-light);
   letter-spacing: 2px;
   opacity: 0;
@@ -1299,8 +1319,8 @@ body {
 
 .ending-sub {
   font-family: var(--font-pixel);
-  font-size: 6px;
-  color: rgba(200,160,220,0.5);
+  font-size: 13px;
+  color: rgba(200,160,220,0.6);
   letter-spacing: 1px;
   opacity: 0;
   animation: fade-in-text 0.6s ease forwards;

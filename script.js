@@ -1087,6 +1087,17 @@ function showToast(msg) {
   toastTimer = setTimeout(() => { t.style.display = 'none'; }, 2200);
 }
 
+let resizing = null;
+let resizeDir = '';
+let resizeStartX = 0;
+let resizeStartY = 0;
+let resizeStartW = 0;
+let resizeStartH = 0;
+let resizeStartL = 0;
+let resizeStartT = 0;
+const MIN_WIN_W = 320;
+const MIN_WIN_H = 240;
+
 function startDrag(e, id) {
   const win = document.getElementById(id);
   focusWindow(id);
@@ -1096,22 +1107,105 @@ function startDrag(e, id) {
   e.preventDefault();
 }
 
+function getResizeDir(e, win) {
+  const r = win.getBoundingClientRect();
+  const edge = 8;
+  const x = e.clientX - r.left;
+  const y = e.clientY - r.top;
+  const right  = x >= r.width  - edge;
+  const bottom = y >= r.height - edge;
+  const left   = x <= edge;
+  const top    = y <= edge;
+  if (right  && bottom) return 'se';
+  if (left   && bottom) return 'sw';
+  if (right  && top)    return 'ne';
+  if (left   && top)    return 'nw';
+  if (right)            return 'e';
+  if (bottom)           return 's';
+  if (left)             return 'w';
+  if (top)              return 'n';
+  return '';
+}
+
+function startResize(e, id, dir) {
+  const win = document.getElementById(id);
+  focusWindow(id);
+  resizing    = win;
+  resizeDir   = dir;
+  resizeStartX = e.clientX;
+  resizeStartY = e.clientY;
+  resizeStartW = win.offsetWidth;
+  resizeStartH = win.offsetHeight;
+  resizeStartL = win.offsetLeft;
+  resizeStartT = win.offsetTop;
+  e.preventDefault();
+  e.stopPropagation();
+}
+
 document.addEventListener('mousemove', e => {
-  if (!dragging) return;
-  let x = e.clientX - dragOffsetX;
-  let y = e.clientY - dragOffsetY;
-  // clamp so window cannot escape viewport edges
-  x = Math.max(0, Math.min(x, window.innerWidth - dragging.offsetWidth));
-  // clamp so window cannot drag behind the taskbar at the bottom
-  y = Math.max(0, Math.min(y, window.innerHeight - 60 - dragging.offsetHeight));
-  dragging.style.left = x + 'px';
-  dragging.style.top = y + 'px';
+  if (dragging) {
+    let x = e.clientX - dragOffsetX;
+    let y = e.clientY - dragOffsetY;
+    x = Math.max(0, Math.min(x, window.innerWidth  - dragging.offsetWidth));
+    y = Math.max(0, Math.min(y, window.innerHeight - 60 - dragging.offsetHeight));
+    dragging.style.left = x + 'px';
+    dragging.style.top  = y + 'px';
+    return;
+  }
+
+  if (resizing) {
+    const dx = e.clientX - resizeStartX;
+    const dy = e.clientY - resizeStartY;
+    let w = resizeStartW;
+    let h = resizeStartH;
+    let l = resizeStartL;
+    let t = resizeStartT;
+
+    if (resizeDir.includes('e')) w = Math.max(MIN_WIN_W, resizeStartW + dx);
+    if (resizeDir.includes('s')) h = Math.max(MIN_WIN_H, resizeStartH + dy);
+    if (resizeDir.includes('w')) {
+      w = Math.max(MIN_WIN_W, resizeStartW - dx);
+      l = resizeStartL + (resizeStartW - w);
+    }
+    if (resizeDir.includes('n')) {
+      h = Math.max(MIN_WIN_H, resizeStartH - dy);
+      t = resizeStartT + (resizeStartH - h);
+    }
+
+    resizing.style.width  = w + 'px';
+    resizing.style.height = h + 'px';
+    resizing.style.left   = l + 'px';
+    resizing.style.top    = t + 'px';
+    return;
+  }
+
+  // update cursor based on which edge the mouse is near
+  const windows = document.querySelectorAll('.window.is-open');
+  let found = false;
+  windows.forEach(win => {
+    if (found) return;
+    const r = win.getBoundingClientRect();
+    if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) {
+      const dir = getResizeDir(e, win);
+      const cursors = { n:'n-resize', s:'s-resize', e:'e-resize', w:'w-resize', ne:'ne-resize', nw:'nw-resize', se:'se-resize', sw:'sw-resize' };
+      win.style.cursor = cursors[dir] || '';
+      found = true;
+    }
+  });
 });
 
-document.addEventListener('mouseup', () => { dragging = null; });
+document.addEventListener('mouseup', () => {
+  dragging  = null;
+  resizing  = null;
+  resizeDir = '';
+});
 
 document.querySelectorAll('.window').forEach(win => {
-  win.addEventListener('mousedown', () => focusWindow(win.id));
+  win.addEventListener('mousedown', e => {
+    focusWindow(win.id);
+    const dir = getResizeDir(e, win);
+    if (dir) startResize(e, win.id, dir);
+  });
 });
 
 // close start menu and hint bulb when clicking on the desktop background
@@ -1127,7 +1221,6 @@ window.addEventListener('load', () => {
   runBoot();
 });
 
-//finaleee scene finally
 
 function injectPoliceEmail() {
   GMAIL.inbox.unshift({
