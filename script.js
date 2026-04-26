@@ -441,8 +441,8 @@ function renderTipsterMessages() {
   log.innerHTML = tipsterMessages.map(m => {
     const isUser = m.role === 'user';
     const bubbleClass = isUser ? 'tipster-bubble-user' : 'tipster-bubble-tipster';
-    return `<div style="display:flex;flex-direction:column;align-items:${isUser ? 'flex-end' : 'flex-start'};margin-bottom:10px;">
-      <div class="${bubbleClass}" style="max-width:85%;padding:8px 10px;font-family:'Press Start 2P',monospace;font-size:6px;line-height:2;white-space:pre-wrap;word-break:break-word;">${m.text}</div>
+    return `<div style="display:flex;flex-direction:column;align-items:${isUser ? 'flex-end' : 'flex-start'};margin-bottom:12px;">
+      <div class="${bubbleClass}" style="max-width:88%;padding:10px 12px;font-family:'Press Start 2P',monospace;font-size:8px;line-height:2.2;white-space:pre-wrap;word-break:break-word;">${m.text}</div>
     </div>`;
   }).join('');
   log.scrollTop = log.scrollHeight;
@@ -453,7 +453,7 @@ function showTipsterTyping() {
   if (!log) return;
   const el = document.createElement('div');
   el.id = 'tipster-typing';
-  el.style.cssText = "font-family:'Press Start 2P',monospace;font-size:6px;color:rgba(255,128,191,0.5);padding:4px 0;";
+  el.style.cssText = "font-family:'Press Start 2P',monospace;font-size:8px;color:rgba(255,128,191,0.5);padding:4px 0;";
   el.textContent = '. . .';
   log.appendChild(el);
   log.scrollTop = log.scrollHeight;
@@ -1126,3 +1126,122 @@ window.addEventListener('load', () => {
   renderNotebook();
   runBoot();
 });
+
+//finaleee scene finally
+
+function injectPoliceEmail() {
+  GMAIL.inbox.unshift({
+    id: 'police_warning',
+    from: '???@???',
+    name: '???',
+    subject: 'we know',
+    date: 'Feb 25, 11:58 PM',
+    unread: true,
+    body: 'you made the call.\n\nthey know you know.\n\nbe careful.'
+  });
+}
+
+let finalSceneTyping = false;
+
+function openFinalScene() {
+  const overlay = document.getElementById('final-scene');
+  if (!overlay) return;
+  overlay.style.display = 'flex';
+  document.getElementById('final-input-area').style.display = 'flex';
+  document.getElementById('final-choices').style.display = 'none';
+  document.getElementById('final-verdict').style.display = 'none';
+  document.getElementById('final-input').value = '';
+  document.getElementById('final-response').textContent = '';
+}
+
+function closeFinalScene() {
+  const overlay = document.getElementById('final-scene');
+  if (overlay) overlay.style.display = 'none';
+}
+
+async function submitFinalTheory() {
+  if (finalSceneTyping) return;
+  const input = document.getElementById('final-input');
+  const theory = input.value.trim();
+  if (!theory) return;
+
+  finalSceneTyping = true;
+  const responseEl = document.getElementById('final-response');
+  responseEl.textContent = 'analysing . . .';
+
+  const verifyPrompt = `You are verifying a player theory in a detective mystery game called PixelOS.
+
+The correct answer is: Sarah Khalid was an adopted child raised by traffickers posing as her parents. She was labelled Asset 07 in a contract. She was going to be transferred before her 19th birthday. She discovered the contract, realised her mother tracked her phone, and ran away by bus to Havenport North. She was NOT kidnapped. She escaped.
+
+The player theory is: "${theory}"
+
+Does the player theory capture the core truth? They need to identify AT LEAST that Sarah ran away herself, AND that her parents were involved in something harmful or illegal, AND that she was not kidnapped. They do not need perfect detail.
+
+Reply with ONLY a valid JSON object with no markdown, no backticks, no extra text. Format: {"correct": true} or {"correct": false}`;
+
+  try {
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${GEMINI_KEY}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ role: 'user', parts: [{ text: verifyPrompt }] }]
+        })
+      }
+    );
+
+    const data = await response.json();
+    const raw = data.candidates?.[0]?.content?.parts?.[0]?.text ?? '{"correct":false}';
+    const clean = raw.replace(/```json|```/g, '').trim();
+    const parsed = JSON.parse(clean);
+
+    finalSceneTyping = false;
+
+    if (parsed.correct) {
+      responseEl.textContent = '';
+      document.getElementById('final-input-area').style.display = 'none';
+      document.getElementById('final-choices').style.display = 'flex';
+    } else {
+      responseEl.textContent = "you still haven't found the truth. go away.";
+      input.value = '';
+    }
+  } catch (err) {
+    finalSceneTyping = false;
+    responseEl.textContent = 'signal lost. try again.';
+  }
+}
+
+function chooseEnding(choice) {
+  document.getElementById('final-choices').style.display = 'none';
+  const verdict = document.getElementById('final-verdict');
+  verdict.style.display = 'flex';
+  verdict.innerHTML = '';
+
+  if (choice === 'job') {
+    verdict.innerHTML = `
+      <div class="ending-stamp">CASE CLOSED</div>
+      <div class="ending-line" style="animation-delay:0.8s">asset 07 transferred.</div>
+      <div class="ending-line" style="animation-delay:1.6s">case closed.</div>
+      <div class="ending-sub" style="animation-delay:2.8s">you did your job.</div>
+      <button class="ending-restart" style="animation-delay:3.8s" onclick="location.reload()">start over</button>
+    `;
+  } else if (choice === 'hide') {
+    verdict.innerHTML = `
+      <div class="ending-line" style="animation-delay:0.6s">sarah khalid.</div>
+      <div class="ending-line" style="animation-delay:1.4s">whereabouts unknown.</div>
+      <div class="ending-line" style="animation-delay:2.2s">still missing.</div>
+      <div class="ending-sub" style="animation-delay:3.4s">some cases are better left unsolved.</div>
+      <button class="ending-restart" style="animation-delay:4.4s" onclick="location.reload()">start over</button>
+    `;
+  } else if (choice === 'police') {
+    injectPoliceEmail();
+    verdict.innerHTML = `
+      <div class="ending-phone">📞</div>
+      <div class="ending-line" style="animation-delay:1.2s">the call was made.</div>
+      <div class="ending-line" style="animation-delay:2s">check your mail.</div>
+      <div class="ending-sub" style="animation-delay:3s">they know you know.</div>
+      <button class="ending-open-mail" style="animation-delay:3.8s" onclick="closeFinalScene(); openGmail();">open mail</button>
+    `;
+  }
+}
