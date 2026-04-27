@@ -53,7 +53,7 @@ A glowing pink chat button sits in the bottom right corner above the taskbar. Cl
 
 The tipster will not tell you anything directly. It asks you questions. You tell it what you found, it asks what you think that means. If you are completely stuck, say "i give up" and it will point you toward the next thing to open.
 
-Powered by Gemini AI. Requires an API key in `config.js`.
+Powered by GROQ. Requires an API key in `config.js`.
 
 ---
 
@@ -75,8 +75,7 @@ Each ending plays out differently. The third one has consequences.
 2. Create `config.js` in the root folder:
 
 ```js
-window.ENV_GEMINI_KEY   = 'your_primary_gemini_key';
-window.ENV_GEMINI_KEY_2 = 'your_backup_gemini_key';
+window.ENV_GROQ_KEY  = 'your_GROQ_key'
 ```
 
 3. Open `index.html` in a browser
@@ -84,14 +83,6 @@ window.ENV_GEMINI_KEY_2 = 'your_backup_gemini_key';
 The game works without API keys but the tipster and theory verification will not function. Everything else is fully playable offline.
 
 `config.js` is in `.gitignore` and will never be committed.
-
----
-
-## Getting a Gemini Key
-
-Go to [aistudio.google.com](https://aistudio.google.com), sign in, and create an API key. The free tier gives 500 requests per day on the flash model which is more than enough for a play session.
-
-You can create two keys under the same project for fallback. If the primary key hits its daily limit the game automatically retries with the backup key.
 
 ---
 
@@ -139,7 +130,7 @@ All game state lives in memory. Refreshing resets the game.
 
 The tipster chat keeps only the last 3 message exchanges as context to stay within token limits. The system prompt rebuilds on every message and includes what files and emails you have opened in that session, so the AI always knows what evidence you have seen.
 
-The final theory submission uses a separate Gemini call with a structured JSON prompt. It checks three things: that the player identified Sarah ran away herself, that her parents were involved in something harmful, and that she was not kidnapped. Players do not need perfect detail to pass.
+The final theory submission uses a GROQ call with a structured JSON prompt. It checks three things: that the player identified Sarah ran away herself, that her parents were involved in something harmful, and that she was not kidnapped. Players do not need perfect detail to pass.
 
 ---
 
