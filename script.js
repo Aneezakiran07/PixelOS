@@ -10,7 +10,6 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 15000);
 
-// file system data for sarahs laptop
 const FILE_SYSTEM = {
   name: 'Desktop',
   path: 'C:\\Users\\Sarah\\Desktop',
@@ -20,36 +19,16 @@ const FILE_SYSTEM = {
       name: 'Pictures', type: 'folder', emoji: '📷',
       path: 'C:\\Users\\Sarah\\Desktop\\Pictures',
       children: [
+        { name: 'cat.jpg', type: 'file', emoji: '📷', content: '[IMAGE — cat.jpg]\n\nOrange tabby cat sitting on a windowsill.\nSunlight coming through the curtains.\nSomeone wrote "mochi !!" in the filename.' },
+        { name: 'my_room.jpg', type: 'file', emoji: '📷', content: '[IMAGE — my_room.jpg]\n\nA bedroom. Fairy lights above the bed.\nPink curtains. Posters on the wall.\nA desk covered in notebooks and pens.\nLooks lived-in.' },
+        { name: 'alice_and_me.jpg', type: 'file', emoji: '📷', content: '[IMAGE — alice_and_me.jpg]\n\nTwo girls in school uniform making faces at the camera.\nOne is presumably Sarah.\nPhoto taken in what looks like a school corridor.' },
+        { name: 'birthday_cake.jpg', type: 'file', emoji: '📷', content: '[IMAGE — birthday_cake.jpg]\n\nA chocolate cake with pink candles.\nA woman in the background is smiling at the camera.\nTable looks like a home kitchen.\nWarm photo.' },
         {
-          name: 'cat.jpg', type: 'file', emoji: '📷',
-          content: '[IMAGE — cat.jpg]\n\nOrange tabby cat sitting on a windowsill.\nSunlight coming through the curtains.\nSomeone wrote "mochi !!" in the filename.'
-        },
-        {
-          name: 'my_room.jpg', type: 'file', emoji: '📷',
-          content: '[IMAGE — my_room.jpg]\n\nA bedroom. Fairy lights above the bed.\nPink curtains. Posters on the wall.\nA desk covered in notebooks and pens.\nLooks lived-in.'
-        },
-        {
-          name: 'alice_and_me.jpg', type: 'file', emoji: '📷',
-          content: '[IMAGE — alice_and_me.jpg]\n\nTwo girls in school uniform making faces at the camera.\nOne is presumably Sarah.\nPhoto taken in what looks like a school corridor.'
-        },
-        {
-          name: 'birthday_cake.jpg', type: 'file', emoji: '📷',
-          content: '[IMAGE — birthday_cake.jpg]\n\nA chocolate cake with pink candles.\nA woman in the background is smiling at the camera.\nTable looks like a home kitchen.\nWarm photo.'
-        },
-        {
-          // level 2 — the stalker folder, name looks boring on purpose
           name: 'misc_blurry', type: 'folder', emoji: '📁',
           path: 'C:\\Users\\Sarah\\Desktop\\Pictures\\misc_blurry',
           children: [
-            {
-              name: 'note.txt', type: 'file', emoji: '📄',
-              levelKey: 'stalker',
-              content: 'i keep seeing the same man.\n\nblue sedan. always parked different spots but same car, same man.\nhe looks professional. like he has somewhere to be.\nbut he never goes anywhere. he just watches.\n\ni took a photo once but it was too blurry to see the plate.\ndeleted it. didnt want anyone to find it.\n\nfeb 14 — outside school\nfeb 17 — end of my street\nfeb 20 — near the library\nfeb 22 — outside school again\n\ni told alice something felt off.\nshe said i was being paranoid.\nmaybe i am.\nbut i dont think so anymore.'
-            },
-            {
-              name: 'blurry_car.jpg', type: 'file', emoji: '📷',
-              content: '[IMAGE — blurry_car.jpg]\n\nA dark blue sedan parked on a residential street.\nThe shot is slightly shaky, taken quickly.\nThe number plate is out of focus.\nA figure is visible in the drivers seat but the face is unclear.\n\nThis was taken from a distance.'
-            }
+            { name: 'note.txt', type: 'file', emoji: '📄', levelKey: 'stalker', content: 'i keep seeing the same man.\n\nblue sedan. always parked different spots but same car, same man.\nhe looks professional. like he has somewhere to be.\nbut he never goes anywhere. he just watches.\n\ni took a photo once but it was too blurry to see the plate.\ndeleted it. didnt want anyone to find it.\n\nfeb 14 — outside school\nfeb 17 — end of my street\nfeb 20 — near the library\nfeb 22 — outside school again\n\ni told alice something felt off.\nshe said i was being paranoid.\nmaybe i am.\nbut i dont think so anymore.' },
+            { name: 'blurry_car.jpg', type: 'file', emoji: '📷', content: '[IMAGE — blurry_car.jpg]\n\nA dark blue sedan parked on a residential street.\nThe shot is slightly shaky, taken quickly.\nThe number plate is out of focus.\nA figure is visible in the drivers seat but the face is unclear.\n\nThis was taken from a distance.' }
           ]
         }
       ]
@@ -58,32 +37,16 @@ const FILE_SYSTEM = {
       name: 'Documents', type: 'folder', emoji: '📁',
       path: 'C:\\Users\\Sarah\\Desktop\\Documents',
       children: [
-        {
-          name: 'diary.txt', type: 'file', emoji: '📄',
-          content: 'feb 10\n\nalice came over after school. we watched that show she likes and ate all the snacks mom left.\nmom texted asking if we wanted dinner. she always does that.\n\nfeb 14\n\nvalentines day and nothing happened lol.\nsaw lilly give out cards to everyone except me. she is so obvious.\nalice said ignore her. probably right.\n\nfeb 18\n\nthere is this guy in the year above. i dont know his name yet.\nhe walked past my locker again today. third time this week.\ntold alice. she said maybe he just has classes that way.\nmaybe.\nbut the way he looks at me. it doesnt feel right.\n\nfeb 21\n\nfound some papers in dads study when i went to get the printer cable.\none said asset 07 at the top. looked like a list. some numbers, some names.\nthe other one had writing i dont fully understand.\nprobably some work file. texted alice about it.\n\nfeb 22\n\nhe was outside school again today. just standing there by the gates.\nnot waiting for anyone. just watching the crowd.\ni dont know why but i went a different way home.\n\nfeb 23\n\nthe guy walked past my locker again. this time he stopped and stared.\nnot at me. at something near me. like he was memorising the area.\nfelt weird all evening. told alice. she said i was overthinking.\nmaybe.\n\nfeb 24\n\nlilly made a comment in class today about my presentation.\nnot to my face, to the girl next to her. but loud enough.\ni pretended not to hear.\nmom asked how school was and i said fine.\nsome things are easier to keep to yourself.'
-        },
-        {
-          name: 'homework_biology.txt', type: 'file', emoji: '📄',
-          content: 'BIOLOGY — Chapter 9 Notes\n\nCell division: mitosis vs meiosis\n— mitosis: identical copies, growth and repair\n— meiosis: genetic variation, reproduction\n\nRemember for exam:\nPMAT — prophase, metaphase, anaphase, telophase\n\ntodo: finish diagram on page 112\nask alice if she has the textbook'
-        }
+        { name: 'diary.txt', type: 'file', emoji: '📄', content: 'feb 10\n\nalice came over after school. we watched that show she likes and ate all the snacks mom left.\nmom texted asking if we wanted dinner. she always does that.\n\nfeb 14\n\nvalentines day and nothing happened lol.\nsaw lilly give out cards to everyone except me. she is so obvious.\nalice said ignore her. probably right.\n\nfeb 18\n\nthere is this guy in the year above. i dont know his name yet.\nhe walked past my locker again today. third time this week.\ntold alice. she said maybe he just has classes that way.\nmaybe.\nbut the way he looks at me. it doesnt feel right.\n\nfeb 21\n\nfound some papers in dads study when i went to get the printer cable.\none said asset 07 at the top. looked like a list. some numbers, some names.\nthe other one had writing i dont fully understand.\nprobably some work file. texted alice about it.\n\nfeb 22\n\nhe was outside school again today. just standing there by the gates.\nnot waiting for anyone. just watching the crowd.\ni dont know why but i went a different way home.\n\nfeb 23\n\nthe guy walked past my locker again. this time he stopped and stared.\nnot at me. at something near me. like he was memorising the area.\nfelt weird all evening. told alice. she said i was overthinking.\nmaybe.\n\nfeb 24\n\nlilly made a comment in class today about my presentation.\nnot to my face, to the girl next to her. but loud enough.\ni pretended not to hear.\nmom asked how school was and i said fine.\nsome things are easier to keep to yourself.' },
+        { name: 'homework_biology.txt', type: 'file', emoji: '📄', content: 'BIOLOGY — Chapter 9 Notes\n\nCell division: mitosis vs meiosis\n— mitosis: identical copies, growth and repair\n— meiosis: genetic variation, reproduction\n\nRemember for exam:\nPMAT — prophase, metaphase, anaphase, telophase\n\ntodo: finish diagram on page 112\nask alice if she has the textbook' }
       ]
     },
     {
       name: 'System', type: 'folder', emoji: '📁',
       path: 'C:\\Users\\Sarah\\Desktop\\System',
       children: [
-        {
-          // level 5 — forensic trail, wifi log
-          name: 'wifi_history.log', type: 'file', emoji: '📄',
-          levelKey: 'forensic_wifi',
-          content: 'WIFI CONNECTION LOG\nDevice: SARAH-LAPTOP\n\n[2024-02-25]  07:52  Connected     Home_Router_5G\n[2024-02-25]  08:14  Disconnected  Home_Router_5G\n\n[2024-02-25]  15:58  Connected     Home_Router_5G\n[2024-02-25]  16:41  Disconnected  Home_Router_5G\n\nNOTE: Device showed as offline 08:14 to 15:58.\nMother reported she believed Sarah was at the school library all afternoon.\nPhone GPS also showed no movement during this window — battery reported as dead.'
-        },
-        {
-          // level 5 — forensic trail, battery log
-          name: 'battery_history.log', type: 'file', emoji: '📄',
-          levelKey: 'forensic_battery',
-          content: 'BATTERY HISTORY LOG\nDevice: SARAH-LAPTOP\n\n[2024-02-25]  07:50  Unplugged\n[2024-02-25]  07:50  Battery: 91%\n\n[2024-02-25]  15:59  Plugged in\n[2024-02-25]  16:41  Unplugged\n[2024-02-25]  16:41  Battery: 97%\n\nDevice charged to near-full before final disconnection.\nThis is consistent with preparation for extended offline use.\nSomeone who plans to return does not charge to 97% before leaving.'
-        }
+        { name: 'wifi_history.log', type: 'file', emoji: '📄', levelKey: 'forensic_wifi', content: 'WIFI CONNECTION LOG\nDevice: SARAH-LAPTOP\n\n[2024-02-25]  07:52  Connected     Home_Router_5G\n[2024-02-25]  08:14  Disconnected  Home_Router_5G\n\n[2024-02-25]  15:58  Connected     Home_Router_5G\n[2024-02-25]  16:41  Disconnected  Home_Router_5G\n\nNOTE: Device showed as offline 08:14 to 15:58.\nMother reported she believed Sarah was at the school library all afternoon.\nPhone GPS also showed no movement during this window — battery reported as dead.' },
+        { name: 'battery_history.log', type: 'file', emoji: '📄', levelKey: 'forensic_battery', content: 'BATTERY HISTORY LOG\nDevice: SARAH-LAPTOP\n\n[2024-02-25]  07:50  Unplugged\n[2024-02-25]  07:50  Battery: 91%\n\n[2024-02-25]  15:59  Plugged in\n[2024-02-25]  16:41  Unplugged\n[2024-02-25]  16:41  Battery: 97%\n\nDevice charged to near-full before final disconnection.\nThis is consistent with preparation for extended offline use.\nSomeone who plans to return does not charge to 97% before leaving.' }
       ]
     },
     {
@@ -94,25 +57,13 @@ const FILE_SYSTEM = {
           name: 'old_schoolwork', type: 'folder', emoji: '📁',
           path: 'C:\\Users\\Sarah\\Desktop\\Misc\\old_schoolwork',
           children: [
+            { name: 'english_essay_draft.txt', type: 'file', emoji: '📄', content: 'The Great Gatsby — Theme of the American Dream\n\nDraft 1 — unfinished\n\nFitzgerald presents the American Dream as...\n\n[Sarah left this unfinished. Last edited Feb 12.]' },
             {
-              name: 'english_essay_draft.txt', type: 'file', emoji: '📄',
-              content: 'The Great Gatsby — Theme of the American Dream\n\nDraft 1 — unfinished\n\nFitzgerald presents the American Dream as...\n\n[Sarah left this unfinished. Last edited Feb 12.]'
-            },
-            {
-              // level 6 — the escape, name chosen to look boring
               name: 'archive_2022', type: 'folder', emoji: '📁',
               path: 'C:\\Users\\Sarah\\Desktop\\Misc\\old_schoolwork\\archive_2022',
               children: [
-                {
-                  name: 'ref_NL2024.txt', type: 'file', emoji: '📄',
-                  levelKey: 'escape_ticket',
-                  content: 'Northline Bus Services\nBooking Ref: NL-2024-00892\n\nPassenger: S. Khalid\nRoute: City Central → Havenport North\nDeparture: Friday 25 Feb — 9:00 PM\nSeat: 14A\nStatus: Confirmed\n\n---\n\n[also saved here for reference]\n\nNL Havenport North\nAvg walk from bus stop to shelter: 6 min\nCheck in after 10pm, no questions asked policy'
-                },
-                {
-                  name: 'contract_scan.jpg', type: 'file', emoji: '📄',
-                  levelKey: 'escape_contract',
-                  content: '[IMAGE — contract_scan.jpg]\n\nA scanned document. Handwritten header at the top: ASSET 07.\nBelow it, a numbered list. Names and figures.\nOne line reads: "transfer to be completed no later than subject\'s 19th year."\nAt the bottom, two signatures. One appears to be D. Khalid.\n\nThe scan is slightly blurry. Sarah must have photographed it in a hurry.'
-                }
+                { name: 'ref_NL2024.txt', type: 'file', emoji: '📄', levelKey: 'escape_ticket', content: 'Northline Bus Services\nBooking Ref: NL-2024-00892\n\nPassenger: S. Khalid\nRoute: City Central → Havenport North\nDeparture: Friday 25 Feb — 9:00 PM\nSeat: 14A\nStatus: Confirmed\n\n---\n\n[also saved here for reference]\n\nNL Havenport North\nAvg walk from bus stop to shelter: 6 min\nCheck in after 10pm, no questions asked policy' },
+                { name: 'contract_scan.jpg', type: 'file', emoji: '📄', levelKey: 'escape_contract', content: '[IMAGE — contract_scan.jpg]\n\nA scanned document. Handwritten header at the top: ASSET 07.\nBelow it, a numbered list. Names and figures.\nOne line reads: "transfer to be completed no later than subject\'s 19th year."\nAt the bottom, two signatures. One appears to be D. Khalid.\n\nThe scan is slightly blurry. Sarah must have photographed it in a hurry.' }
               ]
             }
           ]
@@ -122,12 +73,9 @@ const FILE_SYSTEM = {
   ]
 };
 
-// browser pages
 const PAGES = {
   'pixel://home': () => `
-    <div class="br-page-header">
-      <h1>PixelBrowser</h1>
-    </div>
+    <div class="br-page-header"><h1>PixelBrowser</h1></div>
     <div class="br-card">
       <h2>Recent</h2>
       <p><span class="br-link" onclick="brGo('pixel://search/is-being-followed')">how to tell if someone is following you home</span></p>
@@ -135,7 +83,6 @@ const PAGES = {
       <p><span class="br-link" onclick="brGo('pixel://search/cheap-hotel-uk')">cheap hotels in UK</span></p>
       <p><span class="br-link" onclick="brGo('pixel://search/asset07')">what is asset 07</span></p>
     </div>`,
-
   'pixel://search/is-being-followed': () => `
     <div class="br-page-header"><h1>Search results</h1></div>
     <div class="br-card">
@@ -144,7 +91,6 @@ const PAGES = {
       <p>Second result: "What to do if you think you have a stalker" — visited. Spent 22 minutes on it.</p>
       <p>Third result: local police non-emergency contact page — visited.</p>
     </div>`,
-
   'pixel://search/parent-care': () => `
     <div class="br-page-header"><h1>Search results</h1></div>
     <div class="br-card">
@@ -153,7 +99,6 @@ const PAGES = {
       <p>Second result: "Why does my parent seem distant? How to reconnect" — visited. Spent 18 minutes reading.</p>
       <p>Third result: forum thread — "my mom goes through my stuff, what do i do" — visited.</p>
     </div>`,
-
   'pixel://search/cheap-hotel-uk': () => `
     <div class="br-page-header"><h1>Search results</h1></div>
     <div class="br-card">
@@ -162,7 +107,6 @@ const PAGES = {
       <p>She clicked the Havenport North result.</p>
       <p>Avg nightly rate: £28–£45.</p>
     </div>`,
-
   'pixel://search/asset07': () => `
     <div class="br-page-header"><h1>Search results</h1></div>
     <div class="br-card">
@@ -171,7 +115,6 @@ const PAGES = {
       <p>One result linked to a private equity firm glossary — she did not click it.</p>
       <p>She ran this search twice. No further results opened.</p>
     </div>`,
-
   'pixel://about': () => `
     <div class="br-page-header"><h1>About this device</h1></div>
     <div class="br-card">
@@ -182,143 +125,29 @@ const PAGES = {
     </div>`,
 };
 
-// gmail data rebuilt for 6-level narrative
 const GMAIL = {
   inbox: [
-    {
-      id: 'g1',
-      from: 'alice.m.22@gmail.com',
-      name: 'Alice',
-      subject: 're: that guy again',
-      date: 'Feb 23, 4:18 PM',
-      unread: false,
-      body: 'ok but three times in one week IS a lot sarah\nlike that is not a coincidence\n\nbut also maybe dont assume the worst yet\nhas he actually said anything to you\n\nalso can we talk about the bio homework later i am so lost\n\n— alice'
-    },
-    {
-      id: 'g2',
-      from: 'alice.m.22@gmail.com',
-      name: 'Alice',
-      subject: 're: asset 07 lol',
-      date: 'Feb 21, 7:44 PM',
-      unread: false,
-      body: 'hahahaha asset 07\nok it sounds like a military thing\nor like a spreadsheet thing\nyour dad does finance right? probably just boring work stuff\n\ndont snoop further you will find his tax returns and that is worse\n\n— alice'
-    },
-    {
-      // level 4 — the deadline, alice wishes happy 19th
-      id: 'g3',
-      from: 'alice.m.22@gmail.com',
-      name: 'Alice',
-      subject: 'happy early 19th bestie !!',
-      date: 'Feb 22, 6:03 PM',
-      unread: false,
-      levelKey: 'deadline',
-      body: 'SARAH!!!!\n\nhappy advance 19th birthday bestie !!\ni know its not for a few weeks but i saw this and thought of you\n\nyou are going to have the BEST year i just know it\nalso we need to plan something actually fun this time, last year was a disaster lol\n\nok bye love you\n— alice'
-    },
-    {
-      id: 'g4',
-      from: 'alice.m.22@gmail.com',
-      name: 'Alice',
-      subject: 'sarah??',
-      date: 'Feb 25, 5:30 PM',
-      unread: true,
-      body: 'hey you never replied to my message after school\nare you home\n\nyour mom texted me which is weird\nshe asked if i knew where you were\n\nplease just reply\n\n— alice'
-    },
-    {
-      // level 1 — the vanishing, mom tracking sarahs phone
-      id: 'g5',
-      from: 'mom.khalid@gmail.com',
-      name: 'Mom',
-      subject: 'your location is off again',
-      date: 'Jan 14, 2:09 PM',
-      unread: false,
-      levelKey: 'tracking',
-      body: 'sarah\n\nyour location sharing is turned off again on find my family\ni noticed it went dark around 1pm\n\nplease turn it back on, you know i worry\ni just like to know youre safe, thats all\n\nits not about not trusting you\ni just feel better when i can see the little dot\n\ncan you switch it back on before dinner\n\nlove you\n— mom'
-    },
-    {
-      id: 'g6',
-      from: 'mom.khalid@gmail.com',
-      name: 'Mom',
-      subject: 'dinner tonight',
-      date: 'Feb 24, 1:14 PM',
-      unread: false,
-      body: 'hi sweetheart\n\ni am making the pasta you like tonight\ncome home on time please\n\nalso did you take your vitamin this morning\ni left it next to your water bottle\n\nlove you\n— mom'
-    },
-    {
-      id: 'g7',
-      from: 'mom.khalid@gmail.com',
-      name: 'Mom',
-      subject: 'where are you',
-      date: 'Feb 25, 3:47 PM',
-      unread: true,
-      body: 'sarah you were supposed to be home at 2:30\ni have called three times\n\nplease reply or call me right now\ni am worried\n\n— mom'
-    },
-    {
-      id: 'g8',
-      from: 'steve.k@gmail.com',
-      name: 'Steve (cousin)',
-      subject: 'new years plans!!',
-      date: 'Feb 19, 11:02 AM',
-      unread: false,
-      body: 'sarah\n\nmum wants to know if your family is coming for new years this year\nlet us know so she can sort out food and everything\n\nalso are you still doing that art project\nmy sister wants to see it\n\n— steve'
-    },
-    {
-      id: 'g9',
-      from: 'lilly.tw@gmail.com',
-      name: 'Lilly',
-      subject: 'group project',
-      date: 'Feb 20, 3:55 PM',
-      unread: false,
-      body: 'Hi Sarah\n\nMr Hassan put us in the same group for the history project.\nI think we should divide the slides equally.\nI can do the intro and conclusion.\n\nLilly'
-    }
+    { id: 'g1', from: 'alice.m.22@gmail.com', name: 'Alice', subject: 're: that guy again', date: 'Feb 23, 4:18 PM', unread: false, body: 'ok but three times in one week IS a lot sarah\nlike that is not a coincidence\n\nbut also maybe dont assume the worst yet\nhas he actually said anything to you\n\nalso can we talk about the bio homework later i am so lost\n\n— alice' },
+    { id: 'g2', from: 'alice.m.22@gmail.com', name: 'Alice', subject: 're: asset 07 lol', date: 'Feb 21, 7:44 PM', unread: false, body: 'hahahaha asset 07\nok it sounds like a military thing\nor like a spreadsheet thing\nyour dad does finance right? probably just boring work stuff\n\ndont snoop further you will find his tax returns and that is worse\n\n— alice' },
+    { id: 'g3', from: 'alice.m.22@gmail.com', name: 'Alice', subject: 'happy early 19th bestie !!', date: 'Feb 22, 6:03 PM', unread: false, levelKey: 'deadline', body: 'SARAH!!!!\n\nhappy advance 19th birthday bestie !!\ni know its not for a few weeks but i saw this and thought of you\n\nyou are going to have the BEST year i just know it\nalso we need to plan something actually fun this time, last year was a disaster lol\n\nok bye love you\n— alice' },
+    { id: 'g4', from: 'alice.m.22@gmail.com', name: 'Alice', subject: 'sarah??', date: 'Feb 25, 5:30 PM', unread: true, body: 'hey you never replied to my message after school\nare you home\n\nyour mom texted me which is weird\nshe asked if i knew where you were\n\nplease just reply\n\n— alice' },
+    { id: 'g5', from: 'mom.khalid@gmail.com', name: 'Mom', subject: 'your location is off again', date: 'Jan 14, 2:09 PM', unread: false, levelKey: 'tracking', body: 'sarah\n\nyour location sharing is turned off again on find my family\ni noticed it went dark around 1pm\n\nplease turn it back on, you know i worry\ni just like to know youre safe, thats all\n\nits not about not trusting you\ni just feel better when i can see the little dot\n\ncan you switch it back on before dinner\n\nlove you\n— mom' },
+    { id: 'g6', from: 'mom.khalid@gmail.com', name: 'Mom', subject: 'dinner tonight', date: 'Feb 24, 1:14 PM', unread: false, body: 'hi sweetheart\n\ni am making the pasta you like tonight\ncome home on time please\n\nalso did you take your vitamin this morning\ni left it next to your water bottle\n\nlove you\n— mom' },
+    { id: 'g7', from: 'mom.khalid@gmail.com', name: 'Mom', subject: 'where are you', date: 'Feb 25, 3:47 PM', unread: true, body: 'sarah you were supposed to be home at 2:30\ni have called three times\n\nplease reply or call me right now\ni am worried\n\n— mom' },
+    { id: 'g8', from: 'steve.k@gmail.com', name: 'Steve (cousin)', subject: 'new years plans!!', date: 'Feb 19, 11:02 AM', unread: false, body: 'sarah\n\nmum wants to know if your family is coming for new years this year\nlet us know so she can sort out food and everything\n\nalso are you still doing that art project\nmy sister wants to see it\n\n— steve' },
+    { id: 'g9', from: 'lilly.tw@gmail.com', name: 'Lilly', subject: 'group project', date: 'Feb 20, 3:55 PM', unread: false, body: 'Hi Sarah\n\nMr Hassan put us in the same group for the history project.\nI think we should divide the slides equally.\nI can do the intro and conclusion.\n\nLilly' }
   ],
   sent: [
-    {
-      id: 's1',
-      from: 'sarah.k.os@gmail.com',
-      name: 'me',
-      subject: 'asset 07 lol',
-      date: 'Feb 21, 7:31 PM',
-      unread: false,
-      body: 'alice do you know what asset 07 means\nfound it written on a paper in dads study when i went to get the printer cable\nit was like a list. numbers, some names underneath\nthe other paper said something weird too. looked official.\nno idea what it is. probably nothing\n\n— s'
-    },
-    {
-      // level 3 — the deception, sarah tells alice her mom is chill
-      id: 's2',
-      from: 'sarah.k.os@gmail.com',
-      name: 'me',
-      subject: 're: your location is off again',
-      date: 'Jan 14, 2:44 PM',
-      unread: false,
-      levelKey: 'deception',
-      body: 'alice omg my mom just sent me this whole thing about location sharing lol\n\nshe is honestly so chill about everything though?? like she never restricts me\nshe just worries a bit but its sweet\nturned it back on\n\nalso are you free saturday\n\n— s'
-    },
-    {
-      id: 's3',
-      from: 'sarah.k.os@gmail.com',
-      name: 'me',
-      subject: 're: that guy again',
-      date: 'Feb 23, 3:55 PM',
-      unread: false,
-      body: 'alice i am telling you it is weird\nhe doesnt have classes near my locker i checked the timetable\n\nhe stopped and looked at me today\nlike actually stopped and looked\nthen he was at the gate again when i left\n\nalso not related but mom found my diary last week\nor at least i think she did. pages were in a different order.\nshe didnt say anything but it felt off.\nidk. everything feels a bit off right now\n\n— s'
-    },
-    {
-      id: 's4',
-      from: 'sarah.k.os@gmail.com',
-      name: 'me',
-      subject: 're: group project',
-      date: 'Feb 20, 5:02 PM',
-      unread: false,
-      body: 'Hi Lilly\n\nThat works for me.\nI will take slides 3 to 5.\n\n— Sarah'
-    }
+    { id: 's1', from: 'sarah.k.os@gmail.com', name: 'me', subject: 'asset 07 lol', date: 'Feb 21, 7:31 PM', unread: false, body: 'alice do you know what asset 07 means\nfound it written on a paper in dads study when i went to get the printer cable\nit was like a list. numbers, some names underneath\nthe other paper said something weird too. looked official.\nno idea what it is. probably nothing\n\n— s' },
+    { id: 's2', from: 'sarah.k.os@gmail.com', name: 'me', subject: 're: your location is off again', date: 'Jan 14, 2:44 PM', unread: false, levelKey: 'deception', body: 'alice omg my mom just sent me this whole thing about location sharing lol\n\nshe is honestly so chill about everything though?? like she never restricts me\nshe just worries a bit but its sweet\nturned it back on\n\nalso are you free saturday\n\n— s' },
+    { id: 's3', from: 'sarah.k.os@gmail.com', name: 'me', subject: 're: that guy again', date: 'Feb 23, 3:55 PM', unread: false, body: 'alice i am telling you it is weird\nhe doesnt have classes near my locker i checked the timetable\n\nhe stopped and looked at me today\nlike actually stopped and looked\nthen he was at the gate again when i left\n\nalso not related but mom found my diary last week\nor at least i think she did. pages were in a different order.\nshe didnt say anything but it felt off.\nidk. everything feels a bit off right now\n\n— s' },
+    { id: 's4', from: 'sarah.k.os@gmail.com', name: 'me', subject: 're: group project', date: 'Feb 20, 5:02 PM', unread: false, body: 'Hi Lilly\n\nThat works for me.\nI will take slides 3 to 5.\n\n— Sarah' }
   ],
   drafts: []
 };
 
-// discovery tracker — tracks which level keys the player has found
-// order doesnt matter, player can stumble in any sequence
 const discovered = new Set();
 
-// level definitions used by the hint system
 const LEVEL_DEFS = {
   tracking:         { title: 'The Vanishing' },
   stalker:          { title: 'The Stalker' },
@@ -330,7 +159,6 @@ const LEVEL_DEFS = {
   escape_contract:  { title: 'The Escape' },
 };
 
-// discovery order gates what can be found
 const DISCOVERY_ORDER = ['tracking', 'stalker', 'deception', 'deadline', 'forensic_wifi', 'forensic_battery', 'escape_ticket', 'escape_contract'];
 
 function getNextUndiscoveredLevel() {
@@ -344,22 +172,38 @@ function markDiscovered(levelKey) {
   discovered.add(levelKey);
 }
 
-// tipster chat uses this key
-const GEMINI_KEY_TIPSTER = window.ENV_GEMINI_KEY || 'your_tipster_key_here';
+// single groq key used for both tipster and final scene
+const GROQ_KEY = window.ENV_GROQ_KEY || '';
 
-// final scene theory verification uses this key
-const GEMINI_KEY_FINALE = window.ENV_GEMINI_KEY_2 || 'your_finale_key_here';
+// translates a groq error object into a plain human readable string
+function groqErrorMessage(data) {
+  if (data.error) {
+    const code = data.error.code || '';
+    const msg = data.error.message || '';
+    if (code === 'rate_limit_exceeded' || msg.includes('rate limit')) {
+      return 'groq rate limit hit :(((\n\nyou can still explore the files yourself and confirm the answer from the readme.';
+    }
+    if (code === 'invalid_api_key' || msg.includes('api key') || msg.includes('401')) {
+      return 'groq api key looks wrong.\n\ncheck your config.js and make sure ENV_GROQ_KEY is set correctly.';
+    }
+    if (code === 'model_not_found' || msg.includes('model')) {
+      return 'groq model not found.\n\ncheck that llama-3.1-8b-instant is still available on your account.';
+    }
+    if (msg) {
+      return 'groq error: ' + msg + '\n\nyou can still explore the files yourself and confirm the answer from the readme.';
+    }
+  }
+  return 'groq returned an unexpected response.\n\nyou can still explore the files yourself and confirm the answer from the readme.';
+}
 
-// tipster chat state
 let tipsterOpen = false;
 let tipsterMessages = [];
 let tipsterTyping = false;
 
-// tracks what the player has opened so we can send it to gemini as context
 const sessionOpened = [];
 
 function trackOpened(label, content) {
-  // keep the last 5 opened items so the context doesnt get too long
+  // keep the last 5 opened items so the context does not get too long
   sessionOpened.push({ label, content: content.slice(0, 400) });
   if (sessionOpened.length > 5) sessionOpened.shift();
 }
@@ -401,6 +245,7 @@ STRICT BEHAVIOR RULES:
 6. Never break character. Never say you are an AI. Never use em dashes or hyphens as punctuation.
 7. Sign every message with just a single dot on its own line at the end.
 8. Maximum 2 sentences per response. Always end with a question.
+9. If user says he haven't opened anything yet. Ask him to Open the current level folders{give folder name} here and ask them find out what's in there. 
 
 EXAMPLES OF WRONG BEHAVIOR (these are forbidden):
 Player: "i opened the wifi log"
@@ -417,7 +262,7 @@ Player: "she was home at 4pm"
 Right: "her mother said she was at the library. do those two things match.\n\n."
 
 Player: "i give up"
-Right: "open the Misc folder. what do you find inside.\n\n."`;
+Right: "Don't give up. Explore all the folders. (tell user about folders he haven't opened yet and ask him to explore everything).\n\n."`;
 }
 
 function toggleTipster() {
@@ -481,48 +326,57 @@ async function sendTipsterMessage() {
   tipsterTyping = true;
   showTipsterTyping();
 
-  // only send the last 3 exchanges to keep the context tight
+  // build conversation history from the last 6 messages to keep context tight
   const recentMessages = tipsterMessages.slice(-6);
-  const contents = recentMessages
+  const messages = recentMessages
     .filter(m => m.role === 'user' || m.role === 'tipster')
     .map(m => ({
-      role: m.role === 'tipster' ? 'model' : 'user',
-      parts: [{ text: m.text }]
+      role: m.role === 'tipster' ? 'assistant' : 'user',
+      content: m.text
     }));
 
-  // make sure the last entry is always the user message we just sent
-  if (contents.length === 0 || contents[contents.length - 1].role !== 'user') {
-    contents.push({ role: 'user', parts: [{ text }] });
+  // ensure the last message in the array is always the user turn we just sent
+  if (messages.length === 0 || messages[messages.length - 1].role !== 'user') {
+    messages.push({ role: 'user', content: text });
   }
 
   try {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${GEMINI_KEY_TIPSTER}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          system_instruction: { parts: [{ text: buildTipsterSystemPrompt() }] },
-          contents: contents
-        })
-      }
-    );
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + GROQ_KEY
+      },
+      body: JSON.stringify({
+        model: 'llama-3.1-8b-instant',
+        messages: [
+          { role: 'system', content: buildTipsterSystemPrompt() },
+          ...messages
+        ],
+        max_tokens: 200,
+        temperature: 0.7
+      })
+    });
+
     const data = await response.json();
     removeTipsterTyping();
     tipsterTyping = false;
-    if (data.error) {
-      addTipsterMessage('tipster', 'sorry gemini limit reached :(((\n\nyou can still go and explore other files and find out the answer yourself and confirm it from the readme.');
+
+    if (!response.ok || data.error) {
+      addTipsterMessage('tipster', groqErrorMessage(data));
       return;
     }
-    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text ?? 'the signal dropped. try again.';
+
+    const reply = data.choices?.[0]?.message?.content ?? 'the signal dropped. try again.';
     addTipsterMessage('tipster', reply);
+
   } catch (err) {
     removeTipsterTyping();
     tipsterTyping = false;
-    addTipsterMessage('tipster', 'sorry gemini limit reached :(((\n\nyou can still go and explore other files and find out the answer yourself and confirm it from the readme.');
+    // network failures land here, such as no internet or CORS issues
+    addTipsterMessage('tipster', 'could not reach groq. check your internet connection and try again.\n\nyou can still explore the files yourself and confirm the answer from the readme.');
   }
 }
-
 
 let gmailCurrentFolder = 'inbox';
 let gmailCurrentId = null;
@@ -692,11 +546,9 @@ function openBrowser() {
   updatePreviews();
 }
 
-// builds the correct full path string by traversing navHistory
 function buildCurrentPath() {
   if (navHistory.length === 0) return 'C:\\Users\\Sarah\\Desktop';
   const parts = navHistory.map(f => f.name);
-  // reconstruct from Desktop root
   if (parts[0] === 'Desktop') {
     return 'C:\\Users\\Sarah\\Desktop' + (parts.length > 1 ? '\\' + parts.slice(1).join('\\') : '');
   }
@@ -706,7 +558,6 @@ function buildCurrentPath() {
 function renderFolder(folder) {
   currentFolder = folder;
 
-  // use the stored path if available, otherwise build it from nav history
   const displayPath = folder.path || buildCurrentPath();
   document.getElementById('fe-path').value = displayPath;
   document.getElementById('btn-back').disabled = navHistory.length <= 1;
@@ -759,9 +610,7 @@ function openFile(file) {
   if (file.content !== null && file.content !== undefined) {
     openEditor(file);
     showToast('Opened ' + file.name);
-    // track for tipster context
     trackOpened(file.name, file.content);
-    // mark discovery if this file is tied to a level
     if (file.levelKey) markDiscovered(file.levelKey);
   } else {
     showToast('No app for ' + file.name + ' yet');
@@ -911,7 +760,6 @@ function tryLogin() {
   }
 }
 
-// keyboard support on login screen — digits, backspace, enter all work
 document.addEventListener('keydown', e => {
   const loginVisible = !document.getElementById('login-screen').classList.contains('is-hidden');
   if (!loginVisible) return;
@@ -923,8 +771,6 @@ document.addEventListener('keydown', e => {
     tryLogin();
   }
 });
-
-
 
 const BOOT_STEPS = [
   { msg: 'Initializing kernel...',      pct: 10,  delay: 300  },
@@ -1041,20 +887,16 @@ function gmailOpen(email) {
     <div class="gmail-view-body">${email.body}</div>
   `;
 
-  // track for tipster context
   trackOpened('email: ' + email.subject + ' from ' + email.name, email.body);
-  // mark discovery if this email is tied to a level
   if (email.levelKey) markDiscovered(email.levelKey);
 }
 
-// static case notes — cold case header only, no interactive clue system
 function openNotebook() {
   openWin('window-notebook', 'tb-notebook');
   renderNotebook();
   updatePreviews();
 }
 
-// stores the detective's own typed notes across renders
 let detectiveNotes = '';
 
 function renderNotebook() {
@@ -1074,17 +916,13 @@ function renderNotebook() {
         <div class="nb-case-row"><span class="nb-case-label">STATUS</span><span class="nb-case-value nb-case-status">OPEN — no suspect charged</span></div>
       </div>
     </div>
-
     <div class="nb-divider"></div>
-
     <div class="nb-section-label">CASE SUMMARY</div>
     <div class="nb-static-note">Laptop recovered from subject's bedroom. No signs of struggle at residence.
 Parents cooperative. No known history of running away.
 Father in finance. Mother works from home. Sarah adopted at age 3.
 Device password-protected. Contents under forensic review.</div>
-
     <div class="nb-divider"></div>
-
     <div class="nb-section-label">YOUR NOTES</div>
     <textarea id="detective-notes-area" class="nb-notes-area" placeholder="type your observations here...">${detectiveNotes}</textarea>
     <button class="nb-save-btn" onclick="saveDetectiveNotes()">save notes</button>
@@ -1200,7 +1038,6 @@ document.addEventListener('mousemove', e => {
     return;
   }
 
-  // update cursor based on which edge the mouse is near
   const windows = document.querySelectorAll('.window.is-open');
   let found = false;
   windows.forEach(win => {
@@ -1229,7 +1066,6 @@ document.querySelectorAll('.window').forEach(win => {
   });
 });
 
-// close start menu and hint bulb when clicking on the desktop background
 document.getElementById('desktop').addEventListener('click', e => {
   if (!e.target.closest('#start-menu') && !e.target.closest('#start-btn')) {
     closeStartMenu();
@@ -1295,27 +1131,43 @@ Does the player theory capture the core truth? They need to identify AT LEAST th
 Reply with ONLY a valid JSON object with no markdown, no backticks, no extra text. Format: {"correct": true} or {"correct": false}`;
 
   try {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${GEMINI_KEY_FINALE}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ role: 'user', parts: [{ text: verifyPrompt }] }]
-        })
-      }
-    );
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + GROQ_KEY
+      },
+      body: JSON.stringify({
+        model: 'llama-3.1-8b-instant',
+        messages: [
+          { role: 'user', content: verifyPrompt }
+        ],
+        max_tokens: 50,
+        temperature: 0.1
+      })
+    });
+
     const data = await response.json();
 
-    if (data.error) {
+    if (!response.ok || data.error) {
       finalSceneTyping = false;
-      responseEl.textContent = 'sorry gemini limit reached :((( you can still confirm your theory from the readme.';
+      responseEl.textContent = groqErrorMessage(data);
       return;
     }
 
-    const raw = data.candidates?.[0]?.content?.parts?.[0]?.text ?? '{"correct":false}';
+    const raw = data.choices?.[0]?.message?.content ?? '{"correct":false}';
     const clean = raw.replace(/```json|```/g, '').trim();
-    const parsed = JSON.parse(clean);
+
+    let parsed;
+    try {
+      parsed = JSON.parse(clean);
+    } catch (parseErr) {
+      // the model returned something that is not valid JSON so treat it as incorrect
+      finalSceneTyping = false;
+      responseEl.textContent = "you still haven't found the truth. go away.";
+      input.value = '';
+      return;
+    }
 
     finalSceneTyping = false;
 
@@ -1327,9 +1179,11 @@ Reply with ONLY a valid JSON object with no markdown, no backticks, no extra tex
       responseEl.textContent = "you still haven't found the truth. go away.";
       input.value = '';
     }
+
   } catch (err) {
     finalSceneTyping = false;
-    responseEl.textContent = 'sorry gemini limit reached :((( you can still confirm your theory from the readme.';
+    // network failures land here, such as no internet or CORS issues
+    responseEl.textContent = 'could not reach groq. check your internet connection and try again.\n\nyou can still confirm your theory from the readme.';
   }
 }
 
