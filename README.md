@@ -7,6 +7,7 @@ A browser-based detective mystery game disguised as a retro operating system. Yo
 ## Play It
 
 demo link: https://pixel-os-woad.vercel.app/
+
 demo video link: https://drive.google.com/file/d/1oXJNCq0buNGMcFJXMV2Xquk60hl_5HqE/view?usp=sharing
 
 Stuck on the password? Open the browser console and type `PIXELOS.hint()`
