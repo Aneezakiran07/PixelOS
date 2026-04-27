@@ -19,7 +19,7 @@ Stuck on the game? Open chat bot and ask about the clues!
 
 PixelOS simulates a fictional operating system called PixelOS 1.0 belonging to Sarah Khalid, age 18, reported missing February 25 2024. You get her laptop. You investigate.
 
-The game is fully diegetic, every clue lives inside an app on the desktop. There is no HUD, no hint arrows, no tutorial. You explore the file system, read her emails, check her browser history, and talk to an anonymous tipster if you get stuck. When you think you know the truth, you submit your theory. If you are right, you make a choice about what to do with it.
+The game is fully diegetic, every clue lives inside an app on the desktop. You explore the file system, read her emails, check her browser history, and talk to an anonymous tipster if you get stuck. When you think you know the truth, you submit your theory. If you are right, you make a choice about what to do with it.
 
 ---
 
@@ -43,7 +43,7 @@ Everything else you figure out yourself.
 
 **Case Notes** : static cold case file with Sarah's details. you can add your own notes here and save them.
 
-**Submit Theory** : when you think you know what happened, open this. type your theory. the game uses AI to verify whether you found the truth. if you are right, you get a choice.
+**Submit Theory** : when you think you know what happened, open this. type your theory. the game uses AI to verify whether you found the truth. if you are right, you get a choice. If you are wrong, then It just tells you to go away and keep searching.
 
 ---
 
@@ -53,7 +53,7 @@ A glowing pink chat button sits in the bottom right corner above the taskbar. Cl
 
 The tipster will not tell you anything directly. It asks you questions. You tell it what you found, it asks what you think that means. If you are completely stuck, say "i give up" and it will point you toward the next thing to open.
 
-Powered by GROQ. Requires an API key in `config.js`.
+Powered by GROQ. Requires an API key in `.env`.
 
 ---
 
@@ -130,7 +130,7 @@ All game state lives in memory. Refreshing resets the game.
 
 The tipster chat keeps only the last 3 message exchanges as context to stay within token limits. The system prompt rebuilds on every message and includes what files and emails you have opened in that session, so the AI always knows what evidence you have seen.
 
-The final theory submission uses a GROQ call with a structured JSON prompt. It checks three things: that the player identified Sarah ran away herself, that her parents were involved in something harmful, and that she was not kidnapped. Players do not need perfect detail to pass.
+(spoilers) The final theory submission uses a GROQ call with a structured JSON prompt. It checks three things: that the player identified Sarah ran away herself, that her parents were involved in something harmful, and that she was not kidnapped. Players do not need perfect detail to pass.
 
 ---
 
