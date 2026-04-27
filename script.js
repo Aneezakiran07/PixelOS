@@ -10,6 +10,7 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 15000);
 
+//meta data for all the system( yes i used ai here a bit since i couldnt right it out all myself considering ft ending soon TT)
 const FILE_SYSTEM = {
   name: 'Desktop',
   path: 'C:\\Users\\Sarah\\Desktop',
@@ -172,10 +173,7 @@ function markDiscovered(levelKey) {
   discovered.add(levelKey);
 }
 
-// single groq key used for both tipster and final scene
-const GROQ_KEY = window.ENV_GROQ_KEY || '';
-
-// translates a groq error object into a plain human readable string
+// translates a server or groq error object into a plain human readable string
 function groqErrorMessage(data) {
   if (data.error) {
     const code = data.error.code || '';
@@ -184,7 +182,7 @@ function groqErrorMessage(data) {
       return 'groq rate limit hit :(((\n\nyou can still explore the files yourself and confirm the answer from the readme.';
     }
     if (code === 'invalid_api_key' || msg.includes('api key') || msg.includes('401')) {
-      return 'groq api key looks wrong.\n\ncheck your config.js and make sure ENV_GROQ_KEY is set correctly.';
+      return 'groq api key looks wrong.\n\ncheck your vercel environment variables and make sure GROQ_API_KEY is set correctly.';
     }
     if (code === 'model_not_found' || msg.includes('model')) {
       return 'groq model not found.\n\ncheck that llama-3.1-8b-instant is still available on your account.';
@@ -265,6 +263,7 @@ Player: "i give up"
 Right: "Don't give up. Explore all the folders. (tell user about folders he haven't opened yet and ask him to explore everything).\n\n."`;
 }
 
+// all the TIPSTER logic resides here
 function toggleTipster() {
   tipsterOpen = !tipsterOpen;
   const win = document.getElementById('tipster-window');
@@ -341,18 +340,13 @@ async function sendTipsterMessage() {
   }
 
   try {
-    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    const response = await fetch('/api/chat', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + GROQ_KEY
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: 'llama-3.1-8b-instant',
-        messages: [
-          { role: 'system', content: buildTipsterSystemPrompt() },
-          ...messages
-        ],
+        system: buildTipsterSystemPrompt(),
+        messages: messages,
         max_tokens: 200,
         temperature: 0.7
       })
@@ -367,14 +361,14 @@ async function sendTipsterMessage() {
       return;
     }
 
-    const reply = data.choices?.[0]?.message?.content ?? 'the signal dropped. try again.';
+    const reply = data.text ?? 'the signal dropped. try again.';
     addTipsterMessage('tipster', reply);
 
   } catch (err) {
     removeTipsterTyping();
     tipsterTyping = false;
-    // network failures land here, such as no internet or CORS issues
-    addTipsterMessage('tipster', 'could not reach groq. check your internet connection and try again.\n\nyou can still explore the files yourself and confirm the answer from the readme.');
+    // network failures land here such as no internet or the serverless function being unreachable
+    addTipsterMessage('tipster', 'could not reach the server. check your internet connection and try again.\n\nyou can still explore the files yourself and confirm the answer from the readme.');
   }
 }
 
@@ -1131,17 +1125,12 @@ Does the player theory capture the core truth? They need to identify AT LEAST th
 Reply with ONLY a valid JSON object with no markdown, no backticks, no extra text. Format: {"correct": true} or {"correct": false}`;
 
   try {
-    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    const response = await fetch('/api/chat', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + GROQ_KEY
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: 'llama-3.1-8b-instant',
-        messages: [
-          { role: 'user', content: verifyPrompt }
-        ],
+        messages: [{ role: 'user', content: verifyPrompt }],
         max_tokens: 50,
         temperature: 0.1
       })
@@ -1155,14 +1144,14 @@ Reply with ONLY a valid JSON object with no markdown, no backticks, no extra tex
       return;
     }
 
-    const raw = data.choices?.[0]?.message?.content ?? '{"correct":false}';
+    const raw = data.text ?? '{"correct":false}';
     const clean = raw.replace(/```json|```/g, '').trim();
 
     let parsed;
     try {
       parsed = JSON.parse(clean);
     } catch (parseErr) {
-      // the model returned something that is not valid JSON so treat it as incorrect
+      // the model returned something that is not valid json so treat it as incorrect
       finalSceneTyping = false;
       responseEl.textContent = "you still haven't found the truth. go away.";
       input.value = '';
@@ -1182,8 +1171,8 @@ Reply with ONLY a valid JSON object with no markdown, no backticks, no extra tex
 
   } catch (err) {
     finalSceneTyping = false;
-    // network failures land here, such as no internet or CORS issues
-    responseEl.textContent = 'could not reach groq. check your internet connection and try again.\n\nyou can still confirm your theory from the readme.';
+    // network failures land here such as no internet or the serverless function being unreachable
+    responseEl.textContent = 'could not reach the server. check your internet connection and try again.\n\nyou can still confirm your theory from the readme.';
   }
 }
 
