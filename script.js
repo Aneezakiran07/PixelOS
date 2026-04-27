@@ -344,8 +344,11 @@ function markDiscovered(levelKey) {
   discovered.add(levelKey);
 }
 
-// load gemini key from env — paste your key here or set via .env
-const GEMINI_KEY = window.ENV_GEMINI_KEY || 'your_gemini_key_here';
+// tipster chat uses this key
+const GEMINI_KEY_TIPSTER = window.ENV_GEMINI_KEY || 'your_tipster_key_here';
+
+// final scene theory verification uses this key
+const GEMINI_KEY_FINALE = window.ENV_GEMINI_KEY_2 || 'your_finale_key_here';
 
 // tipster chat state
 let tipsterOpen = false;
@@ -386,32 +389,35 @@ ${discoveredLabels.length > 0 ? discoveredLabels.join(', ') : 'nothing yet'}
 FILES AND EMAILS THE PLAYER HAS OPENED THIS SESSION:
 ${openedSummary}
 
-YOUR CORE RULE — READ THIS CAREFULLY:
-You NEVER volunteer information. You ALWAYS ask the player what they think first. The player must do the thinking. You are a guide, not a narrator.
+YOUR CORE RULE — THIS IS ABSOLUTE AND NON-NEGOTIABLE:
+You NEVER give information. You ONLY ask questions. Every single response must end with a question directed at the player. You are a Socratic guide. The player must reach every conclusion themselves.
 
 STRICT BEHAVIOR RULES:
-1. When a player opens or mentions something from the list above, your ONLY response is to ask them what they think is strange or wrong about it. Nothing else. Do not explain. Do not hint at what is wrong. Just ask.
-2. Only after the player gives their own interpretation do you respond to it. If they are right, say something like "you are seeing it clearly." and nudge them to keep going. If they are wrong or vague, say "look again. what else do you notice."
-3. You only discuss files and emails the player has actually opened this session. If they ask about something not in the opened list, say "i cannot speak to what you have not seen yet."
-4. If the player explicitly says they give up or says please just tell me, switch to direct mode. Give one concrete instruction like "open the System folder. look at wifi_history.log. tell me what the timestamps say." then go back to asking mode.
-5. Never reveal the full truth unprompted. Never mention trafficking, selling, Asset 07 meaning, or the bus destination unless the player has already said it themselves first.
+1. When a player opens or mentions something, ask ONE question about it. Only one. Never explain what it means. Never hint at the answer. Just ask something like "what did you notice about the timestamps." or "why do you think she hid that folder so deep."
+2. When the player answers, respond to their answer with another question that pushes them one step further. If they are right, affirm briefly then ask the next question. If they are wrong, just ask "look again. what else is there."
+3. Guide level by level. If the player has not opened something yet, do not let them skip ahead. Say "what have you opened so far." and wait.
+4. If the player says they give up: give ONE folder or file name only. No explanation. Then ask "what do you see when you open it."
+5. NEVER say what anything means. NEVER connect the dots for the player. NEVER use the word trafficking or selling or contract meaning unprompted.
 6. Never break character. Never say you are an AI. Never use em dashes or hyphens as punctuation.
 7. Sign every message with just a single dot on its own line at the end.
-8. Keep responses to 1 to 3 sentences maximum unless the player has given up and needs a direct lead.
+8. Maximum 2 sentences per response. Always end with a question.
 
-EXAMPLES OF WRONG BEHAVIOR (never do this):
-Player: "i opened the contract scan"
-Wrong: "This document shows Sarah was being sold. Asset 07 refers to her and the contract shows she would be transferred before her 19th birthday."
+EXAMPLES OF WRONG BEHAVIOR (these are forbidden):
+Player: "i opened the wifi log"
+Wrong: "The timestamps show she was home between 4pm and 4:39pm, not at the library like her mother claimed."
+
+Player: "i give up"
+Wrong: "Go to Misc, open old_schoolwork, open archive_2022. You will find a bus ticket and a contract scan showing Asset 07."
 
 EXAMPLES OF RIGHT BEHAVIOR (always do this):
-Player: "i opened the contract scan"
-Right: "you read it. what do you think Asset 07 means.\n\n."
+Player: "i opened the wifi log"
+Right: "what do the timestamps tell you about where she was.\n\n."
 
-Player: "i think asset 07 is a product or a person being sold"
-Right: "you are seeing it. who signed it.\n\n."
+Player: "she was home at 4pm"
+Right: "her mother said she was at the library. do those two things match.\n\n."
 
-Player: "i give up just tell me"
-Right: "go to Misc. open old_schoolwork. find the folder that does not belong. tell me what is inside.\n\n."`;
+Player: "i give up"
+Right: "open the Misc folder. what do you find inside.\n\n."`;
 }
 
 function toggleTipster() {
@@ -491,7 +497,7 @@ async function sendTipsterMessage() {
 
   try {
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${GEMINI_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${GEMINI_KEY_TIPSTER}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -501,19 +507,19 @@ async function sendTipsterMessage() {
         })
       }
     );
-
     const data = await response.json();
     removeTipsterTyping();
     tipsterTyping = false;
-
-    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text
-      ?? 'the signal dropped. try again.';
-
+    if (data.error) {
+      addTipsterMessage('tipster', 'sorry gemini limit reached :(((\n\nyou can still go and explore other files and find out the answer yourself and confirm it from the readme.');
+      return;
+    }
+    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text ?? 'the signal dropped. try again.';
     addTipsterMessage('tipster', reply);
   } catch (err) {
     removeTipsterTyping();
     tipsterTyping = false;
-    addTipsterMessage('tipster', 'connection lost.\n\nthey might be watching.');
+    addTipsterMessage('tipster', 'sorry gemini limit reached :(((\n\nyou can still go and explore other files and find out the answer yourself and confirm it from the readme.');
   }
 }
 
@@ -905,6 +911,21 @@ function tryLogin() {
   }
 }
 
+// keyboard support on login screen — digits, backspace, enter all work
+document.addEventListener('keydown', e => {
+  const loginVisible = !document.getElementById('login-screen').classList.contains('is-hidden');
+  if (!loginVisible) return;
+  if (e.key >= '0' && e.key <= '9') {
+    keyPress(e.key);
+  } else if (e.key === 'Backspace') {
+    keyBack();
+  } else if (e.key === 'Enter') {
+    tryLogin();
+  }
+});
+
+
+
 const BOOT_STEPS = [
   { msg: 'Initializing kernel...',      pct: 10,  delay: 300  },
   { msg: 'Loading drivers...',          pct: 25,  delay: 500  },
@@ -1221,6 +1242,7 @@ window.addEventListener('load', () => {
   runBoot();
 });
 
+// final scene
 
 function injectPoliceEmail() {
   GMAIL.inbox.unshift({
@@ -1274,7 +1296,7 @@ Reply with ONLY a valid JSON object with no markdown, no backticks, no extra tex
 
   try {
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${GEMINI_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${GEMINI_KEY_FINALE}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1283,8 +1305,14 @@ Reply with ONLY a valid JSON object with no markdown, no backticks, no extra tex
         })
       }
     );
-
     const data = await response.json();
+
+    if (data.error) {
+      finalSceneTyping = false;
+      responseEl.textContent = 'sorry gemini limit reached :((( you can still confirm your theory from the readme.';
+      return;
+    }
+
     const raw = data.candidates?.[0]?.content?.parts?.[0]?.text ?? '{"correct":false}';
     const clean = raw.replace(/```json|```/g, '').trim();
     const parsed = JSON.parse(clean);
@@ -1301,7 +1329,7 @@ Reply with ONLY a valid JSON object with no markdown, no backticks, no extra tex
     }
   } catch (err) {
     finalSceneTyping = false;
-    responseEl.textContent = 'signal lost. try again.';
+    responseEl.textContent = 'sorry gemini limit reached :((( you can still confirm your theory from the readme.';
   }
 }
 
